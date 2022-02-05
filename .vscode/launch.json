@@ -1,0 +1,41 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug executable 'tiny-ray'",
+            "cargo": {
+                "args": [
+                    "build",
+                    "--bin=tiny-ray",
+                    "--package=tiny-ray"
+                ],
+                "filter": {
+                    "name": "tiny-ray",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug unit tests in executable 'tiny-ray'",
+            "cargo": {
+                "args": [
+                    "test",
+                    "--no-run",
+                    "--bin=tiny-ray",
+                    "--package=tiny-ray"
+                ],
+                "filter": {
+                    "name": "tiny-ray",
+                    "kind": "bin"
+                }
+            },
+            "args": [],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
