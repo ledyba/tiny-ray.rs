@@ -26,10 +26,11 @@ fn main() -> anyhow::Result<()> {
   setup_logger(log::LevelFilter::Info)?;
   info!("Initialized.");
 
-  let mut engine = engine::Engine::new(
-    img::Image::new(800, 800)
-  );
+  let mut image = img::Image::new(800, 800);
+  let mut engine = engine::Engine::new();
 
-  engine.canvas().save("out.png")?;
+  engine.render(&mut image);
+
+  image.save("out.png")?;
   Ok(())
 }
