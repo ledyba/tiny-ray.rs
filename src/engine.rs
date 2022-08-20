@@ -41,11 +41,12 @@ impl Image {
       use rayon::prelude::*;
       data
         .par_chunks_exact_mut(3 * self.width)
+        .zip(self.colors.par_iter())
         .enumerate()
         .into_par_iter()
-        .for_each(|(y, dat)| {
+        .for_each(|(y, (dat, color))| {
           for x in 0..self.width {
-            let srgb = Srgb::from_linear(*self.pixel(x, y)).into_format::<u8>();
+            let srgb = Srgb::from_linear(*color).into_format::<u8>();
             dat[x * 3 + 0] = srgb.red;
             dat[x * 3 + 1] = srgb.green;
             dat[x * 3 + 2] = srgb.blue;
