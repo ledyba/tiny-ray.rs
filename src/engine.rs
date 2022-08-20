@@ -1,18 +1,18 @@
 use crate::img::Image;
 
 pub struct Engine {
-  image: Image
+  canvas: Image
 }
 
 impl Engine {
   pub fn new(
-    image: Image,
+    canvas: Image,
   ) -> Self {
     Self {
-      image,
+      canvas,
     }
   }
-  pub fn image(&self) -> &Image {
+  pub fn canvas(&self) -> &Image {
     &self.image
   }
 }

@@ -29,6 +29,6 @@ fn main() -> anyhow::Result<()> {
     img::Image::new(800, 800)
   );
 
-  engine.image().save("out.png")?;
+  engine.canvas().save("out.png")?;
   Ok(())
 }
