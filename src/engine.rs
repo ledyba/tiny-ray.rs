@@ -1,3 +1,5 @@
+mod ray;
+
 use crate::img::Image;
 
 pub struct Engine {
