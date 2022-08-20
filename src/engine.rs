@@ -13,6 +13,6 @@ impl Engine {
     }
   }
   pub fn canvas(&self) -> &Image {
-    &self.image
+    &self.canvas
   }
 }

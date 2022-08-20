@@ -1,7 +1,6 @@
-use png::Writer;
 use std::fs::File;
 use std::io::BufWriter;
-use palette::{Pixel, Srgb, LinSrgb};
+use palette::{Srgb, LinSrgb};
 
 pub struct Image {
   width: usize,
@@ -31,7 +30,7 @@ impl Image {
 
   pub fn save(&self, path: impl AsRef<std::path::Path> + Sized) -> std::io::Result<()> {
     let file = File::create(path)?;
-    let mut w = BufWriter::new(file);
+    let w = BufWriter::new(file);
     let mut encoder = png::Encoder::new(w, self.width as u32, self.height as u32);
     encoder.set_color(png::ColorType::Rgb);
     encoder.set_depth(png::BitDepth::Eight);
@@ -42,9 +41,8 @@ impl Image {
       data
         .par_chunks_exact_mut(3 * self.width)
         .zip(self.colors.par_iter())
-        .enumerate()
         .into_par_iter()
-        .for_each(|(y, (dat, color))| {
+        .for_each(|(dat, color)| {
           for x in 0..self.width {
             let srgb = Srgb::from_linear(*color).into_format::<u8>();
             dat[x * 3 + 0] = srgb.red;

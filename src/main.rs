@@ -1,5 +1,6 @@
 mod engine;
 mod img;
+mod math;
 
 use log::info;
 
