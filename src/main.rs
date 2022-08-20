@@ -1,4 +1,5 @@
 mod engine;
+mod img;
 
 use log::info;
 
@@ -23,8 +24,11 @@ fn setup_logger(level: log::LevelFilter) -> Result<(), fern::InitError> {
 fn main() -> anyhow::Result<()> {
   setup_logger(log::LevelFilter::Info)?;
   info!("Initialized.");
-  let mut img = engine::Image::new(800, 800);
 
-  img.save("out.png")?;
+  let mut engine = engine::Engine::new(
+    img::Image::new(800, 800)
+  );
+
+  engine.image().save("out.png")?;
   Ok(())
 }
