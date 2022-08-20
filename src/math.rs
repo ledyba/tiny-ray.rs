@@ -22,6 +22,19 @@ impl Vec3 {
   pub fn length_squared(&self) -> f32 {
     self.x * self.x + self.y * self.y + self.z * self.z
   }
+  pub fn normalized(&self) -> Self {
+    self / self.length()
+  }
+  pub fn dot(&self, other: Self) -> Self {
+    self * other
+  }
+  pub fn cross(&self, other: Self) -> Self {
+    Self::new(
+      self.y * other.z - self.z * other.y,
+      self.z * other.x - self.x * other.z,
+      self.x * other.y - self.y * other.x,
+    )
+  }
 }
 
 impl std::ops::Add for Vec3 {
