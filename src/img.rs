@@ -65,9 +65,9 @@ impl Image {
     Ok(())
   }
 
-  pub fn map_mut<F>(&mut self, f: F)
+  pub fn fill_from<F>(&mut self, f: F)
   where
-    F: Fn(usize, usize, LinSrgb) -> LinSrgb,
+    F: Fn(usize, usize) -> LinSrgb,
     F: Sync + Send,
   {
     use rayon::prelude::*;
@@ -76,7 +76,7 @@ impl Image {
       .enumerate()
       .for_each(|(y, pixels)| {
         for x in 0..self.width {
-          pixels[x] = f(x, y, pixels[x]);
+          pixels[x] = f(x, y);
         }
       });
   }

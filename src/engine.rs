@@ -31,17 +31,20 @@ impl Engine {
     let h = Vec3::new(0.0, self.screen_height, 0.0);
     let width = canvas.width() as f32;
     let height = canvas.height() as f32;
-    canvas.map_mut(|x,y,color| {
+    canvas.fill_from(|x, y| {
       let x = x as f32 / width;
       let y = y as f32 / height;
       let ray = Ray::new(
         self.origin,
         top_left + (w * x) - (h * y)
       );
-      self.calc(&ray, color)
+      self.calc(&ray)
     })
   }
-  pub fn calc(&self, ray: &Ray, color: LinSrgb) -> LinSrgb {
+  pub fn calc(&self, ray: &Ray) -> LinSrgb {
+    self.sky(ray)
+  }
+  fn sky(&self, ray: &Ray) -> LinSrgb {
     let t = 0.5 * (ray.direction().normalized().y + 1.0);
     let blue = LinSrgb::new(0.0, 0.2, 1.0);
     LinSrgb::new(1.0, 1.0, 1.0).mix(&blue, t.sqrt())
