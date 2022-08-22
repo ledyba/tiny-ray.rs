@@ -32,8 +32,8 @@ impl Engine {
     let width = canvas.width() as f32;
     let height = canvas.height() as f32;
     canvas.fill_from(|x, y| {
-      let x = x as f32 / width;
-      let y = y as f32 / height;
+      let x = ((x as f32) + 0.5) / width;
+      let y = ((y as f32) + 0.5) / height;
       let ray = Ray::new(
         self.origin,
         top_left + (w * x) - (h * y)
@@ -42,7 +42,17 @@ impl Engine {
     })
   }
   pub fn calc(&self, ray: &Ray) -> LinSrgb {
+    if self.hit_sphere(ray, Vec3::new(0.0, 0.0, -1.0), 0.5) {
+      return LinSrgb::new(LinSrgb::max_red(), LinSrgb::min_green(), LinSrgb::min_blue());
+    }
     self.sky(ray)
+  }
+  fn hit_sphere(&self, ray: &Ray, center: Vec3, radius: f32) -> bool {
+    let a = ray.direction() * ray.direction();
+    let b = 2.0 * ray.direction() * (ray.origin() - center);
+    let c = (ray.origin() - center) * (ray.origin() - center) - radius * radius;
+    let discriminant = b * b  - 4.0 * a * c;
+    discriminant >= 0.0
   }
   fn sky(&self, ray: &Ray) -> LinSrgb {
     let t = 0.5 * (ray.direction().normalized().y + 1.0);
