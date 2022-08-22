@@ -12,6 +12,10 @@ pub struct Engine {
   screen_height: f32,
 }
 
+pub trait Hittable {
+  fn hit(ray: &Ray, t_min: f32, t_max: f32) -> bool;
+}
+
 impl Engine {
   pub fn new(
   ) -> Self {
