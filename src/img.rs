@@ -1,6 +1,5 @@
 use std::fs::File;
 use std::io::BufWriter;
-use log::info;
 use palette::{Srgb, LinSrgb};
 use png::SrgbRenderingIntent;
 

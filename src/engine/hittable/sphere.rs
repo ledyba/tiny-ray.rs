@@ -35,7 +35,7 @@ impl Hittable for Sphere {
     for t in ts {
       if t_min <= t && t <= t_max {
         let point = ray.at(t);
-        let normal = ray.at(t) - Vec3::new(0.0, 0.0, -1.0);
+        let normal = point - self.center;
         return Some(HitRecord {
           t,
           point,

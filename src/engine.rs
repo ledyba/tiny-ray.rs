@@ -1,9 +1,8 @@
 mod ray;
 mod hittable;
 
-use log::info;
 use palette::{LinSrgb, Mix, Srgb};
-use crate::engine::hittable::{Hittable, Sphere};
+use crate::engine::hittable::{Hittable, HittableCollection, Sphere};
 use crate::engine::ray::Ray;
 use crate::img::Image;
 use crate::math::Vec3;
@@ -12,15 +11,20 @@ pub struct Engine {
   origin: Vec3,
   screen_distance: f32,
   screen_height: f32,
+  world: HittableCollection,
 }
 
 impl Engine {
   pub fn new(
   ) -> Self {
+    let mut world = HittableCollection::new();
+    world.push(Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5));
+    world.push(Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0));
     Self {
       origin: Vec3::zero(),
       screen_distance: 1.0,
       screen_height: 2.0,
+      world,
     }
   }
   pub fn render(&mut self, canvas: &mut Image) {
@@ -44,8 +48,7 @@ impl Engine {
     })
   }
   pub fn calc(&self, ray: &Ray) -> LinSrgb {
-    let sphere = Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5);
-    if let Some(r) = sphere.hit(ray, 0.0, 10.0) {
+    if let Some(r) = self.world.hit(ray, 0.0, 10.0) {
       let n = r.normal;
       return LinSrgb::new(
         (n.x + 1.0) / 2.0,
