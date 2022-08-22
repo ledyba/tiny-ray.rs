@@ -1,7 +1,9 @@
 mod ray;
+mod hittable;
 
 use log::info;
 use palette::{LinSrgb, Mix, Srgb};
+use crate::engine::hittable::{Hittable, Sphere};
 use crate::engine::ray::Ray;
 use crate::img::Image;
 use crate::math::Vec3;
@@ -10,10 +12,6 @@ pub struct Engine {
   origin: Vec3,
   screen_distance: f32,
   screen_height: f32,
-}
-
-pub trait Hittable {
-  fn hit(ray: &Ray, t_min: f32, t_max: f32) -> bool;
 }
 
 impl Engine {
@@ -46,9 +44,9 @@ impl Engine {
     })
   }
   pub fn calc(&self, ray: &Ray) -> LinSrgb {
-    let t = self.hit_sphere(ray, Vec3::new(0.0, 0.0, -1.0), 0.5);
-    if !t.is_nan() {
-      let n = ray.at(t) - Vec3::new(0.0, 0.0, -1.0);
+    let sphere = Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5);
+    if let Some(r) = sphere.hit(ray, 0.0, 10.0) {
+      let n = r.normal;
       return LinSrgb::new(
         (n.x + 1.0) / 2.0,
         (n.y + 1.0) / 2.0,
@@ -56,17 +54,6 @@ impl Engine {
       );
     }
     self.sky(ray)
-  }
-  fn hit_sphere(&self, ray: &Ray, center: Vec3, radius: f32) -> f32 {
-    let a = ray.direction() * ray.direction();
-    let b = 2.0 * ray.direction() * (ray.origin() - center);
-    let c = (ray.origin() - center) * (ray.origin() - center) - radius * radius;
-    let discriminant = b * b  - 4.0 * a * c;
-    if discriminant < 0.0 {
-      f32::NAN
-    } else {
-      (-b - discriminant.sqrt()) / (2.0 * a)
-    }
   }
   fn sky(&self, ray: &Ray) -> LinSrgb {
     let t = 0.5 * (ray.direction().normalized().y + 1.0);
