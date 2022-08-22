@@ -46,17 +46,27 @@ impl Engine {
     })
   }
   pub fn calc(&self, ray: &Ray) -> LinSrgb {
-    if self.hit_sphere(ray, Vec3::new(0.0, 0.0, -1.0), 0.5) {
-      return LinSrgb::new(LinSrgb::max_red(), LinSrgb::min_green(), LinSrgb::min_blue());
+    let t = self.hit_sphere(ray, Vec3::new(0.0, 0.0, -1.0), 0.5);
+    if !t.is_nan() {
+      let n = ray.at(t) - Vec3::new(0.0, 0.0, -1.0);
+      return LinSrgb::new(
+        (n.x + 1.0) / 2.0,
+        (n.y + 1.0) / 2.0,
+        (n.z + 1.0) / 2.0,
+      );
     }
     self.sky(ray)
   }
-  fn hit_sphere(&self, ray: &Ray, center: Vec3, radius: f32) -> bool {
+  fn hit_sphere(&self, ray: &Ray, center: Vec3, radius: f32) -> f32 {
     let a = ray.direction() * ray.direction();
     let b = 2.0 * ray.direction() * (ray.origin() - center);
     let c = (ray.origin() - center) * (ray.origin() - center) - radius * radius;
     let discriminant = b * b  - 4.0 * a * c;
-    discriminant >= 0.0
+    if discriminant < 0.0 {
+      f32::NAN
+    } else {
+      (-b - discriminant.sqrt()) / (2.0 * a)
+    }
   }
   fn sky(&self, ray: &Ray) -> LinSrgb {
     let t = 0.5 * (ray.direction().normalized().y + 1.0);
