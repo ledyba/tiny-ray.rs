@@ -3,13 +3,12 @@ mod hittable;
 mod material;
 
 use std::sync::Arc;
-use palette::{Blend, LinSrgb, Mix, Shade, Srgb};
+use palette::{Blend, LinSrgb, Mix};
 
 use hittable::{Hittable, HittableCollection, Sphere};
 use ray::Ray;
 use crate::engine::material::Response;
 use crate::img::Image;
-use crate::math;
 use crate::math::Vec3;
 
 pub struct Engine {
