@@ -12,7 +12,7 @@ pub use metal::Metal;
 pub use dielectric::Dielectric;
 
 pub enum Response {
-  Reflection {
+  Scattering {
     scattering: Ray,
     attenuation: LinSrgb,
   },

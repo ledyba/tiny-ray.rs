@@ -77,6 +77,17 @@ impl std::ops::SubAssign for Vec3 {
   }
 }
 
+impl std::ops::Neg for Vec3 {
+  type Output = Self;
+
+  fn neg(self) -> Self {
+    Vec3 {
+      x: -self.x,
+      y: -self.y,
+      z: -self.z,
+    }
+  }
+}
 impl std::ops::Mul for Vec3 {
   type Output = f32;
 
@@ -134,18 +145,6 @@ impl std::ops::DivAssign<f32> for Vec3 {
     self.x /= rhs;
     self.y /= rhs;
     self.z /= rhs;
-  }
-}
-
-impl std::ops::Neg for Vec3 {
-  type Output = Vec3;
-
-  fn neg(self) -> Self::Output {
-    Vec3::new(
-      -self.x,
-      -self.y,
-      -self.z,
-    )
   }
 }
 

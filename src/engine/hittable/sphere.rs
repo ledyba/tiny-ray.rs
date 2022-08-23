@@ -41,12 +41,24 @@ impl Hittable for Sphere {
       if t_min <= t && t <= t_max {
         let point = ray.at(t);
         let normal = (point - self.center).normalized();
-        return Some(HitRecord {
-          t,
-          point,
-          normal,
-          material: Arc::clone(&self.material),
-        })
+        let at_front_face = ray.direction() * normal < 0.0;
+        if at_front_face {
+          return Some(HitRecord {
+            t,
+            point,
+            normal,
+            material: Arc::clone(&self.material),
+            at_front_face,
+          });
+        } else {
+          return Some(HitRecord {
+            t,
+            point,
+            normal: -normal,
+            material: Arc::clone(&self.material),
+            at_front_face,
+          });
+        }
       }
     }
     None

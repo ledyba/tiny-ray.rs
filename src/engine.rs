@@ -77,7 +77,7 @@ impl Engine {
     if let Some(hit) = self.world.hit(ray, 0.001, f32::MAX) {
       let resp = hit.material.hit(ray, &hit);
       return match resp {
-        Response::Reflection { scattering, attenuation } => {
+        Response::Scattering { scattering, attenuation } => {
           return self.ray_trace(&scattering, left - 1).multiply(attenuation);
         },
         Response::Absorption => LinSrgb::new(0.0, 0.0, 0.0),

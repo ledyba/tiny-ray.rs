@@ -14,6 +14,7 @@ pub struct HitRecord {
   pub point: Vec3,
   pub normal: Vec3,
   pub material: Arc<dyn Material + Send + Sync>,
+  pub at_front_face: bool,
 }
 
 pub trait Hittable: Send + Sync {
