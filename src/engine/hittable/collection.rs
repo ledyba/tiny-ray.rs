@@ -19,13 +19,13 @@ impl HittableCollection {
 impl Hittable for HittableCollection {
   fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
     let mut far = t_max;
-    let mut rec = None;
+    let mut result = None;
     for target in &self.targets {
-      if let Some(r) = target.hit(ray, t_min, far) {
-        far = r.t;
-        rec = Some(r);
+      if let Some(hit) = target.hit(ray, t_min, far) {
+        far = hit.t;
+        result = Some(hit);
       }
     }
-    rec
+    result
   }
 }

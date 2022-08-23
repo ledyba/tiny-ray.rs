@@ -57,9 +57,9 @@ impl Engine {
     if left == 0 {
       return LinSrgb::new(0.0, 0.0, 0.0);
     }
-    if let Some(r) = self.world.hit(ray, 0.001, f32::MAX) {
-      let target = r.point + r.normal + math::random_direction(1.0);
-      return self.ray_trace(&Ray::new(r.point, target - r.point), left - 1).darken(0.5);
+    if let Some(hit) = self.world.hit(ray, 0.001, f32::MAX) {
+      let target = hit.point + hit.normal + math::random_direction(1.0);
+      return self.ray_trace(&Ray::new(hit.point, target - hit.point), left - 1).darken(0.5);
     }
     self.sky_box(ray)
   }
