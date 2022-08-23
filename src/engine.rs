@@ -1,10 +1,11 @@
 mod ray;
 mod hittable;
 
-use palette::{LinSrgb, Mix, Srgb};
+use palette::{LinSrgb, Mix, Shade, Srgb};
 use crate::engine::hittable::{Hittable, HittableCollection, Sphere};
 use crate::engine::ray::Ray;
 use crate::img::Image;
+use crate::math;
 use crate::math::Vec3;
 
 pub struct Engine {
@@ -46,25 +47,24 @@ impl Engine {
           self.origin,
           top_left + (w * x) - (h * y)
         );
-        sum += self.ray_trace(&ray)
+        sum += self.ray_trace(&ray, 50)
       }
       sum / 10.0
     })
   }
-  pub fn ray_trace(&self, ray: &Ray) -> LinSrgb {
-    if let Some(r) = self.world.hit(ray, 0.0, 10.0) {
-      let n = r.normal;
-      return LinSrgb::new(
-        (n.x + 1.0) / 2.0,
-        (n.y + 1.0) / 2.0,
-        (n.z + 1.0) / 2.0,
-      );
+  pub fn ray_trace(&self, ray: &Ray, left: usize) -> LinSrgb {
+    if left == 0 {
+      return LinSrgb::new(0.0, 0.0, 0.0);
+    }
+    if let Some(r) = self.world.hit(ray, 0.001, f32::MAX) {
+      let target = r.point + r.normal + math::random_point_in_sphere();
+      return self.ray_trace(&Ray::new(r.point, target - r.point), left - 1).darken(0.5);
     }
     self.sky(ray)
   }
   fn sky(&self, ray: &Ray) -> LinSrgb {
     let t = 0.5 * (ray.direction().normalized().y + 1.0);
-    let blue = LinSrgb::new(0.0, 0.2, 1.0);
+    let blue = LinSrgb::new(0.5, 0.7, 1.0);
     LinSrgb::new(1.0, 1.0, 1.0).mix(&blue, t.sqrt())
   }
 }
