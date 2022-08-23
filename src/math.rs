@@ -149,7 +149,6 @@ impl std::ops::Neg for Vec3 {
   }
 }
 
-pub fn random_point_in_sphere() -> Vec3 {
-  rand::random::<f32>() *
-    Vec3::new(rand::random(), rand::random(), rand::random()).normalized()
+pub fn random_direction(len: f32) -> Vec3 {
+  len * Vec3::new(rand::random(), rand::random(), rand::random()).normalized()
 }

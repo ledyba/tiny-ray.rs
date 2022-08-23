@@ -57,7 +57,7 @@ impl Engine {
       return LinSrgb::new(0.0, 0.0, 0.0);
     }
     if let Some(r) = self.world.hit(ray, 0.001, f32::MAX) {
-      let target = r.point + r.normal + math::random_point_in_sphere();
+      let target = r.point + r.normal + math::random_direction(1.0);
       return self.ray_trace(&Ray::new(r.point, target - r.point), left - 1).darken(0.5);
     }
     self.sky(ray)
