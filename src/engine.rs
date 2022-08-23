@@ -24,11 +24,19 @@ impl Engine {
   ) -> Self {
     let mut world = HittableCollection::new();
     let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
-    world.push(Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, lambert.clone()));
-    world.push(Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, lambert.clone()));
+    world.push(Sphere::new(Vec3::new(0.0, 0.0, -10.0), 0.5, lambert.clone()));
+    world.push(Sphere::new(Vec3::new(0.0, -100.5, -10.0), 100.0, lambert.clone()));
+    world.push(
+      Sphere::new(
+        Vec3::new(-1.2, 0.0, -10.0), 0.5,
+        Arc::new(material::Metal::new(LinSrgb::new(0.5, 0.0, 0.0), 0.1))));
+    world.push(
+      Sphere::new(
+        Vec3::new(1.2, 0.0, -10.0), 0.5,
+        Arc::new(material::Metal::new(LinSrgb::new(0.0, 0.5, 0.0), 0.5))));
     Self {
       origin: Vec3::zero(),
-      screen_distance: 1.0,
+      screen_distance: 10.0,
       screen_height: 2.0,
       world,
     }
