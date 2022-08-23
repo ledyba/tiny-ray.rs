@@ -1,7 +1,7 @@
 # Tiny ray-tracing
 
 ```shell
-cargo run
+cargo run --release
 ```
 
 # References
