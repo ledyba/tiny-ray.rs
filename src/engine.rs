@@ -38,13 +38,17 @@ impl Engine {
     let width = canvas.width() as f32;
     let height = canvas.height() as f32;
     canvas.fill_from(|x, y| {
-      let x = ((x as f32) + 0.5) / width;
-      let y = ((y as f32) + 0.5) / height;
-      let ray = Ray::new(
-        self.origin,
-        top_left + (w * x) - (h * y)
-      );
-      self.calc(&ray)
+      let mut sum = LinSrgb::new(0.0, 0.0, 0.0);
+      for _ in 0..10 {
+        let x = (x as f32 + rand::random::<f32>()) / width;
+        let y = (y as f32 + rand::random::<f32>()) / height;
+        let ray = Ray::new(
+          self.origin,
+          top_left + (w * x) - (h * y)
+        );
+        sum += self.calc(&ray)
+      }
+      sum / 10.0
     })
   }
   pub fn calc(&self, ray: &Ray) -> LinSrgb {
