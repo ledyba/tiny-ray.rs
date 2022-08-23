@@ -60,9 +60,9 @@ impl Engine {
       let target = r.point + r.normal + math::random_direction(1.0);
       return self.ray_trace(&Ray::new(r.point, target - r.point), left - 1).darken(0.5);
     }
-    self.sky(ray)
+    self.sky_box(ray)
   }
-  fn sky(&self, ray: &Ray) -> LinSrgb {
+  fn sky_box(&self, ray: &Ray) -> LinSrgb {
     let t = 0.5 * (ray.direction().normalized().y + 1.0);
     let blue = LinSrgb::new(0.25, 0.5, 1.0);
     LinSrgb::new(1.0, 1.0, 1.0).mix(&blue, t.sqrt())
