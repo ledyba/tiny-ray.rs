@@ -42,22 +42,22 @@ impl Hittable for Sphere {
         let point = ray.at(t);
         let normal = (point - self.center).normalized();
         let at_front_face = ray.direction() * normal < 0.0;
-        if at_front_face {
-          return Some(HitRecord {
+        return if at_front_face {
+          Some(HitRecord {
             t,
             point,
             normal,
             material: Arc::clone(&self.material),
             at_front_face,
-          });
+          })
         } else {
-          return Some(HitRecord {
+          Some(HitRecord {
             t,
             point,
             normal: -normal,
             material: Arc::clone(&self.material),
             at_front_face,
-          });
+          })
         }
       }
     }
