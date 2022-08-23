@@ -1,5 +1,6 @@
 mod ray;
 mod hittable;
+mod material;
 
 use palette::{LinSrgb, Mix, Shade, Srgb};
 use crate::engine::hittable::{Hittable, HittableCollection, Sphere};
