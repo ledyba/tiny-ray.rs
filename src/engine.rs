@@ -2,9 +2,12 @@ mod ray;
 mod hittable;
 mod material;
 
-use palette::{LinSrgb, Mix, Shade, Srgb};
-use crate::engine::hittable::{Hittable, HittableCollection, Sphere};
-use crate::engine::ray::Ray;
+use std::sync::Arc;
+use palette::{Blend, LinSrgb, Mix, Shade, Srgb};
+
+use hittable::{Hittable, HittableCollection, Sphere};
+use ray::Ray;
+use crate::engine::material::Response;
 use crate::img::Image;
 use crate::math;
 use crate::math::Vec3;
@@ -20,8 +23,9 @@ impl Engine {
   pub fn new(
   ) -> Self {
     let mut world = HittableCollection::new();
-    world.push(Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5));
-    world.push(Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0));
+    let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
+    world.push(Sphere::new(Vec3::new(0.0, 0.0, -1.0), 0.5, lambert.clone()));
+    world.push(Sphere::new(Vec3::new(0.0, -100.5, -1.0), 100.0, lambert.clone()));
     Self {
       origin: Vec3::zero(),
       screen_distance: 1.0,
@@ -58,8 +62,13 @@ impl Engine {
       return LinSrgb::new(0.0, 0.0, 0.0);
     }
     if let Some(hit) = self.world.hit(ray, 0.001, f32::MAX) {
-      let target = hit.point + hit.normal + math::random_direction(1.0);
-      return self.ray_trace(&Ray::new(hit.point, target - hit.point), left - 1).darken(0.5);
+      let resp = hit.material.hit(ray, &hit);
+      return match resp {
+        Response::Reflection { scattering, attenuation } => {
+          return self.ray_trace(&scattering, left - 1).multiply(attenuation);
+        },
+        Response::Absorption => LinSrgb::new(0.0, 0.0, 0.0),
+      };
     }
     self.sky_box(ray)
   }

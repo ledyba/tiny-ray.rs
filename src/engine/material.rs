@@ -1,16 +1,20 @@
+mod lambert;
+
 use palette::LinSrgb;
 use crate::engine::hittable::HitRecord;
 use crate::engine::ray::Ray;
 use crate::math::Vec3;
 
+pub use lambert::Lambert;
+
 pub enum Response {
   Reflection {
-    scattering: Vec3,
+    scattering: Ray,
     attenuation: LinSrgb,
   },
   Absorption,
 }
 
 pub trait Material {
-  fn hit(ray: &Ray, hit: HitRecord) -> Response;
+  fn hit(&self, ray: &Ray, hit: &HitRecord) -> Response;
 }
