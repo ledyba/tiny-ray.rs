@@ -37,7 +37,7 @@ impl Engine {
     world.push(
       Sphere::new(
         Vec3::new(1.2, 0.0, -10.0), 0.5,
-        Arc::new(material::Metal::new(LinSrgb::new(0.0, 0.5, 0.0), 0.5)))
+        Arc::new(material::Dielectric::new(1.7)))
     );
     Self {
       origin: Vec3::zero(),

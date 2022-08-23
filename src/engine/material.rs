@@ -1,5 +1,6 @@
 mod lambert;
 mod metal;
+mod dielectric;
 
 use palette::LinSrgb;
 use crate::engine::hittable::HitRecord;
@@ -8,6 +9,7 @@ use crate::math::Vec3;
 
 pub use lambert::Lambert;
 pub use metal::Metal;
+pub use dielectric::Dielectric;
 
 pub enum Response {
   Reflection {
