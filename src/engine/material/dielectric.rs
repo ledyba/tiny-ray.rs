@@ -26,17 +26,18 @@ impl super::Material for Dielectric {
     } else {
       self.refractive_index
     };
-    let horizontal = theta * (dir - (hit.normal * dir) * hit.normal);
-    let v = 1.0 - horizontal.length_squared();
-    if v >= 0.0 {
-      let vertical = -v.sqrt() * hit.normal;
+    let cos = (dir * -hit.normal);
+    let sin = theta * (1.0 - cos*cos).sqrt();
+    if sin > 1.0 {
       Response::Scattering {
-        scattering: Ray::new(hit.point, horizontal + vertical),
+        scattering: Ray::new(hit.point, hit.normal),
         attenuation: LinSrgb::new(1.0, 1.0, 1.0),
       }
     } else {
+      let horizontal = theta * (dir + cos * hit.normal);
+      let vertical = -(1.0 - horizontal.length_squared()).sqrt() * hit.normal;
       Response::Scattering {
-        scattering: Ray::new(hit.point, hit.normal),
+        scattering: Ray::new(hit.point, horizontal + vertical),
         attenuation: LinSrgb::new(1.0, 1.0, 1.0),
       }
     }
