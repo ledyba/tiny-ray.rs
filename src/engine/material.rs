@@ -17,6 +17,6 @@ pub enum Response {
   Absorption,
 }
 
-pub trait Material {
+pub trait Material: Send + Sync {
   fn hit(&self, ray: &Ray, hit: &HitRecord) -> Response;
 }

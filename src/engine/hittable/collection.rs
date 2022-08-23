@@ -2,7 +2,7 @@ use crate::engine::ray::Ray;
 use super::{Hittable, HitRecord};
 
 pub struct HittableCollection {
-  targets: Vec<Box<dyn Hittable + Send + Sync>>
+  targets: Vec<Box<dyn Hittable>>
 }
 
 impl HittableCollection {
@@ -11,7 +11,7 @@ impl HittableCollection {
       targets: Vec::new(),
     }
   }
-  pub fn push(&mut self, target: impl Hittable + Send + Sync + 'static) {
+  pub fn push(&mut self, target: impl Hittable + 'static) {
     self.targets.push(Box::new(target));
   }
 }
