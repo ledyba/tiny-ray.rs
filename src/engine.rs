@@ -27,7 +27,7 @@ impl Engine {
       world,
     }
   }
-  pub fn render(&mut self, canvas: &mut Image) {
+  pub fn render(&self, canvas: &mut Image) {
     let top_left = Vec3::new(
       -(self.screen_height * canvas.width() as f32 / canvas.height() as f32)/2.0,
       self.screen_height / 2.0,
@@ -46,12 +46,12 @@ impl Engine {
           self.origin,
           top_left + (w * x) - (h * y)
         );
-        sum += self.calc(&ray)
+        sum += self.ray_trace(&ray)
       }
       sum / 10.0
     })
   }
-  pub fn calc(&self, ray: &Ray) -> LinSrgb {
+  pub fn ray_trace(&self, ray: &Ray) -> LinSrgb {
     if let Some(r) = self.world.hit(ray, 0.0, 10.0) {
       let n = r.normal;
       return LinSrgb::new(
