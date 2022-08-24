@@ -58,7 +58,7 @@ impl Camera {
       Vec3::zero()
     } else {
       let (rx, ry) = math::random_disc(self.lens_radius);
-      self.x_unit * rx + self.y_unit * ry
+      (self.x_unit * rx + self.y_unit * ry) * rand::random::<f32>()
     };
 
     let screen_position =
