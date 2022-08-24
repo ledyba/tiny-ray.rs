@@ -87,6 +87,11 @@ impl Engine {
     );
     world.push(
       Sphere::new(
+        Vec3::new(1.2, 0.0, 0.0), -0.49,
+        Arc::new(material::Dielectric::new(1.5)))
+    );
+    world.push(
+      Sphere::new(
         Vec3::new(1.2, 0.0, 0.0), 0.5,
         Arc::new(material::Dielectric::new(1.5)))
     );
