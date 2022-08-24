@@ -1,86 +1,17 @@
 mod ray;
 mod entity;
 mod material;
+mod camera;
 
 use std::sync::Arc;
 use palette::{Blend, LinSrgb, Mix};
 
+use crate::img::Image;
+use crate::{math, math::Vec3};
+
 use entity::{Entity, EntityCollection, Sphere};
 use ray::Ray;
-use crate::engine::material::Response;
-use crate::img::Image;
-use crate::math;
-use crate::math::Vec3;
-
-pub struct Camera {
-  origin: Vec3,
-  top_left_corner: Vec3,
-  screen_vec_horizontal: Vec3,
-  screen_vec_vertical: Vec3,
-  x_unit: Vec3,
-  y_unit: Vec3,
-  z_unit: Vec3,
-  lens_radius: f32,
-}
-
-impl Camera {
-  pub fn new(
-    look_from: Vec3,
-    look_at: Vec3,
-    v_up: Vec3,
-    v_fov: f32,
-    aspect_ratio: (f32, f32),
-    aperture: f32,
-  ) -> Self {
-    let theta = v_fov.to_radians();
-    let h = (theta/2.0).tan();
-    let screen_height = 2.0 * h;
-    let screen_width = aspect_ratio.0 * screen_height / aspect_ratio.1;
-
-    let origin = look_from;
-
-    let gaze = look_at - look_from;
-    let focus_dist = gaze.length();
-    let z_unit = gaze.normalized();
-    let x_unit = v_up.cross(-z_unit).normalized();
-    let y_unit = (-z_unit).cross(x_unit); // already normalized
-
-    let screen_vec_horizontal = focus_dist * screen_width * x_unit;
-    let screen_vec_vertical = focus_dist * screen_height * y_unit;
-
-    let top_left_corner = origin
-      + focus_dist * z_unit
-      - (screen_vec_horizontal / 2.0)
-      + (screen_vec_vertical / 2.0);
-
-     Self {
-       origin,
-       top_left_corner,
-       screen_vec_horizontal,
-       screen_vec_vertical,
-       x_unit,
-       y_unit,
-       z_unit,
-       lens_radius: aperture / 2.0,
-     }
-  }
-
-  pub fn ray_at(&self, u: f32, v: f32) -> Ray {
-    let (rx, ry) = math::random_disc(self.lens_radius);
-    let depth_offset = self.x_unit * rx + self.y_unit * ry;
-
-    let screen_position =
-      self.top_left_corner
-        + (self.screen_vec_horizontal * u)
-        - (self.screen_vec_vertical * v);
-    let origin = self.origin + depth_offset;
-    let direction = screen_position - origin;
-    Ray::new(
-      origin,
-      direction,
-    )
-  }
-}
+pub use camera::Camera;
 
 pub struct Engine {
   camera: Camera,
@@ -140,10 +71,15 @@ impl Engine {
     if let Some(hit) = self.world.hit(ray, 0.001, f32::MAX) {
       let resp = hit.material.hit(ray, &hit);
       return match resp {
-        Response::Scattering { scattering, attenuation } => {
+        material::Response::Scattering {
+          scattering,
+          attenuation,
+        } => {
           return self.ray_trace(&scattering, left - 1).multiply(attenuation);
         },
-        Response::Absorption => LinSrgb::new(0.0, 0.0, 0.0),
+        material::Response::Absorption => {
+          LinSrgb::new(0.0, 0.0, 0.0)
+        },
       };
     }
     self.sky_box(ray)
