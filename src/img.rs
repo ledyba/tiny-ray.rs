@@ -29,14 +29,6 @@ impl Image {
     self.height
   }
 
-  pub fn pixel_mut(&mut self, x: usize, y: usize) -> &mut LinSrgb {
-    &mut self.colors[y * self.width + x]
-  }
-
-  pub fn pixel(&self, x: usize, y: usize) -> &LinSrgb {
-    &self.colors[y * self.width + x]
-  }
-
   pub fn save(&self, path: impl AsRef<std::path::Path> + Sized) -> std::io::Result<()> {
     let file = File::create(path)?;
     let w = BufWriter::new(file);
@@ -79,5 +71,4 @@ impl Image {
         }
       });
   }
-
 }

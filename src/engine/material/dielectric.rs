@@ -1,4 +1,3 @@
-use log::warn;
 use palette::LinSrgb;
 use crate::engine::entity::HitRecord;
 use crate::engine::material::Response;

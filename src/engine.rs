@@ -7,7 +7,7 @@ use std::sync::Arc;
 use palette::{Blend, LinSrgb, Mix};
 
 use crate::img::Image;
-use crate::{math, math::Vec3};
+use crate::math::Vec3;
 
 use entity::{Entity, EntityCollection, Sphere};
 use ray::Ray;
