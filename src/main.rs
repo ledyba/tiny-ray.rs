@@ -29,8 +29,8 @@ fn main() -> anyhow::Result<()> {
 
   let mut image = img::Image::new(1600, 900);
   let camera = engine::Camera::new(
-    Vec3::zero(),
-    Vec3::new(0.0, 0.0, 1.0),
+    Vec3::new(-3.0, 2.0, 1.0),
+    Vec3::new(0.0, 0.0, 0.0),
     Vec3::new(0.0, 1.0, 0.0),
     45.0,
     (16.0, 9.0)

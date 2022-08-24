@@ -21,28 +21,26 @@ pub struct Camera {
 impl Camera {
   pub fn new(
     look_from: Vec3,
-    look_to: Vec3,
+    look_at: Vec3,
     v_up: Vec3,
     v_fov: f32,
     aspect_ratio: (f32, f32),
   ) -> Self {
     let theta = v_fov.to_radians();
-    let focal_length = 10.0;
-    let h = focal_length * (theta/2.0).tan();
-    let screen_height = h * 2.0;
+    let h = (theta/2.0).tan();
+    let screen_height = 2.0 * h;
     let screen_width = aspect_ratio.0 * screen_height / aspect_ratio.1;
 
     let origin = look_from;
 
-    let w = (look_from - look_to).normalized();
-    let u = Vec3::cross(&v_up, w).normalized();
-    let v = Vec3::cross(&w, u); // already normalized
+    let w = (look_from - look_at).normalized();
+    let u = v_up.cross(w).normalized();
+    let v = w.cross(u); // already normalized
 
     let horizontal = screen_width * u;
     let vertical = screen_height * v;
 
     let top_left_corner = origin
-      - Vec3::new(0.0, 0.0, focal_length)
       - (horizontal / 2.0)
       + (vertical / 2.0)
       - w;
@@ -77,19 +75,19 @@ impl Engine {
     let mut world = HittableCollection::new();
     let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
     world.push(
-      Sphere::new(Vec3::new(0.0, 0.0, -10.0), 0.5, lambert.clone())
+      Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, lambert.clone())
     );
     world.push(
-      Sphere::new(Vec3::new(0.0, -100.5, -10.0), 100.0, lambert.clone())
+      Sphere::new(Vec3::new(0.0, -100.5, 0.0), 100.0, lambert.clone())
     );
     world.push(
       Sphere::new(
-        Vec3::new(-1.2, 0.0, -10.0), 0.5,
+        Vec3::new(-1.2, 0.0, 0.0), 0.5,
         Arc::new(material::Metal::new(LinSrgb::new(0.5, 0.0, 0.0), 0.1)))
     );
     world.push(
       Sphere::new(
-        Vec3::new(1.2, 0.0, -10.0), 0.5,
+        Vec3::new(1.2, 0.0, 0.0), 0.5,
         Arc::new(material::Dielectric::new(1.5)))
     );
     Self {
