@@ -45,9 +45,9 @@ impl Camera {
     let screen_vec_vertical = screen_height * y_unit;
 
     let top_left_corner = origin
+      + z_unit
       - (screen_vec_horizontal / 2.0)
-      + (screen_vec_vertical / 2.0)
-      + z_unit;
+      + (screen_vec_vertical / 2.0);
 
      Self {
        origin,
