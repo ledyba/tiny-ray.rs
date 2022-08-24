@@ -1,3 +1,4 @@
+use log::warn;
 use palette::LinSrgb;
 use crate::engine::entity::HitRecord;
 use crate::engine::material::Response;
@@ -30,9 +31,9 @@ impl super::Material for Dielectric {
     } else {
       self.refractive_index
     };
-    let cos = dir * (-hit.normal);
-    let sin = theta * (1.0 - cos*cos).sqrt();
-    if sin > 1.0 || rand::random::<f32>() < schlick(cos, theta) {
+    let cos = f32::min(dir * (-hit.normal), 1.0);
+    let sin = (1.0 - cos*cos).sqrt();
+    if (theta * sin) > 1.0 || rand::random::<f32>() < schlick(cos, theta) {
       let reflect = super::reflect(ray.direction(), hit.normal);
       Response::Scattering {
         scattering: Ray::new(hit.point, reflect),
@@ -40,7 +41,7 @@ impl super::Material for Dielectric {
       }
     } else {
       let horizontal = theta * (dir + cos * hit.normal);
-      let vertical = -(1.0 - horizontal.length_squared()).sqrt() * hit.normal;
+      let vertical = -(1.0 - f32::min(horizontal.length_squared(), 1.0)).sqrt() * hit.normal;
       Response::Scattering {
         scattering: Ray::new(hit.point, horizontal + vertical),
         attenuation: LinSrgb::new(1.0, 1.0, 1.0),
