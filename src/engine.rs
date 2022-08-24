@@ -1,11 +1,11 @@
 mod ray;
-mod hittable;
+mod entity;
 mod material;
 
 use std::sync::Arc;
 use palette::{Blend, LinSrgb, Mix};
 
-use hittable::{Hittable, HittableCollection, Sphere};
+use entity::{Entity, EntityCollection, Sphere};
 use ray::Ray;
 use crate::engine::material::Response;
 use crate::img::Image;
@@ -65,14 +65,14 @@ impl Camera {
 
 pub struct Engine {
   camera: Camera,
-  world: HittableCollection,
+  world: EntityCollection,
 }
 
 impl Engine {
   pub fn new(
     camera: Camera,
   ) -> Self {
-    let mut world = HittableCollection::new();
+    let mut world = EntityCollection::new();
     let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
     world.push(
       Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, lambert.clone())

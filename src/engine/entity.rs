@@ -7,7 +7,7 @@ use crate::engine::material::Material;
 use crate::math::Vec3;
 
 pub use sphere::Sphere;
-pub use collection::HittableCollection;
+pub use collection::EntityCollection;
 
 pub struct HitRecord {
   pub t: f32,
@@ -17,6 +17,6 @@ pub struct HitRecord {
   pub at_front_face: bool,
 }
 
-pub trait Hittable: Send + Sync {
+pub trait Entity: Send + Sync {
   fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord>;
 }

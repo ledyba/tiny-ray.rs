@@ -1,5 +1,5 @@
 use palette::LinSrgb;
-use crate::engine::hittable::HitRecord;
+use crate::engine::entity::HitRecord;
 use crate::engine::material::Response;
 use crate::engine::ray::Ray;
 use crate::math;

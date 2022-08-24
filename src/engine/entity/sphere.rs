@@ -1,6 +1,6 @@
 use std::sync::Arc;
 use crate::engine::material::Material;
-use super::{HitRecord, Hittable};
+use super::{HitRecord, Entity};
 use crate::engine::ray::Ray;
 use crate::math::*;
 
@@ -24,7 +24,7 @@ impl Sphere {
   }
 }
 
-impl Hittable for Sphere {
+impl Entity for Sphere {
   fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
     let a = ray.direction() * ray.direction();
     let b = 2.0 * ray.direction() * (ray.origin() - self.center);

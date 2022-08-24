@@ -1,26 +1,26 @@
 use crate::engine::ray::Ray;
-use super::{Hittable, HitRecord};
+use super::{Entity, HitRecord};
 
-pub struct HittableCollection {
-  targets: Vec<Box<dyn Hittable>>
+pub struct EntityCollection {
+  entities: Vec<Box<dyn Entity>>
 }
 
-impl HittableCollection {
+impl EntityCollection {
   pub fn new() -> Self {
     Self {
-      targets: Vec::new(),
+      entities: Vec::new(),
     }
   }
-  pub fn push(&mut self, target: impl Hittable + 'static) {
-    self.targets.push(Box::new(target));
+  pub fn push(&mut self, target: impl Entity + 'static) {
+    self.entities.push(Box::new(target));
   }
 }
 
-impl Hittable for HittableCollection {
+impl Entity for EntityCollection {
   fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
     let mut far = t_max;
     let mut result = None;
-    for target in &self.targets {
+    for target in &self.entities {
       if let Some(hit) = target.hit(ray, t_min, far) {
         far = hit.t;
         result = Some(hit);
