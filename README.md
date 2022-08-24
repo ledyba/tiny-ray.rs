@@ -1,4 +1,4 @@
-# Tiny ray-tracing
+# Tiny ray-tracing engine
 
 ![Current status](./current.png)
 
