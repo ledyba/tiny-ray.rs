@@ -11,15 +11,59 @@ use crate::engine::material::Response;
 use crate::img::Image;
 use crate::math::Vec3;
 
-pub struct Engine {
+pub struct Camera {
   origin: Vec3,
-  screen_distance: f32,
-  screen_height: f32,
+  top_left_corner: Vec3,
+  horizontal: Vec3,
+  vertical: Vec3,
+}
+
+impl Camera {
+  pub fn new(
+    v_fov: f32,
+    aspect_ratio: (f32, f32),
+  ) -> Self {
+    let theta = v_fov.to_radians();
+    let focal_length = 10.0;
+    let h = focal_length * (theta/2.0).tan();
+    let screen_height = h * 2.0;
+    let screen_width = aspect_ratio.0 * screen_height / aspect_ratio.1;
+
+    let origin = Vec3::zero();
+    let horizontal = Vec3::new(screen_width, 0.0, 0.0);
+    let vertical = Vec3::new(0.0, screen_height, 0.0);
+
+    let top_left_corner = origin
+      - Vec3::new(0.0, 0.0, focal_length)
+      - (horizontal / 2.0)
+      + (vertical / 2.0);
+
+     Self {
+       origin,
+       top_left_corner,
+       horizontal,
+       vertical,
+     }
+  }
+
+  pub fn ray_at(&self, u: f32, v: f32) -> Ray {
+    let screen_position = self.top_left_corner + (self.horizontal * u) - (self.vertical * v);
+    let direction = screen_position - self.origin;
+    Ray::new(
+      self.origin,
+      direction,
+    )
+  }
+}
+
+pub struct Engine {
+  camera: Camera,
   world: HittableCollection,
 }
 
 impl Engine {
   pub fn new(
+    camera: Camera,
   ) -> Self {
     let mut world = HittableCollection::new();
     let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
@@ -40,21 +84,12 @@ impl Engine {
         Arc::new(material::Dielectric::new(1.5)))
     );
     Self {
-      origin: Vec3::zero(),
-      screen_distance: 10.0,
-      screen_height: 2.0,
+      camera,
       world,
     }
   }
   pub fn render(&self, canvas: &mut Image) {
     const NUM_RAYS: usize = 30;
-    let top_left = Vec3::new(
-      -(self.screen_height * canvas.width() as f32 / canvas.height() as f32)/2.0,
-      self.screen_height / 2.0,
-      -self.screen_distance,
-    );
-    let w = Vec3::new(self.screen_height * canvas.width() as f32 / canvas.height() as f32, 0.0, 0.0);
-    let h = Vec3::new(0.0, self.screen_height, 0.0);
     let width = canvas.width() as f32;
     let height = canvas.height() as f32;
     canvas.fill_from(|x, y| {
@@ -62,10 +97,7 @@ impl Engine {
       for _ in 0..NUM_RAYS {
         let x = (x as f32 + rand::random::<f32>()) / width;
         let y = (y as f32 + rand::random::<f32>()) / height;
-        let ray = Ray::new(
-          self.origin,
-          top_left + (w * x) - (h * y)
-        );
+        let ray = self.camera.ray_at(x, y);
         sum += self.ray_trace(&ray, 50)
       }
       sum / (NUM_RAYS as f32)

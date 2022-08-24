@@ -26,8 +26,9 @@ fn main() -> anyhow::Result<()> {
   setup_logger(log::LevelFilter::Info)?;
   info!("Initialized.");
 
-  let mut image = img::Image::new(1600, 800);
-  let mut engine = engine::Engine::new();
+  let mut image = img::Image::new(1600, 900);
+  let camera = engine::Camera::new(45.0, (16.0, 9.0));
+  let engine = engine::Engine::new(camera);
 
   info!("Rendering...");
   engine.render(&mut image);
