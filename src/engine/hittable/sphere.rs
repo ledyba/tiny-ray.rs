@@ -40,7 +40,7 @@ impl Hittable for Sphere {
     for t in ts {
       if t_min <= t && t <= t_max {
         let point = ray.at(t);
-        let normal = (point - self.center).normalized();
+        let normal = (point - self.center) / self.radius;
         let at_front_face = ray.direction() * normal < 0.0;
         return if at_front_face {
           Some(HitRecord {
