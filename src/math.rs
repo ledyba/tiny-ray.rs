@@ -161,3 +161,14 @@ pub fn random_direction(len: f32) -> Vec3 {
   );
   len * n
 }
+
+pub fn random_disc(r: f32) -> Vec3 {
+  let theta = (rand::random::<f32>() * 360.0).to_radians();
+  let cos = theta.cos();
+  let sin = theta.sin();
+  Vec3::new(
+    r * cos,
+    r * sin,
+    0.0,
+  )
+}
