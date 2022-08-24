@@ -1,8 +1,10 @@
 use std::sync::Arc;
-use crate::render::material::Material;
-use super::{HitRecord, Entity};
-use crate::render::ray::Ray;
+
 use crate::math::*;
+use crate::render::material::Material;
+use crate::render::ray::Ray;
+
+use super::{Entity, HitRecord};
 
 pub struct Sphere {
   center: Vec3,

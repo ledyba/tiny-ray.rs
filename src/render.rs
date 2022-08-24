@@ -1,17 +1,18 @@
-mod ray;
-mod entity;
-mod material;
-mod camera;
-
 use std::sync::Arc;
+
 use palette::{Blend, LinSrgb, Mix};
+
+pub use camera::Camera;
+use entity::{Entity, EntityCollection, Sphere};
+use ray::Ray;
 
 use crate::img::Image;
 use crate::math::Vec3;
 
-use entity::{Entity, EntityCollection, Sphere};
-use ray::Ray;
-pub use camera::Camera;
+mod ray;
+mod entity;
+mod material;
+mod camera;
 
 pub struct Renderer {
   camera: Camera,

@@ -1,15 +1,16 @@
+use palette::LinSrgb;
+
+pub use dielectric::Dielectric;
+pub use lambert::Lambert;
+pub use metal::Metal;
+
+use crate::math::Vec3;
+use crate::render::entity::HitRecord;
+use crate::render::ray::Ray;
+
 mod lambert;
 mod metal;
 mod dielectric;
-
-use palette::LinSrgb;
-use crate::render::entity::HitRecord;
-use crate::render::ray::Ray;
-use crate::math::Vec3;
-
-pub use lambert::Lambert;
-pub use metal::Metal;
-pub use dielectric::Dielectric;
 
 pub enum Response {
   Scattering {

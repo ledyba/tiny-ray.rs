@@ -1,6 +1,7 @@
 use std::fs::File;
 use std::io::BufWriter;
-use palette::{Srgb, LinSrgb};
+
+use palette::{LinSrgb, Srgb};
 use png::SrgbRenderingIntent;
 
 pub struct Image {

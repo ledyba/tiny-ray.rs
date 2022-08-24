@@ -1,4 +1,5 @@
 use crate::render::ray::Ray;
+
 use super::{Entity, HitRecord};
 
 pub struct EntityCollection {
