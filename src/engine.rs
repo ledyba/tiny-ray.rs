@@ -14,8 +14,11 @@ use crate::math::Vec3;
 pub struct Camera {
   origin: Vec3,
   top_left_corner: Vec3,
-  horizontal: Vec3,
-  vertical: Vec3,
+  screen_vec_horizontal: Vec3,
+  screen_vec_vertical: Vec3,
+  x_unit: Vec3,
+  y_unit: Vec3,
+  z_unit: Vec3,
 }
 
 impl Camera {
@@ -33,28 +36,35 @@ impl Camera {
 
     let origin = look_from;
 
-    let w = (look_from - look_at).normalized();
-    let u = v_up.cross(w).normalized();
-    let v = w.cross(u); // already normalized
+    let gaze = look_at - look_from;
+    let z_unit = gaze.normalized();
+    let x_unit = v_up.cross(-z_unit).normalized();
+    let y_unit = (-z_unit).cross(x_unit); // already normalized
 
-    let horizontal = screen_width * u;
-    let vertical = screen_height * v;
+    let screen_vec_horizontal = screen_width * x_unit;
+    let screen_vec_vertical = screen_height * y_unit;
 
     let top_left_corner = origin
-      - (horizontal / 2.0)
-      + (vertical / 2.0)
-      - w;
+      - (screen_vec_horizontal / 2.0)
+      + (screen_vec_vertical / 2.0)
+      + z_unit;
 
      Self {
        origin,
        top_left_corner,
-       horizontal,
-       vertical,
+       screen_vec_horizontal,
+       screen_vec_vertical,
+       x_unit,
+       y_unit,
+       z_unit,
      }
   }
 
   pub fn ray_at(&self, u: f32, v: f32) -> Ray {
-    let screen_position = self.top_left_corner + (self.horizontal * u) - (self.vertical * v);
+    let screen_position =
+      self.top_left_corner
+        + (self.screen_vec_horizontal * u)
+        - (self.screen_vec_vertical * v);
     let direction = screen_position - self.origin;
     Ray::new(
       self.origin,
