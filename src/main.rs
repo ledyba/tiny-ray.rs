@@ -3,6 +3,7 @@ mod img;
 mod math;
 
 use log::info;
+use crate::math::Vec3;
 
 fn setup_logger(level: log::LevelFilter) -> Result<(), fern::InitError> {
   fern::Dispatch::new()
@@ -27,7 +28,13 @@ fn main() -> anyhow::Result<()> {
   info!("Initialized.");
 
   let mut image = img::Image::new(1600, 900);
-  let camera = engine::Camera::new(45.0, (16.0, 9.0));
+  let camera = engine::Camera::new(
+    Vec3::zero(),
+    Vec3::new(0.0, 0.0, 1.0),
+    Vec3::new(0.0, 1.0, 0.0),
+    45.0,
+    (16.0, 9.0)
+  );
   let engine = engine::Engine::new(camera);
 
   info!("Rendering...");

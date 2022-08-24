@@ -20,6 +20,9 @@ pub struct Camera {
 
 impl Camera {
   pub fn new(
+    look_from: Vec3,
+    look_to: Vec3,
+    v_up: Vec3,
     v_fov: f32,
     aspect_ratio: (f32, f32),
   ) -> Self {
@@ -29,14 +32,20 @@ impl Camera {
     let screen_height = h * 2.0;
     let screen_width = aspect_ratio.0 * screen_height / aspect_ratio.1;
 
-    let origin = Vec3::zero();
-    let horizontal = Vec3::new(screen_width, 0.0, 0.0);
-    let vertical = Vec3::new(0.0, screen_height, 0.0);
+    let origin = look_from;
+
+    let w = (look_from - look_to).normalized();
+    let u = Vec3::cross(&v_up, w).normalized();
+    let v = Vec3::cross(&w, u); // already normalized
+
+    let horizontal = screen_width * u;
+    let vertical = screen_height * v;
 
     let top_left_corner = origin
       - Vec3::new(0.0, 0.0, focal_length)
       - (horizontal / 2.0)
-      + (vertical / 2.0);
+      + (vertical / 2.0)
+      - w;
 
      Self {
        origin,
