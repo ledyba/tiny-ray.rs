@@ -27,21 +27,21 @@ fn main() -> anyhow::Result<()> {
   setup_logger(log::LevelFilter::Info)?;
   info!("Initialized.");
 
-  let mut image = img::Image::new(1600, 900);
+  let mut canvas = img::Image::new(1600, 900);
   let camera = engine::Camera::new(
     Vec3::new(3.0, 2.0, 1.0),
     Vec3::new(0.0, 0.0, 0.0),
     Vec3::new(0.0, 1.0, 0.0),
     45.0,
-    (image.width() as f32, image.height() as f32),
+    canvas.aspect_ratio(),
     0.0,
   );
   let engine = engine::Engine::new(camera);
 
   info!("Rendering...");
-  engine.render(&mut image, 64);
+  engine.render(&mut canvas, 64);
   info!("Done.");
 
-  image.save("output.png")?;
+  canvas.save("output.png")?;
   Ok(())
 }

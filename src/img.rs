@@ -29,6 +29,10 @@ impl Image {
     self.height
   }
 
+  pub fn aspect_ratio(&self) -> (f32, f32) {
+    (self.width as f32, self.height as f32)
+  }
+
   pub fn save(&self, path: impl AsRef<std::path::Path> + Sized) -> std::io::Result<()> {
     let file = File::create(path)?;
     let w = BufWriter::new(file);
