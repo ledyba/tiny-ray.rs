@@ -9,6 +9,7 @@ use entity::{Entity, EntityCollection, Sphere};
 use ray::Ray;
 use crate::engine::material::Response;
 use crate::img::Image;
+use crate::math;
 use crate::math::Vec3;
 
 pub struct Camera {
@@ -19,6 +20,7 @@ pub struct Camera {
   x_unit: Vec3,
   y_unit: Vec3,
   z_unit: Vec3,
+  lens_radius: f32,
 }
 
 impl Camera {
@@ -28,6 +30,7 @@ impl Camera {
     v_up: Vec3,
     v_fov: f32,
     aspect_ratio: (f32, f32),
+    aperture: f32,
   ) -> Self {
     let theta = v_fov.to_radians();
     let h = (theta/2.0).tan();
@@ -37,15 +40,16 @@ impl Camera {
     let origin = look_from;
 
     let gaze = look_at - look_from;
+    let focus_dist = gaze.length();
     let z_unit = gaze.normalized();
     let x_unit = v_up.cross(-z_unit).normalized();
     let y_unit = (-z_unit).cross(x_unit); // already normalized
 
-    let screen_vec_horizontal = screen_width * x_unit;
-    let screen_vec_vertical = screen_height * y_unit;
+    let screen_vec_horizontal = focus_dist * screen_width * x_unit;
+    let screen_vec_vertical = focus_dist * screen_height * y_unit;
 
     let top_left_corner = origin
-      + z_unit
+      + focus_dist * z_unit
       - (screen_vec_horizontal / 2.0)
       + (screen_vec_vertical / 2.0);
 
@@ -57,17 +61,22 @@ impl Camera {
        x_unit,
        y_unit,
        z_unit,
+       lens_radius: aperture / 2.0,
      }
   }
 
   pub fn ray_at(&self, u: f32, v: f32) -> Ray {
+    let (rx, ry) = math::random_disc(self.lens_radius);
+    let depth_offset = self.x_unit * rx + self.y_unit * ry;
+
     let screen_position =
       self.top_left_corner
         + (self.screen_vec_horizontal * u)
         - (self.screen_vec_vertical * v);
-    let direction = screen_position - self.origin;
+    let origin = self.origin + depth_offset;
+    let direction = screen_position - origin;
     Ray::new(
-      self.origin,
+      origin,
       direction,
     )
   }
@@ -110,19 +119,18 @@ impl Engine {
       world,
     }
   }
-  pub fn render(&self, canvas: &mut Image) {
-    const NUM_RAYS: usize = 30;
+  pub fn render(&self, canvas: &mut Image, num_rays: usize) {
     let width = canvas.width() as f32;
     let height = canvas.height() as f32;
     canvas.fill_from(|x, y| {
       let mut sum = LinSrgb::new(0.0, 0.0, 0.0);
-      for _ in 0..NUM_RAYS {
+      for _ in 0..num_rays {
         let x = (x as f32 + rand::random::<f32>()) / width;
         let y = (y as f32 + rand::random::<f32>()) / height;
         let ray = self.camera.ray_at(x, y);
         sum += self.ray_trace(&ray, 50)
       }
-      sum / (NUM_RAYS as f32)
+      sum / (num_rays as f32)
     })
   }
   pub fn ray_trace(&self, ray: &Ray, left: usize) -> LinSrgb {

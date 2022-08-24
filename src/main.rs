@@ -33,12 +33,13 @@ fn main() -> anyhow::Result<()> {
     Vec3::new(0.0, 0.0, 0.0),
     Vec3::new(0.0, 1.0, 0.0),
     45.0,
-    (16.0, 9.0)
+    (16.0, 9.0),
+    0.0,
   );
   let engine = engine::Engine::new(camera);
 
   info!("Rendering...");
-  engine.render(&mut image);
+  engine.render(&mut image, 64);
   info!("Done.");
 
   image.save("output.png")?;
