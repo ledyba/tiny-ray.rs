@@ -4,7 +4,6 @@ pub use dielectric::Dielectric;
 pub use lambert::Lambert;
 pub use metal::Metal;
 
-use crate::math::Vec3;
 use crate::render::entity::HitRecord;
 use crate::render::ray::Ray;
 
