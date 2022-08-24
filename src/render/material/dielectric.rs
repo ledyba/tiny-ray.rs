@@ -2,6 +2,7 @@ use palette::LinSrgb;
 use crate::render::entity::HitRecord;
 use crate::render::material::Response;
 use crate::render::ray::Ray;
+use crate::physics;
 
 pub struct Dielectric {
   refractive_index: f32,
@@ -33,7 +34,7 @@ impl super::Material for Dielectric {
     let cos = f32::min(dir * (-hit.normal), 1.0);
     let sin = (1.0 - cos*cos).sqrt();
     if (theta * sin) > 1.0 || rand::random::<f32>() < schlick(cos, theta) {
-      let reflect = super::reflect(ray.direction(), hit.normal);
+      let reflect = physics::reflect(ray.direction(), hit.normal);
       Response::Scattering {
         scattering: Ray::new(hit.point, reflect),
         attenuation: LinSrgb::new(1.0, 1.0, 1.0),

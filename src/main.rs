@@ -1,6 +1,7 @@
 mod render;
 mod img;
 mod math;
+mod physics;
 
 fn main() -> anyhow::Result<()> {
   use log::info;

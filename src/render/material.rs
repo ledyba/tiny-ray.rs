@@ -22,7 +22,3 @@ pub enum Response {
 pub trait Material: Send + Sync {
   fn hit(&self, ray: &Ray, hit: &HitRecord) -> Response;
 }
-
-fn reflect(dir: Vec3, normal: Vec3) -> Vec3 {
-  dir - 2.0 * (dir * normal) * normal
-}

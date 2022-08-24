@@ -3,6 +3,7 @@ use crate::render::entity::HitRecord;
 use crate::render::material::Response;
 use crate::render::ray::Ray;
 use crate::math;
+use crate::physics;
 
 pub struct Metal {
   albedo: LinSrgb,
@@ -23,7 +24,7 @@ impl Metal {
 
 impl super::Material for Metal {
   fn hit(&self, ray: &Ray, hit: &HitRecord) -> Response {
-    let reflect = super::reflect(ray.direction(), hit.normal);
+    let reflect = physics::reflect(ray.direction(), hit.normal);
     let scattering = Ray::new(hit.point, reflect + math::random_direction(self.fuzz));
     Response::Scattering {
       scattering,
