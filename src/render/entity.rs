@@ -2,8 +2,8 @@ mod sphere;
 mod collection;
 
 use std::sync::Arc;
-use crate::engine::ray::Ray;
-use crate::engine::material::Material;
+use crate::render::ray::Ray;
+use crate::render::material::Material;
 use crate::math::Vec3;
 
 pub use sphere::Sphere;

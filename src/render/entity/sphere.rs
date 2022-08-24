@@ -1,7 +1,7 @@
 use std::sync::Arc;
-use crate::engine::material::Material;
+use crate::render::material::Material;
 use super::{HitRecord, Entity};
-use crate::engine::ray::Ray;
+use crate::render::ray::Ray;
 use crate::math::*;
 
 pub struct Sphere {

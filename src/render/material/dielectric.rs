@@ -1,7 +1,7 @@
 use palette::LinSrgb;
-use crate::engine::entity::HitRecord;
-use crate::engine::material::Response;
-use crate::engine::ray::Ray;
+use crate::render::entity::HitRecord;
+use crate::render::material::Response;
+use crate::render::ray::Ray;
 
 pub struct Dielectric {
   refractive_index: f32,

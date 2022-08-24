@@ -13,12 +13,12 @@ use entity::{Entity, EntityCollection, Sphere};
 use ray::Ray;
 pub use camera::Camera;
 
-pub struct Engine {
+pub struct Renderer {
   camera: Camera,
   world: EntityCollection,
 }
 
-impl Engine {
+impl Renderer {
   pub fn new(
     camera: Camera,
   ) -> Self {

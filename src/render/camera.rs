@@ -1,4 +1,5 @@
-use crate::{math, Vec3};
+use crate::math;
+use crate::math::Vec3;
 use super::ray::Ray;
 
 pub struct Camera {

@@ -3,8 +3,8 @@ mod metal;
 mod dielectric;
 
 use palette::LinSrgb;
-use crate::engine::entity::HitRecord;
-use crate::engine::ray::Ray;
+use crate::render::entity::HitRecord;
+use crate::render::ray::Ray;
 use crate::math::Vec3;
 
 pub use lambert::Lambert;
