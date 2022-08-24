@@ -41,6 +41,6 @@ fn main() -> anyhow::Result<()> {
   engine.render(&mut image);
   info!("Done.");
 
-  image.save("out.png")?;
+  image.save("output.png")?;
   Ok(())
 }

@@ -1,5 +1,9 @@
 # Tiny ray-tracing
 
+![Current status](./current.png)
+
+# How to run
+
 ```shell
 cargo run --release
 ```
