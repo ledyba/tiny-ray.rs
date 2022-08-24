@@ -1,5 +1,6 @@
 mod sphere;
 mod collection;
+mod world;
 
 use std::sync::Arc;
 use crate::render::ray::Ray;
