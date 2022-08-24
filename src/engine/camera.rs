@@ -22,8 +22,7 @@ impl Camera {
     aperture: f32,
   ) -> Self {
     let theta = v_fov.to_radians();
-    let h = (theta/2.0).tan();
-    let screen_height = 2.0 * h;
+    let screen_height = 2.0 * (theta/2.0).tan();
     let screen_width = aspect_ratio.0 * screen_height / aspect_ratio.1;
 
     let origin = look_from;
@@ -54,14 +53,18 @@ impl Camera {
     }
   }
 
-  pub fn ray_at(&self, u: f32, v: f32) -> Ray {
-    let (rx, ry) = math::random_disc(self.lens_radius);
-    let depth_offset = self.x_unit * rx + self.y_unit * ry;
+  pub fn ray_at(&self, nx: f32, ny: f32) -> Ray {
+    let depth_offset = if self.lens_radius <= 0.0 {
+      Vec3::zero()
+    } else {
+      let (rx, ry) = math::random_disc(self.lens_radius);
+      self.x_unit * rx + self.y_unit * ry
+    };
 
     let screen_position =
       self.top_left_corner
-        + (self.screen_vec_horizontal * u)
-        - (self.screen_vec_vertical * v);
+        + (self.screen_vec_horizontal * nx)
+        - (self.screen_vec_vertical * ny);
     let origin = self.origin + depth_offset;
     let direction = screen_position - origin;
     Ray::new(

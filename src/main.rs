@@ -10,7 +10,7 @@ fn setup_logger(level: log::LevelFilter) -> Result<(), fern::InitError> {
     .format(|out, message, record| {
       out.finish(format_args!(
         "{}[{}][{}] {}",
-        chrono::Local::now().format("[%Y-%m-%d][%H:%M:%S]"),
+        chrono::Local::now().format("[%Y-%m-%d %H:%M:%S]"),
         record.target(),
         record.level(),
         message
@@ -33,7 +33,7 @@ fn main() -> anyhow::Result<()> {
     Vec3::new(0.0, 0.0, 0.0),
     Vec3::new(0.0, 1.0, 0.0),
     45.0,
-    (16.0, 9.0),
+    (image.width() as f32, image.height() as f32),
     0.0,
   );
   let engine = engine::Engine::new(camera);
