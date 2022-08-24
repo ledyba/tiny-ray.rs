@@ -47,6 +47,7 @@ impl Engine {
     }
   }
   pub fn render(&self, canvas: &mut Image) {
+    const NUM_RAYS: usize = 30;
     let top_left = Vec3::new(
       -(self.screen_height * canvas.width() as f32 / canvas.height() as f32)/2.0,
       self.screen_height / 2.0,
@@ -58,7 +59,7 @@ impl Engine {
     let height = canvas.height() as f32;
     canvas.fill_from(|x, y| {
       let mut sum = LinSrgb::new(0.0, 0.0, 0.0);
-      for _ in 0..10 {
+      for _ in 0..NUM_RAYS {
         let x = (x as f32 + rand::random::<f32>()) / width;
         let y = (y as f32 + rand::random::<f32>()) / height;
         let ray = Ray::new(
@@ -67,7 +68,7 @@ impl Engine {
         );
         sum += self.ray_trace(&ray, 50)
       }
-      sum / 10.0
+      sum / (NUM_RAYS as f32)
     })
   }
   pub fn ray_trace(&self, ray: &Ray, left: usize) -> LinSrgb {
