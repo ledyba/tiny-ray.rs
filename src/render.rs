@@ -5,7 +5,7 @@ use palette::{Blend, LinSrgb, Mix};
 pub use camera::Camera;
 use entity::Entity;
 use ray::Ray;
-pub use world::WorldBuilder;
+pub use world::World;
 
 use crate::img::Image;
 use crate::math::Vec3;

@@ -3,11 +3,11 @@ use crate::render::entity::collection::EntityCollection;
 
 mod bounding_box;
 
-pub struct WorldBuilder {
+pub struct World {
   collection: EntityCollection,
 }
 
-impl WorldBuilder {
+impl World {
   pub fn new() -> Self {
     Self {
       collection: EntityCollection::new()
