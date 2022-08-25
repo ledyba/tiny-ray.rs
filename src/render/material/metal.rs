@@ -1,7 +1,7 @@
 use palette::LinSrgb;
 
-use crate::math;
-use crate::physics;
+use crate::util::math;
+use crate::util::physics;
 use crate::render::entity::HitRecord;
 use crate::render::material::Response;
 use crate::render::ray::Ray;

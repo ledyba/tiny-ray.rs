@@ -1,5 +1,5 @@
-use crate::math;
-use crate::math::Vec3;
+use crate::util::math;
+use crate::util::math::Vec3;
 
 use super::ray::Ray;
 

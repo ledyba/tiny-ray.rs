@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 pub use sphere::Sphere;
 
-use crate::math::Vec3;
+use crate::util::math::Vec3;
 use crate::render::material::Material;
 use crate::render::ray::Ray;
 

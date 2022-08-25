@@ -1,4 +1,4 @@
-use crate::math::Vec3;
+use crate::util::math::Vec3;
 use crate::render::ray::Ray;
 
 pub struct BoundingBox {

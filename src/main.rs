@@ -1,12 +1,10 @@
 mod render;
-mod img;
-mod math;
-mod physics;
+mod util;
 
 fn main() -> anyhow::Result<()> {
   use log::info;
-  use math::Vec3;
-  use img::Image;
+  use util::img::Image;
+  use util::math::Vec3;
   use render::{Camera, Renderer};
 
   setup_logger(log::LevelFilter::Info)?;

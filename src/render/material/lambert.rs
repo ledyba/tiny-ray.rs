@@ -1,6 +1,6 @@
 use palette::LinSrgb;
 
-use crate::math;
+use crate::util::math;
 use crate::render::entity::HitRecord;
 use crate::render::material::Response;
 use crate::render::ray::Ray;

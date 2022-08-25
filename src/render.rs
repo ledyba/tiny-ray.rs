@@ -7,8 +7,8 @@ use entity::Entity;
 use ray::Ray;
 pub use world::World;
 
-use crate::img::Image;
-use crate::math::Vec3;
+use crate::util::img::Image;
+use crate::util::math::Vec3;
 
 mod ray;
 pub mod entity;
