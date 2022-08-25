@@ -36,4 +36,18 @@ impl BoundingBox {
   pub fn hit_naive(&self, ray: &Ray, t_min: f32, t_max: f32) -> bool {
     todo!()
   }
+  pub fn surrounding_with(&self, b: &Self) -> Self {
+    Self {
+      min: Vec3::new(
+        f32::min(self.min.x, b.min.x),
+        f32::min(self.min.y, b.min.y),
+        f32::min(self.min.z, b.min.z),
+      ),
+      max: Vec3::new(
+        f32::max(self.max.x, b.max.x),
+        f32::max(self.max.y, b.max.y),
+        f32::max(self.max.z, b.max.z),
+      ),
+    }
+  }
 }
