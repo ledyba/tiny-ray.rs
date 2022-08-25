@@ -13,7 +13,7 @@ pub struct HitRecord {
   pub t: f32,
   pub point: Vec3,
   pub normal: Vec3,
-  pub material: Arc<dyn Material + Send + Sync>,
+  pub material: Arc<dyn Material>,
   pub at_front_face: bool,
 }
 
