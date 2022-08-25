@@ -5,6 +5,7 @@ use palette::{Blend, LinSrgb, Mix};
 pub use camera::Camera;
 use entity::Entity;
 use ray::Ray;
+pub use world::WorldBuilder;
 
 use crate::img::Image;
 use crate::math::Vec3;
@@ -13,6 +14,7 @@ mod ray;
 pub mod entity;
 pub mod material;
 mod camera;
+mod world;
 
 pub struct Renderer {
   camera: Camera,

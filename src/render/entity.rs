@@ -1,15 +1,13 @@
 use std::sync::Arc;
 
 pub use sphere::Sphere;
-pub use world::WorldBuilder;
 
 use crate::math::Vec3;
 use crate::render::material::Material;
 use crate::render::ray::Ray;
 
 mod sphere;
-mod collection;
-mod world;
+pub(crate) mod collection;
 
 pub struct HitRecord {
   pub t: f32,

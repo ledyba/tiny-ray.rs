@@ -26,7 +26,7 @@ fn main() -> anyhow::Result<()> {
     use palette::LinSrgb;
     use render::entity;
     use render::material;
-    let mut world = entity::WorldBuilder::new();
+    let mut world = render::WorldBuilder::new();
     let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
     world.push(
       entity::Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, lambert.clone())
