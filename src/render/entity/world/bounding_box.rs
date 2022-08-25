@@ -8,12 +8,20 @@ pub struct BoundingBox {
 
 impl BoundingBox {
   pub fn new(
-    min: Vec3,
-    max: Vec3,
+    a: Vec3,
+    b: Vec3,
   ) -> Self {
     Self {
-      min,
-      max,
+      min: Vec3::new(
+        f32::min(a.x, b.x),
+        f32::min(a.y, b.y),
+        f32::min(a.z, b.z),
+      ),
+      max: Vec3::new(
+        f32::max(a.x, b.x),
+        f32::max(a.y, b.y),
+        f32::max(a.z, b.z),
+      ),
     }
   }
   pub fn min(&self) -> Vec3 {
