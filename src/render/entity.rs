@@ -7,7 +7,7 @@ use crate::render::material::Material;
 use crate::render::ray::Ray;
 
 mod sphere;
-pub(crate) mod collection;
+pub mod collection;
 
 pub struct HitRecord {
   pub t: f32,
