@@ -21,7 +21,37 @@ fn main() -> anyhow::Result<()> {
     canvas.aspect_ratio(),
     0.0,
   );
-  let engine = Renderer::new(camera);
+  let world = {
+    use std::sync::Arc;
+    use palette::LinSrgb;
+    use render::entity;
+    use render::material;
+    let mut world = entity::WorldBuilder::new();
+    let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
+    world.push(
+      entity::Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, lambert.clone())
+    );
+    world.push(
+      entity::Sphere::new(Vec3::new(0.0, -100.5, 0.0), 100.0, lambert.clone())
+    );
+    world.push(
+      entity::Sphere::new(
+        Vec3::new(-1.2, 0.0, 0.0), 0.5,
+        Arc::new(material::Metal::new(LinSrgb::new(0.5, 0.0, 0.0), 0.1)))
+    );
+    world.push(
+      entity::Sphere::new(
+        Vec3::new(1.2, 0.0, 0.0), -0.49,
+        Arc::new(material::Dielectric::new(1.5)))
+    );
+    world.push(
+      entity::Sphere::new(
+        Vec3::new(1.2, 0.0, 0.0), 0.5,
+        Arc::new(material::Dielectric::new(1.5)))
+    );
+    world.build()
+  };
+  let engine = Renderer::new(camera, world);
 
   info!("Rendering...");
   engine.render(&mut canvas, 64);

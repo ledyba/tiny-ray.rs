@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
-pub use collection::EntityCollection;
 pub use sphere::Sphere;
+pub use world::WorldBuilder;
 
 use crate::math::Vec3;
 use crate::render::material::Material;

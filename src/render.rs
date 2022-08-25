@@ -3,49 +3,27 @@ use std::sync::Arc;
 use palette::{Blend, LinSrgb, Mix};
 
 pub use camera::Camera;
-use entity::{Entity, EntityCollection, Sphere};
+use entity::Entity;
 use ray::Ray;
 
 use crate::img::Image;
 use crate::math::Vec3;
 
 mod ray;
-mod entity;
-mod material;
+pub mod entity;
+pub mod material;
 mod camera;
 
 pub struct Renderer {
   camera: Camera,
-  world: EntityCollection,
+  world: Box<dyn Entity>,
 }
 
 impl Renderer {
   pub fn new(
     camera: Camera,
+    world: Box<dyn Entity>,
   ) -> Self {
-    let mut world = EntityCollection::new();
-    let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
-    world.push(
-      Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, lambert.clone())
-    );
-    world.push(
-      Sphere::new(Vec3::new(0.0, -100.5, 0.0), 100.0, lambert.clone())
-    );
-    world.push(
-      Sphere::new(
-        Vec3::new(-1.2, 0.0, 0.0), 0.5,
-        Arc::new(material::Metal::new(LinSrgb::new(0.5, 0.0, 0.0), 0.1)))
-    );
-    world.push(
-      Sphere::new(
-        Vec3::new(1.2, 0.0, 0.0), -0.49,
-        Arc::new(material::Dielectric::new(1.5)))
-    );
-    world.push(
-      Sphere::new(
-        Vec3::new(1.2, 0.0, 0.0), 0.5,
-        Arc::new(material::Dielectric::new(1.5)))
-    );
     Self {
       camera,
       world,
