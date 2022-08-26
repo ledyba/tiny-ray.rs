@@ -63,10 +63,11 @@ fn main() -> anyhow::Result<()> {
     0.0,
   );
 
-  let world = match m.get_one::<String>("SCENE").map(|it| it.as_str()) {
-    Some("spheres") => scene::spheres(),
-    _ => unreachable!(),
-  };
+  let world =
+    match m.get_one::<String>("SCENE").map(|it| it.as_str()) {
+      Some("spheres") => scene::spheres(),
+      _ => unreachable!(),
+    };
   let engine = Renderer::new(camera, world);
 
   info!("Rendering...");
