@@ -1,5 +1,6 @@
 mod render;
 mod util;
+mod scene;
 
 fn app() -> clap::App<'static> {
   use clap::{App, Arg, ArgAction};
@@ -16,6 +17,24 @@ fn app() -> clap::App<'static> {
       .required(true)
       .multiple_values(false)
       .index(1))
+}
+
+fn setup_logger(level: log::LevelFilter) -> Result<(), fern::InitError> {
+  fern::Dispatch::new()
+    .format(|out, message, record| {
+      out.finish(format_args!(
+        "{}[{}][{}] {}",
+        chrono::Local::now().format("[%Y-%m-%d %H:%M:%S]"),
+        record.target(),
+        record.level(),
+        message
+      ))
+    })
+    .level(level)
+    .chain(std::io::stdout())
+    //.chain(fern::log_file("output.log")?)
+    .apply()?;
+  Ok(())
 }
 
 fn main() -> anyhow::Result<()> {
@@ -43,35 +62,10 @@ fn main() -> anyhow::Result<()> {
     canvas.aspect_ratio(),
     0.0,
   );
-  let world = {
-    use std::sync::Arc;
-    use palette::LinSrgb;
-    use render::entity;
-    use render::material;
-    let mut world = render::World::new();
-    let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
-    world.push(
-      entity::Sphere::new(Vec3::new(0.0, -100.5, 0.0), 100.0, lambert.clone())
-    );
-    world.push(
-      entity::Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, lambert.clone())
-    );
-    world.push(
-      entity::Sphere::new(
-        Vec3::new(-1.2, 0.0, 0.0), 0.5,
-        Arc::new(material::Metal::new(LinSrgb::new(0.5, 0.0, 0.0), 0.1)))
-    );
-    world.push(
-      entity::Sphere::new(
-        Vec3::new(1.2, 0.0, 0.0), -0.49,
-        Arc::new(material::Dielectric::new(1.5)))
-    );
-    world.push(
-      entity::Sphere::new(
-        Vec3::new(1.2, 0.0, 0.0), 0.5,
-        Arc::new(material::Dielectric::new(1.5)))
-    );
-    world.build()
+
+  let world = match m.get_one::<String>("SCENE").map(|it| it.as_str()) {
+    Some("spheres") => scene::spheres(),
+    _ => unreachable!(),
   };
   let engine = Renderer::new(camera, world);
 
@@ -80,23 +74,5 @@ fn main() -> anyhow::Result<()> {
   info!("Done.");
 
   canvas.save("output.png")?;
-  Ok(())
-}
-
-fn setup_logger(level: log::LevelFilter) -> Result<(), fern::InitError> {
-  fern::Dispatch::new()
-    .format(|out, message, record| {
-      out.finish(format_args!(
-        "{}[{}][{}] {}",
-        chrono::Local::now().format("[%Y-%m-%d %H:%M:%S]"),
-        record.target(),
-        record.level(),
-        message
-      ))
-    })
-    .level(level)
-    .chain(std::io::stdout())
-    //.chain(fern::log_file("output.log")?)
-    .apply()?;
   Ok(())
 }

@@ -3,7 +3,7 @@ use std::sync::Arc;
 use palette::{Blend, LinSrgb, Mix};
 
 pub use camera::Camera;
-use entity::Entity;
+pub use entity::Entity;
 use ray::Ray;
 pub use world::World;
 
