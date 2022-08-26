@@ -34,7 +34,6 @@ fn main() -> anyhow::Result<()> {
   setup_logger(log_level)?;
   debug!("Initialized.");
 
-
   let mut canvas = Image::new(1600, 900);
   let camera = Camera::new(
     Vec3::new(3.0, 2.0, 1.0),
