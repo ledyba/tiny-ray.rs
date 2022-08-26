@@ -27,10 +27,10 @@ fn main() -> anyhow::Result<()> {
     let mut world = render::World::new();
     let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
     world.push(
-      entity::Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, lambert.clone())
+      entity::Sphere::new(Vec3::new(0.0, -100.5, 0.0), 100.0, lambert.clone())
     );
     world.push(
-      entity::Sphere::new(Vec3::new(0.0, -100.5, 0.0), 100.0, lambert.clone())
+      entity::Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, lambert.clone())
     );
     world.push(
       entity::Sphere::new(
