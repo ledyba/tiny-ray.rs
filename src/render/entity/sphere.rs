@@ -9,14 +9,14 @@ use super::{Entity, HitRecord};
 pub struct Sphere {
   center: Vec3,
   radius: f32,
-  material: Arc<dyn Material + Send + Sync>,
+  material: Arc<dyn Material>,
 }
 
 impl Sphere {
   pub fn new(
     center: Vec3,
     radius: f32,
-    material: Arc<dyn Material + Send + Sync>,
+    material: Arc<dyn Material>,
   ) -> Self {
     Self {
       center,
