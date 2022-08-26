@@ -54,18 +54,10 @@ fn main() -> anyhow::Result<()> {
   debug!("Initialized.");
 
   let mut canvas = Image::new(1600, 900);
-  let camera = Camera::new(
-    Vec3::new(3.0, 2.0, 1.0),
-    Vec3::new(0.0, 0.0, 0.0),
-    Vec3::new(0.0, 1.0, 0.0),
-    45.0,
-    canvas.aspect_ratio(),
-    0.0,
-  );
 
-  let world =
+  let (camera, world) =
     match m.get_one::<String>("SCENE").map(|it| it.as_str()) {
-      Some("spheres") => scene::spheres(),
+      Some("spheres") => scene::spheres(&canvas),
       _ => unreachable!(),
     };
   let engine = Renderer::new(camera, world);

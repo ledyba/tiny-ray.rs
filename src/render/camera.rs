@@ -1,7 +1,9 @@
+mod builder;
+
 use crate::util::math;
 use crate::util::math::Vec3;
-
 use super::ray::Ray;
+pub use builder::CameraBuilder;
 
 pub struct Camera {
   origin: Vec3,
