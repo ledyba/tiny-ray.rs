@@ -1,14 +1,39 @@
 mod render;
 mod util;
 
+fn app() -> clap::App<'static> {
+  use clap::{App, Arg, ArgAction};
+  App::new("tiny-ray")
+    .bin_name("tiny-ray")
+    .author("Kaede Fujisaki <kaede@hexe.net>")
+    .arg(Arg::new("verbose")
+      .long("verbose")
+      .short('v')
+      .action(ArgAction::Count)
+      .takes_value(false))
+    .arg(Arg::new("SCENE")
+      .possible_values(["spheres"])
+      .required(true)
+      .multiple_values(false)
+      .index(1))
+}
+
 fn main() -> anyhow::Result<()> {
-  use log::info;
+  use log::{info, debug};
   use util::img::Image;
   use util::math::Vec3;
   use render::{Camera, Renderer};
 
-  setup_logger(log::LevelFilter::Info)?;
-  info!("Initialized.");
+  let m = app().get_matches();
+  let log_level = match m.get_one::<u8>("verbose") {
+    None | Some(0) => log::LevelFilter::Info,
+    Some(1) => log::LevelFilter::Debug,
+    _ => log::LevelFilter::Trace,
+  };
+
+  setup_logger(log_level)?;
+  debug!("Initialized.");
+
 
   let mut canvas = Image::new(1600, 900);
   let camera = Camera::new(
