@@ -5,6 +5,7 @@ pub use sphere::Sphere;
 use crate::util::math::Vec3;
 use crate::render::material::Material;
 use crate::render::ray::Ray;
+use crate::render::scene::BoundingBox;
 
 mod sphere;
 pub mod collection;
@@ -19,4 +20,5 @@ pub struct HitRecord {
 
 pub trait Entity: Send + Sync {
   fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord>;
+  fn bounding_box(&self) -> BoundingBox;
 }

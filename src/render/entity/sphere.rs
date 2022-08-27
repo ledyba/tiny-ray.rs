@@ -3,6 +3,7 @@ use std::sync::Arc;
 use crate::util::math::*;
 use crate::render::material::Material;
 use crate::render::ray::Ray;
+use crate::render::scene::BoundingBox;
 
 use super::{Entity, HitRecord};
 
@@ -64,5 +65,12 @@ impl Entity for Sphere {
       }
     }
     None
+  }
+
+  fn bounding_box(&self) -> BoundingBox {
+    BoundingBox::new(
+      self.center - Vec3::new(self.radius, self.radius, self.radius),
+      self.center + Vec3::new(self.radius, self.radius, self.radius),
+    )
   }
 }

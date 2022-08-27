@@ -24,6 +24,9 @@ impl BoundingBox {
       ),
     }
   }
+  pub fn zero() -> Self {
+    Self::new(Vec3::zero(),Vec3::zero())
+  }
   pub fn min(&self) -> Vec3 {
     self.min
   }

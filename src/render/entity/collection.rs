@@ -1,4 +1,5 @@
 use crate::render::ray::Ray;
+use crate::render::scene::BoundingBox;
 
 use super::{Entity, HitRecord};
 
@@ -28,5 +29,14 @@ impl Entity for EntityCollection {
       }
     }
     result
+  }
+
+  fn bounding_box(&self) -> BoundingBox {
+    let mut b = BoundingBox::zero();
+    for entity in &self.entities {
+      let another = entity.bounding_box();
+      b = b.surrounding_with(&another);
+    }
+    b
   }
 }
