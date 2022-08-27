@@ -1,6 +1,6 @@
 use crate::render::camera::{Camera, CameraBuilder};
-use crate::render::entity::Entity;
 use crate::render::entity::collection::EntityCollection;
+use crate::render::entity::Entity;
 
 pub struct Scene {
   camera: CameraBuilder,

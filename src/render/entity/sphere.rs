@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
-use crate::util::math::*;
+use crate::render::entity::volume_tree::BoundingBox;
 use crate::render::material::Material;
 use crate::render::ray::Ray;
-use crate::render::entity::volume_tree::BoundingBox;
+use crate::util::math::*;
 
 use super::{Entity, HitRecord};
 

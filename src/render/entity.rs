@@ -2,10 +2,10 @@ use std::sync::Arc;
 
 pub use sphere::Sphere;
 
-use crate::util::math::Vec3;
+use crate::render::entity::volume_tree::BoundingBox;
 use crate::render::material::Material;
 use crate::render::ray::Ray;
-use crate::render::entity::volume_tree::BoundingBox;
+use crate::util::math::Vec3;
 
 mod sphere;
 pub mod collection;

@@ -1,5 +1,7 @@
 use std::sync::Arc;
+
 use palette::LinSrgb;
+
 use crate::render::{Camera, Entity, Scene};
 use crate::render::entity;
 use crate::render::material;

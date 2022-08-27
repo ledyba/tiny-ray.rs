@@ -1,5 +1,5 @@
-use crate::util::math::Vec3;
 use crate::render::ray::Ray;
+use crate::util::math::Vec3;
 
 pub struct BoundingBox {
   min: Vec3,
@@ -90,6 +90,7 @@ impl BoundingBox {
 #[cfg(test)]
 mod test {
   use super::*;
+
   #[test]
   fn basic() {
     let b = BoundingBox::new(Vec3::new(1.0, 1.0, 1.0), Vec3::zero());
