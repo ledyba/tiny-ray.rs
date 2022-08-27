@@ -23,9 +23,9 @@ pub struct Renderer {
 
 impl Renderer {
   pub fn new(
-    camera: Camera,
-    world: Box<dyn Entity>,
+    world: World,
   ) -> Self {
+    let (camera, world) = world.build();
     Self {
       camera,
       world,
