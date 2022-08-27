@@ -55,12 +55,12 @@ fn main() -> anyhow::Result<()> {
 
   let mut canvas = Image::new(1600, 900);
 
-  let world =
+  let scene =
     match m.get_one::<String>("SCENE").map(|it| it.as_str()) {
       Some("spheres") => scene::spheres(&canvas),
       _ => unreachable!(),
     };
-  let engine = Renderer::new(world);
+  let engine = Renderer::new(scene);
 
   info!("Rendering...");
   engine.render(&mut canvas, 64);

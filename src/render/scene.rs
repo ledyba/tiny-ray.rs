@@ -4,12 +4,12 @@ use crate::render::entity::collection::EntityCollection;
 
 mod bounding_box;
 
-pub struct World {
+pub struct Scene {
   camera: CameraBuilder,
   collection: EntityCollection,
 }
 
-impl World {
+impl Scene {
   pub fn new() -> Self {
     Self {
       camera: CameraBuilder::new(),
