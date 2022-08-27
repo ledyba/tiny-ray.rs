@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use palette::{Blend, LinSrgb, Mix};
 
 pub use camera::Camera;
@@ -8,7 +6,6 @@ use ray::Ray;
 pub use scene::Scene;
 
 use crate::util::img::Image;
-use crate::util::math::Vec3;
 
 mod ray;
 pub mod entity;

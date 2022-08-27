@@ -1,9 +1,6 @@
 use crate::render::camera::{Camera, CameraBuilder};
-use crate::render::entity::{Entity, Sphere};
+use crate::render::entity::Entity;
 use crate::render::entity::collection::EntityCollection;
-
-mod bounding_box;
-pub use bounding_box::BoundingBox;
 
 pub struct Scene {
   camera: CameraBuilder,

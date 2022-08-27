@@ -5,10 +5,11 @@ pub use sphere::Sphere;
 use crate::util::math::Vec3;
 use crate::render::material::Material;
 use crate::render::ray::Ray;
-use crate::render::scene::BoundingBox;
+use crate::render::entity::volume_tree::BoundingBox;
 
 mod sphere;
 pub mod collection;
+mod volume_tree;
 
 pub struct HitRecord {
   pub t: f32,

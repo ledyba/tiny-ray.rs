@@ -1,5 +1,5 @@
 use crate::render::ray::Ray;
-use crate::render::scene::BoundingBox;
+use crate::render::entity::volume_tree::BoundingBox;
 
 use super::{Entity, HitRecord};
 
