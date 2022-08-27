@@ -34,7 +34,42 @@ impl BoundingBox {
     self.hit_naive(ray, t_min, t_max)
   }
   pub fn hit_naive(&self, ray: &Ray, t_min: f32, t_max: f32) -> bool {
-    todo!()
+    fn range(min: f32, max: f32, r_origin: f32, r_weight: f32) -> (f32, f32) {
+      let t0 = (min - r_origin) / r_weight;
+      let t1 = (max - r_origin) / r_weight;
+      (f32::min(t0, t1), f32::max(t0, t1))
+    }
+    fn calc_overlap((t0, t1): (f32, f32), (u0, u1): (f32, f32)) -> (f32, f32) {
+      (f32::max(t0, u0), f32::min(t1, u1))
+    }
+    let (t_min, t_max) = calc_overlap(
+      (t_min, t_max),
+      range(
+        self.min.x, self.max.x,
+        ray.origin().x, ray.direction().x,
+      )
+    );
+    if t_max < t_min {
+      return false;
+    }
+    let (t_min, t_max) = calc_overlap(
+      (t_min, t_max),
+      range(
+        self.min.y, self.max.y,
+        ray.origin().y, ray.direction().y,
+      )
+    );
+    if t_max < t_min {
+      return false;
+    }
+    let (t_min, t_max) = calc_overlap(
+      (t_min, t_max),
+      range(
+        self.min.z, self.max.z,
+        ray.origin().z, ray.direction().z,
+      )
+    );
+    t_min <= t_max
   }
   pub fn surrounding_with(&self, b: &Self) -> Self {
     Self {
@@ -49,5 +84,28 @@ impl BoundingBox {
         f32::max(self.max.z, b.max.z),
       ),
     }
+  }
+}
+
+#[cfg(test)]
+mod test {
+  use super::*;
+  #[test]
+  fn basic() {
+    let b = BoundingBox::new(Vec3::new(1.0, 1.0, 1.0), Vec3::zero());
+    let ray = Ray::new(Vec3::zero(), Vec3::new(1.0, 0.0, 0.0));
+    assert_eq!(false, b.hit_naive(&ray, 0.0, 1.0));
+    let ray = Ray::new(Vec3::zero(), Vec3::new(1.0, 1.0, 0.0));
+    assert_eq!(false, b.hit_naive(&ray, 0.0, 1.0));
+    let ray = Ray::new(Vec3::zero(), Vec3::new(1.0, 1.0, 1.0));
+    assert_eq!(true, b.hit_naive(&ray, 0.0, 1.0));
+    let ray = Ray::new(Vec3::new(1.0, 1.0, 1.0), Vec3::new(1.0, 1.0, 1.0));
+    assert_eq!(true, b.hit_naive(&ray, 0.0, 1.0));
+    let ray = Ray::new(Vec3::new(0.5, 0.5, 0.5), Vec3::new(1.0, 1.0, 1.0));
+    assert_eq!(true, b.hit_naive(&ray, 0.0, 1.0));
+    let ray = Ray::new(Vec3::new(0.5, 0.5, 0.5), -Vec3::new(1.0, 1.0, 1.0));
+    assert_eq!(true, b.hit_naive(&ray, 0.0, 1.0));
+    let ray = Ray::new(Vec3::new(2.0, 2.0, 2.0), Vec3::new(1.0, 1.0, 1.0));
+    assert_eq!(false, b.hit_naive(&ray, 0.0, 1.0));
   }
 }
