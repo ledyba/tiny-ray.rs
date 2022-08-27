@@ -1,3 +1,4 @@
+use crate::render::entity::volume_tree::BoundingBox;
 use crate::render::ray::Ray;
 
 use super::{Entity, HitRecord};

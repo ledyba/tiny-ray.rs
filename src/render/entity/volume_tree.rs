@@ -33,15 +33,20 @@ impl Entity for VolumeTree {
     if !self.bounding_box.hit(ray, t_min, t_max) {
       return None;
     }
-    let hit = None;
-    let far = t_max;
-    if let Some(b) = self.left.bounding_box() {
-
+    let mut result = None;
+    let mut far = t_max;
+    if let Some(hit) = self.left.hit(ray, t_min, far) {
+      far = hit.t;
+      result = Some(hit);
     }
-    hit
+    if let Some(hit) = self.right.hit(ray, t_min, far) {
+      far = hit.t;
+      result = Some(hit);
+    }
+    result
   }
 
   fn bounding_box(&self) -> Option<BoundingBox> {
-    Some(self.bounding_box)
+    Some(self.bounding_box.clone())
   }
 }

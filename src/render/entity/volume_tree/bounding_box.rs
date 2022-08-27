@@ -1,6 +1,7 @@
 use crate::render::ray::Ray;
 use crate::util::math::Vec3;
 
+#[derive(Debug, Clone)]
 pub struct BoundingBox {
   min: Vec3,
   max: Vec3,
