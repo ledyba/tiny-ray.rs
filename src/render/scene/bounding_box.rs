@@ -24,9 +24,6 @@ impl BoundingBox {
       ),
     }
   }
-  pub fn zero() -> Self {
-    Self::new(Vec3::zero(),Vec3::zero())
-  }
   pub fn min(&self) -> Vec3 {
     self.min
   }
@@ -110,5 +107,15 @@ mod test {
     assert_eq!(true, b.hit_naive(&ray, 0.0, 1.0));
     let ray = Ray::new(Vec3::new(2.0, 2.0, 2.0), Vec3::new(1.0, 1.0, 1.0));
     assert_eq!(false, b.hit_naive(&ray, 0.0, 1.0));
+  }
+
+  #[test]
+  fn surrounding() {
+    let b = BoundingBox::new(Vec3::zero(), Vec3::zero());
+    assert_eq!(Vec3::zero(), b.min);
+    assert_eq!(Vec3::zero(), b.max);
+    let b = b.surrounding_with(&BoundingBox::new(Vec3::new(1.0, 1.0, 1.0), Vec3::zero()));
+    assert_eq!(Vec3::zero(), b.min);
+    assert_eq!(Vec3::new(1.0, 1.0, 1.0), b.max);
   }
 }
