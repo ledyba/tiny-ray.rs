@@ -40,12 +40,12 @@ impl Renderer {
         let x = (x as f32 + rand::random::<f32>()) / width;
         let y = (y as f32 + rand::random::<f32>()) / height;
         let ray = self.camera.ray_at(x, y);
-        sum += self.ray_trace(&ray, 50)
+        sum += self.trace_ray(&ray, 50)
       }
       sum / (num_rays as f32)
     })
   }
-  pub fn ray_trace(&self, ray: &Ray, left: usize) -> LinSrgb {
+  pub fn trace_ray(&self, ray: &Ray, left: usize) -> LinSrgb {
     if left == 0 {
       return LinSrgb::new(0.0, 0.0, 0.0);
     }
@@ -56,7 +56,7 @@ impl Renderer {
           scattering,
           attenuation,
         } => {
-          return self.ray_trace(&scattering, left - 1).multiply(attenuation);
+          return self.trace_ray(&scattering, left - 1).multiply(attenuation);
         },
         material::Response::Absorption => {
           LinSrgb::new(0.0, 0.0, 0.0)
