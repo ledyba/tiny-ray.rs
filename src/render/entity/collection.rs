@@ -1,10 +1,9 @@
-use crate::render::entity::volume_tree::BoundingBox;
 use crate::render::ray::Ray;
 
 use super::{Entity, HitRecord};
 
 pub struct EntityCollection {
-  entities: Vec<Box<dyn Entity>>
+  entities: Vec<Box<dyn Entity>>,
 }
 
 impl EntityCollection {
