@@ -32,7 +32,7 @@ impl super::Material for Dielectric {
     } else {
       self.refractive_index
     };
-    let cos = f32::min(dir * (-hit.normal), 1.0);
+    let cos = f32::min(dir.dot(-hit.normal), 1.0);
     let sin = (1.0 - cos*cos).sqrt();
     if (theta * sin) > 1.0 || rand::random::<f32>() < schlick(cos, theta) {
       let reflect = physics::reflect(ray.direction(), hit.normal);

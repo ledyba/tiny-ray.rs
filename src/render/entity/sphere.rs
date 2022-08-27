@@ -28,9 +28,9 @@ impl Sphere {
 
 impl Entity for Sphere {
   fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
-    let a = ray.direction() * ray.direction();
-    let b = 2.0 * ray.direction() * (ray.origin() - self.center);
-    let c = (ray.origin() - self.center) * (ray.origin() - self.center) - self.radius * self.radius;
+    let a = ray.direction().dot(ray.direction());
+    let b = 2.0 * ray.direction().dot(ray.origin() - self.center);
+    let c = (ray.origin() - self.center).dot(ray.origin() - self.center) - self.radius * self.radius;
     let discriminant = b * b  - 4.0 * a * c;
     if discriminant < 0.0 {
       return None;
@@ -43,7 +43,7 @@ impl Entity for Sphere {
       if t_min <= t && t <= t_max {
         let point = ray.at(t);
         let normal = (point - self.center) / self.radius;
-        let at_front_face = ray.direction() * normal < 0.0;
+        let at_front_face = ray.direction().dot(normal) < 0.0;
         return if at_front_face {
           Some(HitRecord {
             t,

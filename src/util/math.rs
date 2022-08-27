@@ -26,7 +26,7 @@ impl Vec3 {
     *self / self.length()
   }
   pub fn dot(&self, other: Self) -> f32 {
-    *self * other
+    self.x * other.x + self.y * other.y + self.y * other.y
   }
   pub fn cross(&self, other: Self) -> Self {
     Self::new(
@@ -86,13 +86,6 @@ impl std::ops::Neg for Vec3 {
       y: -self.y,
       z: -self.z,
     }
-  }
-}
-impl std::ops::Mul for Vec3 {
-  type Output = f32;
-
-  fn mul(self, rhs: Self) -> Self::Output {
-    self.x * rhs.x + self.y * rhs.y + self.z * rhs.z
   }
 }
 
