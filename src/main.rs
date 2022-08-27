@@ -13,7 +13,7 @@ fn app() -> clap::App<'static> {
       .action(ArgAction::Count)
       .takes_value(false))
     .arg(Arg::new("SCENE")
-      .possible_values(["spheres"])
+      .possible_values(["spheres", "many-spheres"])
       .required(true)
       .multiple_values(false)
       .index(1))
@@ -58,13 +58,15 @@ fn main() -> anyhow::Result<()> {
   let scene =
     match m.get_one::<String>("SCENE").map(|it| it.as_str()) {
       Some("spheres") => scene::spheres(&canvas),
+      Some("many-spheres") => scene::many_spheres(&canvas),
       _ => unreachable!(),
     };
   let engine = Renderer::new(scene);
 
   info!("Rendering...");
+  let beg = std::time::Instant::now();
   engine.render(&mut canvas, 64);
-  info!("Done.");
+  info!("Done in {:.2} sec.", beg.elapsed().as_secs_f32());
 
   canvas.save("output.png")?;
   Ok(())

@@ -10,13 +10,16 @@ use crate::util::math::Vec3;
 
 pub fn spheres(canvas: &Image) -> Scene {
   let mut scene = Scene::new();
-  let lambert = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)));
-  scene.push(
-    entity::Sphere::new(Vec3::new(0.0, -100.5, 0.0), 100.0, lambert.clone())
-  );
-  scene.push(
-    entity::Sphere::new(Vec3::new(0.0, 0.0, 0.0), 0.5, lambert.clone())
-  );
+  scene.push(entity::Sphere::new(
+    Vec3::new(0.0, -100.5, 0.0),
+    100.0,
+    Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5))),
+  ));
+  scene.push(entity::Sphere::new(
+    Vec3::new(0.0, 0.0, 0.0),
+    0.5,
+    Arc::new(material::Lambert::new(LinSrgb::new(0.2, 0.7, 0.3))),
+  ));
   scene.push(
     entity::Sphere::new(
       Vec3::new(-1.2, 0.0, 0.0), 0.5,
