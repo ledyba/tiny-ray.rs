@@ -1,12 +1,18 @@
 # Tiny ray-tracing engine
 
-![Current status](./current.png)
+![Spheres](./samples/spheres.png)
+
+![Many Spheres](./samples/many-spheres.png)
 
 # How to run
 
 ```shell
-cargo run --release
+cargo run --release SCENE
 ```
+
+Available scenes:
+  - `spheres`
+  - `many-spheres`
 
 # References
 
