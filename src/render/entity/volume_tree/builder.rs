@@ -1,6 +1,6 @@
 use crate::render::Entity;
 use crate::render::entity::collection::EntityCollection;
-use crate::render::entity::volume_tree::{BoundingBox, VolumeTree};
+use crate::render::entity::volume_tree::{BoundingBox, VolumeTree, VolumeTreeLeaf};
 
 pub struct VolumeTreeBuilder {
   entities: Vec<(Box<dyn Entity>, Option<BoundingBox>)>,
@@ -34,13 +34,21 @@ impl VolumeTreeBuilder {
       return Box::new(EntityCollection::new());
     }
     if self.entities.len() == 1 {
-      return self.entities.remove(0).0;
+      let (e, b) = self.entities.remove(0);
+      let b = b.expect("No bounding box");
+      return Box::new(VolumeTreeLeaf::new(e, b));
     }
     if self.entities.len() == 2 {
       let (e1, b1) = self.entities.remove(0);
       let (e2, b2) = self.entities.remove(0);
-      let b = BoundingBox::sum(b1, b2).expect("No bounding box");
-      return Box::new(VolumeTree::new(e1, e2, b));
+      let b1 = b1.expect("No bounding box");
+      let b2 = b2.expect("No bounding box");
+      let b = b1.clone().surrounding_with(&b2);
+      return Box::new(VolumeTree::new(
+        Box::new(VolumeTreeLeaf::new(e1, b1)),
+        Box::new(VolumeTreeLeaf::new(e2, b2)),
+        b
+      ));
     }
     match rand::random::<usize>() % 3 {
       0 => {

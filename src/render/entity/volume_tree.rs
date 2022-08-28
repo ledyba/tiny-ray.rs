@@ -50,3 +50,33 @@ impl Entity for VolumeTree {
     Some(self.bounding_box.clone())
   }
 }
+
+pub struct VolumeTreeLeaf {
+  entity: Box<dyn Entity>,
+  bounding_box: BoundingBox,
+}
+
+impl VolumeTreeLeaf {
+  fn new(
+    entity: Box<dyn Entity>,
+    bounding_box: BoundingBox,
+  ) -> Self {
+    Self {
+      entity,
+      bounding_box,
+    }
+  }
+}
+
+impl Entity for VolumeTreeLeaf {
+  fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
+    if !self.bounding_box.hit(ray, t_min, t_max) {
+      return None;
+    }
+    self.entity.hit(ray, t_min, t_max)
+  }
+
+  fn calc_bounding_box(&self) -> Option<BoundingBox> {
+    Some(self.bounding_box.clone())
+  }
+}
