@@ -31,16 +31,11 @@ impl Entity for EntityCollection {
     result
   }
 
-  fn bounding_box(&self) -> Option<BoundingBox> {
+  fn calc_bounding_box(&self) -> Option<BoundingBox> {
     let mut b: Option<BoundingBox> = None;
     for entity in &self.entities {
-      let a = entity.bounding_box();
-      b = match (a, b) {
-        (None, None) => None,
-        (Some(a), None) => Some(a),
-        (None, Some(b)) => Some(b),
-        (Some(a), Some(b)) => Some(b.surrounding_with(&a)),
-      };
+      let a = entity.calc_bounding_box();
+      b = BoundingBox::sum(a, b);
     }
     b
   }

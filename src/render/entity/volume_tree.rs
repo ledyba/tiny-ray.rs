@@ -15,7 +15,7 @@ pub struct VolumeTree {
 }
 
 impl VolumeTree {
-  pub fn new(
+  fn new(
     left: Box<dyn Entity>,
     right: Box<dyn Entity>,
     bounding_box: BoundingBox,
@@ -46,7 +46,7 @@ impl Entity for VolumeTree {
     result
   }
 
-  fn bounding_box(&self) -> Option<BoundingBox> {
+  fn calc_bounding_box(&self) -> Option<BoundingBox> {
     Some(self.bounding_box.clone())
   }
 }

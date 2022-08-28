@@ -67,7 +67,7 @@ impl Entity for Sphere {
     None
   }
 
-  fn bounding_box(&self) -> Option<BoundingBox> {
+  fn calc_bounding_box(&self) -> Option<BoundingBox> {
     Some(BoundingBox::new(
       self.center - Vec3::new(self.radius, self.radius, self.radius),
       self.center + Vec3::new(self.radius, self.radius, self.radius),

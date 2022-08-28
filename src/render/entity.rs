@@ -21,5 +21,5 @@ pub struct HitRecord {
 
 pub trait Entity: Send + Sync {
   fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord>;
-  fn bounding_box(&self) -> Option<BoundingBox>;
+  fn calc_bounding_box(&self) -> Option<BoundingBox>;
 }

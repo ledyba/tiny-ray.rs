@@ -31,6 +31,9 @@ impl BoundingBox {
   pub fn max(&self) -> Vec3 {
     self.max
   }
+  pub fn center(&self) -> Vec3 {
+    (self.max + self.min) / 2.0
+  }
   pub fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> bool {
     self.hit_naive(ray, t_min, t_max)
   }
@@ -84,6 +87,14 @@ impl BoundingBox {
         f32::max(self.max.y, b.max.y),
         f32::max(self.max.z, b.max.z),
       ),
+    }
+  }
+  pub fn sum(a: Option<BoundingBox>, b: Option<BoundingBox>) -> Option<BoundingBox> {
+    match (a, b) {
+      (None, None) => None,
+      (Some(a), None) => Some(a),
+      (None, Some(b)) => Some(b),
+      (Some(a), Some(b)) => Some(b.surrounding_with(&a)),
     }
   }
 }
