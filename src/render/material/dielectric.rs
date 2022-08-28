@@ -1,7 +1,7 @@
 use palette::LinSrgb;
 
 use crate::render::entity::HitRecord;
-use crate::render::material::Response;
+use crate::render::material::{Response, ResponseBuilder, Scattering};
 use crate::render::ray::Ray;
 use crate::util::physics;
 
@@ -36,17 +36,21 @@ impl super::Material for Dielectric {
     let sin = (1.0 - cos*cos).sqrt();
     if (theta * sin) > 1.0 || rand::random::<f32>() < schlick(cos, theta) {
       let reflect = physics::reflect(ray.direction(), hit.normal);
-      Response::Scattering {
-        scattering: Ray::new(hit.point, reflect),
-        attenuation: LinSrgb::new(1.0, 1.0, 1.0),
-      }
+      Response::builder()
+        .scatter(
+          Ray::new(hit.point, reflect),
+          LinSrgb::new(1.0, 1.0, 1.0),
+        )
+        .build()
     } else {
       let horizontal = theta * (dir + cos * hit.normal);
       let vertical = -(1.0 - f32::min(horizontal.length_squared(), 1.0)).sqrt() * hit.normal;
-      Response::Scattering {
-        scattering: Ray::new(hit.point, horizontal + vertical),
-        attenuation: LinSrgb::new(1.0, 1.0, 1.0),
-      }
+      Response::builder()
+        .scatter(
+          Ray::new(hit.point, horizontal + vertical),
+          LinSrgb::new(1.0, 1.0, 1.0),
+        )
+        .build()
     }
   }
 }

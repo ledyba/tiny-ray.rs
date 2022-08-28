@@ -27,9 +27,11 @@ impl super::Material for Metal {
   fn hit(&self, ray: &Ray, hit: &HitRecord) -> Response {
     let reflect = physics::reflect(ray.direction(), hit.normal);
     let scattering = Ray::new(hit.point, reflect + math::random_direction(self.fuzz));
-    Response::Scattering {
-      scattering,
-      attenuation: self.albedo,
-    }
+    Response::builder()
+      .scatter(
+        scattering,
+        self.albedo,
+      )
+      .build()
   }
 }

@@ -1,7 +1,7 @@
 use palette::LinSrgb;
 
 use crate::render::entity::HitRecord;
-use crate::render::material::Response;
+use crate::render::material::{Response, ResponseBuilder, Scattering};
 use crate::render::ray::Ray;
 use crate::util::math;
 
@@ -20,9 +20,11 @@ impl Lambert {
 impl super::Material for Lambert {
   fn hit(&self, _ray: &Ray, hit: &HitRecord) -> Response {
     let direction = hit.normal + math::random_direction(1.0);
-    return Response::Scattering {
-      scattering: Ray::new(hit.point, direction),
-      attenuation: self.albedo,
-    };
+    Response::builder()
+      .scatter(
+        Ray::new(hit.point, direction),
+        self.albedo,
+      )
+      .build()
   }
 }

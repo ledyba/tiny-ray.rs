@@ -48,17 +48,16 @@ impl Renderer {
     }
     if let Some(hit) = self.world.hit(ray, 0.001, f32::MAX) {
       let resp = hit.material.hit(ray, &hit);
-      return match resp {
-        material::Response::Scattering {
-          scattering,
-          attenuation,
-        } => {
-          return self.trace_ray(&scattering, left - 1).multiply(attenuation);
-        },
-        material::Response::Absorption => {
-          LinSrgb::new(0.0, 0.0, 0.0)
-        },
-      };
+      let mut color = LinSrgb::new(0.0, 0.0, 0.0);
+      if let Some(emission) = resp.emission() {
+        color += emission;
+      }
+      if let Some(scattering) = resp.scattering() {
+        color += self
+          .trace_ray(scattering.direction(), left - 1)
+          .multiply(scattering.attenuation());
+      }
+      return color;
     }
     self.sky_box(ray)
   }
