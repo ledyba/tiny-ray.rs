@@ -8,6 +8,9 @@ pub use builder::VolumeTreeBuilder;
 use crate::render::entity::HitRecord;
 use crate::render::ray::Ray;
 
+/**
+ *
+ */
 pub struct VolumeTree {
   left: Box<dyn Entity>,
   right: Box<dyn Entity>,
@@ -51,6 +54,9 @@ impl Entity for VolumeTree {
   }
 }
 
+/**
+ *
+ */
 pub struct VolumeTreeLeaf {
   entity: Box<dyn Entity>,
   bounding_box: BoundingBox,
