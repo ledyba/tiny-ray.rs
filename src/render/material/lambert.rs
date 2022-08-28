@@ -1,7 +1,7 @@
 use palette::LinSrgb;
 
 use crate::render::entity::HitRecord;
-use crate::render::material::{Response, ResponseBuilder, Scattering};
+use crate::render::material::{Response, Scattering};
 use crate::render::ray::Ray;
 use crate::util::math;
 
