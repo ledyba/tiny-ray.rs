@@ -9,7 +9,7 @@ use crate::util::math::Vec3;
 
 mod sphere;
 pub mod collection;
-mod volume_tree;
+pub mod volume_tree;
 
 pub struct HitRecord {
   pub t: f32,

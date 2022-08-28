@@ -26,6 +26,7 @@ impl VolumeTreeBuilder {
   }
   pub fn push(&mut self, entity: impl Entity + 'static) {
     let bounding_box = entity.calc_bounding_box();
+    self.bounding_box = BoundingBox::sum(self.bounding_box.clone(), bounding_box.clone());
     self.entities.push((Box::new(entity), bounding_box));
   }
   pub fn build(mut self) -> Box<dyn Entity> {

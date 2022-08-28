@@ -1,17 +1,17 @@
 use crate::render::camera::{Camera, CameraBuilder};
-use crate::render::entity::collection::EntityCollection;
 use crate::render::entity::Entity;
+use crate::render::entity::volume_tree::VolumeTreeBuilder;
 
 pub struct Scene {
   camera: CameraBuilder,
-  collection: EntityCollection,
+  collection: VolumeTreeBuilder,
 }
 
 impl Scene {
   pub fn new() -> Self {
     Self {
       camera: CameraBuilder::new(),
-      collection: EntityCollection::new()
+      collection: VolumeTreeBuilder::new()
     }
   }
   pub fn camera(&mut self) -> &mut CameraBuilder {
@@ -23,7 +23,7 @@ impl Scene {
   pub fn build(self) -> (Camera, Box<dyn Entity>) {
     (
       self.camera.build(),
-      Box::new(self.collection),
+      self.collection.build(),
     )
   }
 }
