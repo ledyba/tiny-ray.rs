@@ -1,3 +1,5 @@
+mod quaternion;
+
 #[derive(Debug, Copy, Clone, PartialEq, Default)]
 pub struct Vec3 {
   pub x: f32,
