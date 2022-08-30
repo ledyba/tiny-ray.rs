@@ -1,12 +1,12 @@
 pub use bounding_box::BoundingBox;
+pub use builder::VolumeTreeBuilder;
 
 use crate::render::Entity;
+use crate::render::entity::HitRecord;
+use crate::render::ray::Ray;
 
 mod bounding_box;
 mod builder;
-pub use builder::VolumeTreeBuilder;
-use crate::render::entity::HitRecord;
-use crate::render::ray::Ray;
 
 /**
  *

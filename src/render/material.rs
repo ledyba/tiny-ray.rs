@@ -30,6 +30,7 @@ impl Response {
 
 mod builder {
   use super::*;
+
   pub struct Builder {
     scattering: Option<Scattering>,
     emission: Option<LinSrgb>,
