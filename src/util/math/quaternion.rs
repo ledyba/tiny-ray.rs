@@ -70,4 +70,13 @@ mod test {
     let r = q.rotate(v).normalized(); // FIXME: Float....
     assert_eq!(Vec3::new(0.0, 1.0, 0.0), r);
   }
+
+  #[test]
+  fn inverse() {
+    let v = Vec3::new(1.0, 0.0, 0.0);
+    let q = Quaternion::from_angle_axis(90.0, Vec3::new(0.0, 0.0, 1.0));
+    let r = q.rotate(v).normalized(); // FIXME: Float....
+    let r = q.inverse().rotate(r).normalized(); // FIXME: Float....
+    assert_eq!(Vec3::new(1.0, 0.0, 0.0), r);
+  }
 }
