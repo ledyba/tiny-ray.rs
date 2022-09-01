@@ -40,8 +40,7 @@ fn setup_logger(level: log::LevelFilter) -> Result<(), fern::InitError> {
 fn main() -> anyhow::Result<()> {
   use log::{info, debug};
   use util::img::Image;
-  use util::math::Vec3;
-  use render::{Camera, Renderer};
+  use render::Renderer;
 
   let m = app().get_matches();
   let log_level = match m.get_one::<u8>("verbose") {

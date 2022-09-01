@@ -62,6 +62,7 @@ impl std::ops::Mul for Quaternion {
 #[cfg(test)]
 mod test {
   use super::*;
+
   #[test]
   fn basic() {
     let v = Vec3::new(1.0, 0.0, 0.0);

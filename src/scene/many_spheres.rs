@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use palette::LinSrgb;
 
-use crate::render::{Camera, Entity, Scene};
+use crate::render::Scene;
 use crate::render::entity;
 use crate::render::material;
 use crate::render::material::Material;
@@ -55,7 +55,7 @@ pub fn many_spheres(canvas: &Image) -> Scene {
     ));
   }
 
-  let mut camera = scene.camera();
+  let camera = scene.camera();
   camera
     .look_from(Vec3::new(0.1, 0.5, -3.0))
     .look_at(Vec3::new(0.0, 0.75, -2.0))

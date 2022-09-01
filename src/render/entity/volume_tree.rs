@@ -43,7 +43,7 @@ impl Entity for VolumeTree {
       result = Some(hit);
     }
     if let Some(hit) = self.right.hit(ray, t_min, far) {
-      far = hit.t;
+      //far = hit.t;
       result = Some(hit);
     }
     result

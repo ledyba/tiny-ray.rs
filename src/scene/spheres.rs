@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use palette::LinSrgb;
 
-use crate::render::{Camera, Entity, Scene};
+use crate::render::Scene;
 use crate::render::entity;
 use crate::render::material;
 use crate::util::img::Image;
@@ -36,7 +36,7 @@ pub fn spheres(canvas: &Image) -> Scene {
       Arc::new(material::Dielectric::new(1.5)))
   );
 
-  let mut camera = scene.camera();
+  let camera = scene.camera();
   camera
     .look_from(Vec3::new(3.0, 2.0, 1.0))
     .look_at(Vec3::new(0.0, 0.0, 0.0))
