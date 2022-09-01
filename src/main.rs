@@ -2,6 +2,7 @@ mod render;
 mod util;
 mod scene;
 
+
 fn app() -> clap::App<'static> {
   use clap::{App, Arg, ArgAction};
   App::new("tiny-ray")
@@ -65,7 +66,7 @@ fn main() -> anyhow::Result<()> {
 
   info!("Rendering...");
   let beg = std::time::Instant::now();
-  engine.render(&mut canvas, 64);
+  engine.render(&mut canvas, 2048);
   info!("Done in {:.2} sec.", beg.elapsed().as_secs_f32());
 
   canvas.save("output.png")?;

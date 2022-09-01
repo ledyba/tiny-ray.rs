@@ -1,6 +1,6 @@
 # Tiny ray-tracing engine
 
-![Spheres](./samples/spheres.png)
+![Lighted Spheres](./samples/lighted-spheres.png)
 
 ![Many Spheres](./samples/many-spheres.png)
 
@@ -13,6 +13,7 @@ cargo run --release SCENE
 Available scenes:
   - `spheres`
   - `many-spheres`
+  - `lighted-spheres`
 
 # References
 
