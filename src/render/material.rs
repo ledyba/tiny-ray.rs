@@ -1,15 +1,17 @@
 use palette::LinSrgb;
 
 pub use dielectric::Dielectric;
+pub use diffuse_light::DiffuseLight;
 pub use lambert::Lambert;
 pub use metal::Metal;
 
 use crate::render::entity::HitRecord;
 use crate::render::ray::Ray;
 
+mod dielectric;
+mod diffuse_light;
 mod lambert;
 mod metal;
-mod dielectric;
 
 pub struct Response {
   scattering: Option<Scattering>,

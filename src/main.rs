@@ -13,7 +13,7 @@ fn app() -> clap::App<'static> {
       .action(ArgAction::Count)
       .takes_value(false))
     .arg(Arg::new("SCENE")
-      .possible_values(["spheres", "many-spheres"])
+      .possible_values(["spheres", "many-spheres", "lighted-spheres"])
       .required(true)
       .multiple_values(false)
       .index(1))
@@ -58,6 +58,7 @@ fn main() -> anyhow::Result<()> {
     match m.get_one::<String>("SCENE").map(|it| it.as_str()) {
       Some("spheres") => scene::spheres(&canvas),
       Some("many-spheres") => scene::many_spheres(&canvas),
+      Some("lighted-spheres") => scene::lighted_spheres(&canvas),
       _ => unreachable!(),
     };
   let engine = Renderer::new(scene);
