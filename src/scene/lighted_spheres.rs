@@ -39,7 +39,7 @@ pub fn lighted_spheres(canvas: &Image) -> Scene {
 
   // light
   scene.push(entity::Sphere::new(
-    Vec3::new(0.0, 2.0, 0.0),
+    Vec3::new(0.5, 2.0, -0.5),
     0.5,
     Arc::new(material::DiffuseLight::new(LinSrgb::new(4.0, 4.0, 4.0))),
   ));
