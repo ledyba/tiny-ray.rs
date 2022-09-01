@@ -30,13 +30,15 @@ impl Cuboid {
     }
   }
   fn hit_x(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
-    let t_plus = ((self.center.x + self.half_width) - ray.origin().x) / ray.direction().x;
-    let t_minus = ((self.center.x - self.half_width) - ray.origin().x) / ray.direction().x;
-    let t = if t_minus < t_plus {
-      t_minus
-    } else {
-      t_plus
-    };
+    let t1 = ((self.center.x + self.half_width) - ray.origin().x) / ray.direction().x;
+    let t0 = ((self.center.x - self.half_width) - ray.origin().x) / ray.direction().x;
+    let mut t = f32::NAN;
+    if t_min <= t0 && t0 <= t_max {
+      t = t_max;
+    }
+    if t_min <= t1 && t1 <= t_max && t1 <= t {
+      t = t1;
+    }
     if !(t_min <= t && t <= t_max) {
       return None;
     }
@@ -47,7 +49,7 @@ impl Cuboid {
     if !hit {
       return None;
     }
-    let normal = if t == t_plus {
+    let normal = if t == t1 {
       Vec3::new(-1.0, 0.0, 0.0)
     } else {
       Vec3::new(1.0, 0.0, 0.0)
@@ -62,13 +64,15 @@ impl Cuboid {
   }
 
   fn hit_y(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
-    let t_plus = ((self.center.y + self.half_height) - ray.origin().y) / ray.direction().y;
-    let t_minus = ((self.center.y - self.half_height) - ray.origin().y) / ray.direction().y;
-    let t = if t_minus < t_plus {
-      t_minus
-    } else {
-      t_plus
-    };
+    let t0 = ((self.center.y - self.half_height) - ray.origin().y) / ray.direction().y;
+    let t1 = ((self.center.y + self.half_height) - ray.origin().y) / ray.direction().y;
+    let mut t = f32::NAN;
+    if t_min <= t0 && t0 <= t_max {
+      t = t_max;
+    }
+    if t_min <= t1 && t1 <= t_max && t1 <= t {
+      t = t1;
+    }
     if !(t_min <= t && t <= t_max) {
       return None;
     }
@@ -79,7 +83,7 @@ impl Cuboid {
     if !hit {
       return None;
     }
-    let normal = if t == t_plus {
+    let normal = if t == t1 {
       Vec3::new(0.0, -1.0, 0.0)
     } else {
       Vec3::new(0.0, 1.0, 0.0)
@@ -94,13 +98,15 @@ impl Cuboid {
   }
 
   fn hit_z(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
-    let t_plus = ((self.center.z + self.half_depth) - ray.origin().z) / ray.direction().z;
-    let t_minus = ((self.center.z - self.half_depth) - ray.origin().z) / ray.direction().z;
-    let t = if t_minus < t_plus {
-      t_minus
-    } else {
-      t_plus
-    };
+    let t0 = ((self.center.z - self.half_depth) - ray.origin().z) / ray.direction().z;
+    let t1 = ((self.center.z + self.half_depth) - ray.origin().z) / ray.direction().z;
+    let mut t = f32::NAN;
+    if t_min <= t0 && t0 <= t_max {
+      t = t_max;
+    }
+    if t_min <= t1 && t1 <= t_max && t1 <= t {
+      t = t1;
+    }
     if !(t_min <= t && t <= t_max) {
       return None;
     }
@@ -111,7 +117,7 @@ impl Cuboid {
     if !hit {
       return None;
     }
-    let normal = if t == t_plus {
+    let normal = if t == t1 {
       Vec3::new(0.0, 0.0, -1.0)
     } else {
       Vec3::new(0.0, 0.0, 1.0)
