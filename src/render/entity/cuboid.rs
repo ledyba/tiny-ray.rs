@@ -48,9 +48,9 @@ impl Cuboid {
       return None;
     }
     let normal = if t == t_plus {
-      Vec3::new(1.0, 0.0, 0.0)
-    } else {
       Vec3::new(-1.0, 0.0, 0.0)
+    } else {
+      Vec3::new(1.0, 0.0, 0.0)
     };
     Some(HitRecord {
       t,
@@ -80,9 +80,9 @@ impl Cuboid {
       return None;
     }
     let normal = if t == t_plus {
-      Vec3::new(0.0, 1.0, 0.0)
-    } else {
       Vec3::new(0.0, -1.0, 0.0)
+    } else {
+      Vec3::new(0.0, 1.0, 0.0)
     };
     Some(HitRecord {
       t,
@@ -112,9 +112,9 @@ impl Cuboid {
       return None;
     }
     let normal = if t == t_plus {
-      Vec3::new(0.0, 0.0, 1.0)
-    } else {
       Vec3::new(0.0, 0.0, -1.0)
+    } else {
+      Vec3::new(0.0, 0.0, 1.0)
     };
     Some(HitRecord {
       t,
