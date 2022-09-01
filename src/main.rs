@@ -2,8 +2,13 @@ mod render;
 mod util;
 mod scene;
 
-
 fn app() -> clap::App<'static> {
+  let scenes = [
+    "spheres",
+    "many-spheres",
+    "lighted-spheres",
+  ];
+
   use clap::{App, Arg, ArgAction};
   App::new("tiny-ray")
     .bin_name("tiny-ray")
@@ -14,7 +19,7 @@ fn app() -> clap::App<'static> {
       .action(ArgAction::Count)
       .takes_value(false))
     .arg(Arg::new("SCENE")
-      .possible_values(["spheres", "many-spheres", "lighted-spheres"])
+      .possible_values(scenes)
       .required(true)
       .multiple_values(false)
       .index(1))
