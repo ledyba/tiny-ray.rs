@@ -7,13 +7,11 @@
 # How to run
 
 ```shell
-cargo run --release SCENE
+cargo run --release spheres
+cargo run --release many-spheres
+cargo run --release lighted-spheres
+cargo run --release lighted-spheres
 ```
-
-Available scenes:
-  - `spheres`
-  - `many-spheres`
-  - `lighted-spheres`
 
 # References
 
