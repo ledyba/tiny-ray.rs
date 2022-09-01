@@ -30,7 +30,7 @@ impl Quaternion {
     }
   }
   pub fn rotate(&self, v: Vec3) -> Vec3 {
-    let q = self.mul(Self::from_vec(v)).mul(self.inverse());
+    let q = (*self) * Self::from_vec(v) * self.inverse();
     Vec3::new(
       q.x,
       q.y,
@@ -56,5 +56,17 @@ impl std::ops::Mul for Quaternion {
       z: (self.x * rhs.y) - (self.y * rhs.x) + (self.z * rhs.w) + (self.w * rhs.z),
       w: -(self.x * rhs.x) - (self.y * rhs.y) - (self.z * rhs.z) + (self.w * rhs.w),
     }
+  }
+}
+
+#[cfg(test)]
+mod test {
+  use super::*;
+  #[test]
+  fn basic() {
+    let v = Vec3::new(1.0, 0.0, 0.0);
+    let q = Quaternion::from_angle_axis(90.0, Vec3::new(0.0, 0.0, 1.0));
+    let r = q.rotate(v).normalized(); // FIXME: Float....
+    assert_eq!(Vec3::new(0.0, 1.0, 0.0), r);
   }
 }
