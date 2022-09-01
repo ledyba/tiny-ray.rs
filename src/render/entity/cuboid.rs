@@ -34,7 +34,7 @@ impl Cuboid {
     let t0 = ((self.center.x - self.half_width) - ray.origin().x) / ray.direction().x;
     let mut t = f32::NAN;
     if t_min <= t0 && t0 <= t_max {
-      t = t_max;
+      t = t0;
     }
     if t_min <= t1 && t1 <= t_max && t1 <= t {
       t = t1;
@@ -68,7 +68,7 @@ impl Cuboid {
     let t1 = ((self.center.y + self.half_height) - ray.origin().y) / ray.direction().y;
     let mut t = f32::NAN;
     if t_min <= t0 && t0 <= t_max {
-      t = t_max;
+      t = t0;
     }
     if t_min <= t1 && t1 <= t_max && t1 <= t {
       t = t1;
@@ -102,7 +102,7 @@ impl Cuboid {
     let t1 = ((self.center.z + self.half_depth) - ray.origin().z) / ray.direction().z;
     let mut t = f32::NAN;
     if t_min <= t0 && t0 <= t_max {
-      t = t_max;
+      t = t0;
     }
     if t_min <= t1 && t1 <= t_max && t1 <= t {
       t = t1;
