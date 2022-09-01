@@ -10,7 +10,7 @@ fn app() -> clap::App<'static> {
     "cornell",
   ];
 
-  use clap::{App, Arg, ArgAction};
+  use clap::{App, Arg, ArgAction, ArgGroup, value_parser};
   App::new("tiny-ray")
     .bin_name("tiny-ray")
     .author("Kaede Fujisaki <kaede@hexe.net>")
@@ -18,7 +18,30 @@ fn app() -> clap::App<'static> {
       .long("verbose")
       .short('v')
       .action(ArgAction::Count)
-      .takes_value(false))
+      .takes_value(false)
+      .required(false))
+    .arg(Arg::new("num-rays")
+      .long("num-rays")
+      .value_parser(value_parser!(usize))
+      .default_value("64")
+      .takes_value(true)
+      .required(false))
+    .arg(Arg::new("width")
+      .long("width")
+      .short('w')
+      .value_parser(value_parser!(usize))
+      .default_value("1600")
+      .takes_value(true)
+      .required(false)
+      .requires("height"))
+    .arg(Arg::new("height")
+      .long("height")
+      .short('h')
+      .value_parser(value_parser!(usize))
+      .default_value("900")
+      .takes_value(true)
+      .required(false)
+      .requires("width"))
     .arg(Arg::new("SCENE")
       .possible_values(scenes)
       .required(true)
@@ -58,8 +81,11 @@ fn main() -> anyhow::Result<()> {
 
   setup_logger(log_level)?;
   debug!("Initialized.");
+  let width = *m.get_one::<usize>("width").expect("[BUG] No width");
+  let height = *m.get_one::<usize>("height").expect("[BUG] No height");
+  let num_rays = *m.get_one::<usize>("num-rays").expect("[BUG] No num-rays");
 
-  let mut canvas = Image::new(1600, 900);
+  let mut canvas = Image::new(width, height);
 
   let scene =
     match m.get_one::<String>("SCENE").map(|it| it.as_str()) {
@@ -73,8 +99,7 @@ fn main() -> anyhow::Result<()> {
 
   info!("Rendering...");
   let beg = std::time::Instant::now();
-  //engine.render(&mut canvas, 8192);
-  engine.render(&mut canvas, 64);
+  engine.render(&mut canvas, num_rays);
   info!("Done in {:.2} sec.", beg.elapsed().as_secs_f32());
 
   canvas.save("output.png")?;
