@@ -5,6 +5,7 @@ use palette::LinSrgb;
 use crate::render::Scene;
 use crate::render::entity;
 use crate::render::material;
+use crate::render::sky_box;
 use crate::util::img::Image;
 use crate::util::math::Vec3;
 
@@ -18,7 +19,7 @@ pub fn spheres(canvas: &Image) -> Scene {
   scene.push(entity::Sphere::new(
     Vec3::new(0.0, 0.0, 0.0),
     0.5,
-    Arc::new(material::Lambert::new(LinSrgb::new(0.2, 0.7, 0.3))),
+    Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5))),
   ));
   scene.push(
     entity::Sphere::new(
@@ -44,6 +45,8 @@ pub fn spheres(canvas: &Image) -> Scene {
     .v_fov(45.0)
     .aspect_ratio(canvas.aspect_ratio())
     .aperture(0.0);
+
+  scene.sky_box(sky_box::BlueSky::new());
 
   scene
 }

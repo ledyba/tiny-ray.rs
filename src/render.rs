@@ -1,31 +1,34 @@
-use palette::{Blend, LinSrgb, Mix};
+use palette::{Blend, LinSrgb};
+use crate::util::img::Image;
 
 pub use camera::Camera;
 pub use entity::Entity;
 use ray::Ray;
 pub use scene::Scene;
-
-use crate::util::img::Image;
+pub use sky_box::SkyBox;
 
 mod ray;
 pub mod entity;
 pub mod material;
 mod camera;
 mod scene;
+pub mod sky_box;
 
 pub struct Renderer {
   camera: Camera,
   world: Box<dyn Entity>,
+  sky_box: Option<Box<dyn SkyBox>>,
 }
 
 impl Renderer {
   pub fn new(
     scene: Scene,
   ) -> Self {
-    let (camera, world) = scene.build();
+    let (camera, world, sky_box) = scene.build();
     Self {
       camera,
       world,
+      sky_box,
     }
   }
   pub fn render(&self, canvas: &mut Image, num_rays: usize) {
@@ -59,11 +62,10 @@ impl Renderer {
       }
       return color;
     }
-    self.sky_box(ray)
-  }
-  fn sky_box(&self, ray: &Ray) -> LinSrgb {
-    let t = 0.5 * (ray.direction().normalized().y + 1.0);
-    let blue = LinSrgb::new(0.25, 0.5, 1.0);
-    LinSrgb::new(1.0, 1.0, 1.0).mix(&blue, t.sqrt())
+    if let Some(sky_box) = &self.sky_box {
+      sky_box.from_ray(ray)
+    } else {
+      LinSrgb::new(0.0, 0.0, 0.0)
+    }
   }
 }

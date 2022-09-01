@@ -5,7 +5,7 @@ use palette::LinSrgb;
 use crate::render::Scene;
 use crate::render::entity;
 use crate::render::material;
-use crate::render::material::Material;
+use crate::render::sky_box;
 use crate::util::img::Image;
 use crate::util::math::Vec3;
 
@@ -21,7 +21,7 @@ pub fn many_spheres(canvas: &Image) -> Scene {
     Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.5, 0.5)))
   ));
   for _ in 0..100 {
-    let material: Arc<dyn Material> = match rng.gen::<u8>() % 3 {
+    let material: Arc<dyn material::Material> = match rng.gen::<u8>() % 3 {
       0 => {
         let albedo = LinSrgb::new(
           rng.gen_range(0.2..0.8),
@@ -63,6 +63,8 @@ pub fn many_spheres(canvas: &Image) -> Scene {
     .v_fov(60.0)
     .aspect_ratio(canvas.aspect_ratio())
     .aperture(0.0);
+
+  scene.sky_box(sky_box::BlueSky::new());
 
   scene
 }
