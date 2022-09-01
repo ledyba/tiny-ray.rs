@@ -36,10 +36,10 @@ impl Cuboid {
     if t_min <= t0 && t0 <= t_max {
       t = t0;
     }
-    if t_min <= t1 && t1 <= t_max && t1 <= t {
+    if t_min <= t1 && t1 < t {
       t = t1;
     }
-    if !(t_min <= t && t <= t_max) {
+    if t.is_nan() {
       return None;
     }
     let point = ray.at(t);
@@ -49,7 +49,7 @@ impl Cuboid {
     if !hit {
       return None;
     }
-    let normal = if t == t1 {
+    let normal = if t == t0 {
       Vec3::new(-1.0, 0.0, 0.0)
     } else {
       Vec3::new(1.0, 0.0, 0.0)
@@ -70,10 +70,10 @@ impl Cuboid {
     if t_min <= t0 && t0 <= t_max {
       t = t0;
     }
-    if t_min <= t1 && t1 <= t_max && t1 <= t {
+    if t_min <= t1 && t1 < t {
       t = t1;
     }
-    if !(t_min <= t && t <= t_max) {
+    if t.is_nan() {
       return None;
     }
     let point = ray.at(t);
@@ -83,7 +83,7 @@ impl Cuboid {
     if !hit {
       return None;
     }
-    let normal = if t == t1 {
+    let normal = if t == t0 {
       Vec3::new(0.0, -1.0, 0.0)
     } else {
       Vec3::new(0.0, 1.0, 0.0)
@@ -104,10 +104,10 @@ impl Cuboid {
     if t_min <= t0 && t0 <= t_max {
       t = t0;
     }
-    if t_min <= t1 && t1 <= t_max && t1 <= t {
+    if t_min <= t1 && t1 < t {
       t = t1;
     }
-    if !(t_min <= t && t <= t_max) {
+    if t.is_nan() {
       return None;
     }
     let point = ray.at(t);
@@ -117,7 +117,7 @@ impl Cuboid {
     if !hit {
       return None;
     }
-    let normal = if t == t1 {
+    let normal = if t == t0 {
       Vec3::new(0.0, 0.0, -1.0)
     } else {
       Vec3::new(0.0, 0.0, 1.0)
