@@ -1,15 +1,19 @@
 use std::sync::Arc;
 
 pub use sphere::Sphere;
+pub use cuboid::Cuboid;
+pub use collection::EntityCollection;
+pub use volume_tree::VolumeTreeBuilder;
 
 use crate::render::entity::volume_tree::BoundingBox;
 use crate::render::material::Material;
 use crate::render::ray::Ray;
 use crate::util::math::Vec3;
 
+mod collection;
+mod cuboid;
 mod sphere;
-pub mod collection;
-pub mod volume_tree;
+mod volume_tree;
 
 pub struct HitRecord {
   pub t: f32,

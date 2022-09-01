@@ -1,6 +1,6 @@
 use crate::render::camera::{Camera, CameraBuilder};
 use crate::render::entity::Entity;
-use crate::render::entity::volume_tree::VolumeTreeBuilder;
+use crate::render::entity::VolumeTreeBuilder;
 use crate::render::sky_box::SkyBox;
 
 pub struct Scene {
