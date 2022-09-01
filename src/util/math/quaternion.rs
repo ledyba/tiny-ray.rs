@@ -1,5 +1,6 @@
 use crate::util::math::Vec3;
 
+#[derive(Debug, Clone, Copy)]
 pub struct Quaternion {
   x: f32,
   y: f32,
@@ -44,7 +45,16 @@ impl Quaternion {
       w: self.w,
     }
   }
-  pub fn mul(&self, other: Self) -> Self {
-    todo!()
+}
+
+impl std::ops::Mul for Quaternion {
+  type Output = Quaternion;
+  fn mul(self, rhs: Self) -> Self::Output {
+    Self {
+      x: (self.x * rhs.w) + (self.y * rhs.z) - (self.z * rhs.y) + (self.w * rhs.x),
+      y: -(self.x * rhs.z) + (self.y * rhs.w) + (self.z * rhs.x) + (self.w * rhs.y),
+      z: (self.x * rhs.y) - (self.y * rhs.x) + (self.z * rhs.w) + (self.w * rhs.z),
+      w: -(self.x * rhs.x) - (self.y * rhs.y) - (self.z * rhs.z) + (self.w * rhs.w),
+    }
   }
 }
