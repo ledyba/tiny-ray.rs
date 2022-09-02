@@ -1,7 +1,7 @@
 use crate::render::entity::HitRecord;
 use crate::render::entity::volume_tree::BoundingBox;
 use crate::render::ray::Ray;
-use crate::util::math::Quaternion;
+use crate::util::math::{Quaternion, Vec3};
 
 pub struct Rotate {
   rotate: Quaternion,
@@ -43,9 +43,25 @@ impl super::Entity for Rotate {
     } else {
       return None;
     };
-    Some(BoundingBox::new(
-      self.rotate.rotate(original.min()),
-      self.rotate.rotate(original.max()),
-    ))
+    let origin = original.min();
+    let size = original.max() - original.min();
+    let points = vec![
+      self.rotate.rotate(origin + Vec3::new(size.x, 0.0, 0.0)),
+      self.rotate.rotate(origin + Vec3::new(0.0, size.y, 0.0)),
+      self.rotate.rotate(origin + Vec3::new(0.0, 0.0, size.z)),
+      self.rotate.rotate(origin + Vec3::new(0.0, size.y, size.z)),
+      self.rotate.rotate(origin + Vec3::new(size.x, 0.0, size.z)),
+      self.rotate.rotate(origin + Vec3::new(size.x, size.y, 0.0)),
+    ];
+    let fold = |init, g: &dyn Fn(f32, f32) -> f32| {
+      Vec3::new(
+        points.iter().map(|it| it.x).fold(init, g),
+        points.iter().map(|it| it.y).fold(init, g),
+        points.iter().map(|it| it.z).fold(init, g),
+      )
+    };
+    let a = fold(f32::MAX, &f32::min);
+    let b = fold(f32::MIN, &f32::max);
+    Some(BoundingBox::new(a,b))
   }
 }
