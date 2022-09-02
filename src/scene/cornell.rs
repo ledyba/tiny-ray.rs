@@ -93,15 +93,18 @@ pub fn cornell(canvas: &Image) -> Scene {
     332.0 - 227.0,
     Arc::clone(&light_material),
   ));
+
+  // Items
+
   scene.push(entity::Cuboid::new(
     Vec3::new(
       400.0,
       (400.0 / 2.0),
       (559.2 / 2.0) + 70.0,
     ),
-    150.0,
+    180.0,
     400.0,
-    60.0,
+    80.0,
     Arc::clone(&white_material),
   ));
 
@@ -119,10 +122,10 @@ pub fn cornell(canvas: &Image) -> Scene {
 
   let camera = scene.camera();
   camera
-    .look_from(Vec3::new(278.0,273.0, -665.0))
+    .look_from(Vec3::new(278.0,273.0, -760.0))
     .look_at(Vec3::new(278.0, 273.0, 0.0))
     .v_up(Vec3::new(0.0, 1.0, 0.0))
-    .v_fov(45.0)
+    .v_fov(40.0)
     .aspect_ratio(canvas.aspect_ratio())
     .aperture(0.0);
 

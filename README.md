@@ -7,10 +7,10 @@
 # How to run
 
 ```shell
-cargo run --release spheres
-cargo run --release many-spheres
-cargo run --release lighted-spheres
-cargo run --release lighted-spheres
+cargo run --release -- spheres
+cargo run --release -- many-spheres
+cargo run --release -- lighted-spheres
+cargo run --release -- --width 1600 --height 1600 --num-rays 8192 cornell
 ```
 
 # References
