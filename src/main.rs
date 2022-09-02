@@ -33,6 +33,12 @@ fn app() -> clap::App<'static> {
       .default_value("64")
       .takes_value(true)
       .required(false))
+    .arg(Arg::new("num-reflections")
+      .long("num-reflections")
+      .value_parser(value_parser!(usize))
+      .default_value("64")
+      .takes_value(true)
+      .required(false))
     .arg(Arg::new("width")
       .long("width")
       .short('w')
@@ -91,6 +97,7 @@ fn main() -> anyhow::Result<()> {
   let width = *m.get_one::<usize>("width").expect("[BUG] No width");
   let height = *m.get_one::<usize>("height").expect("[BUG] No height");
   let num_rays = *m.get_one::<usize>("num-rays").expect("[BUG] No num-rays");
+  let num_reflections = *m.get_one::<usize>("num-reflections").expect("[BUG] No num-reflections");
   let output_path = m.get_one::<String>("output").expect("[BUG] No output");
 
   let mut canvas = Image::new(width, height);
@@ -107,7 +114,7 @@ fn main() -> anyhow::Result<()> {
 
   info!("Rendering...");
   let beg = std::time::Instant::now();
-  engine.render(&mut canvas, num_rays);
+  engine.render(&mut canvas, num_rays, num_reflections);
   info!("Done in {:.2} sec.", beg.elapsed().as_secs_f32());
 
   canvas.save(output_path)?;

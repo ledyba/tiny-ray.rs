@@ -31,7 +31,7 @@ impl Renderer {
       sky_box,
     }
   }
-  pub fn render(&self, canvas: &mut Image, num_rays: usize) {
+  pub fn render(&self, canvas: &mut Image, num_rays: usize, num_reflections: usize) {
     let width = canvas.width() as f32;
     let height = canvas.height() as f32;
     canvas.fill_from(|x, y| {
@@ -40,13 +40,13 @@ impl Renderer {
         let x = (x as f32 + rand::random::<f32>()) / width;
         let y = (y as f32 + rand::random::<f32>()) / height;
         let ray = self.camera.ray_at(x, y);
-        sum += self.trace_ray(&ray, 50)
+        sum += self.trace_ray(&ray, num_reflections)
       }
       sum / (num_rays as f32)
     })
   }
-  pub fn trace_ray(&self, ray: &Ray, left: usize) -> LinSrgb {
-    if left == 0 {
+  pub fn trace_ray(&self, ray: &Ray, left_num_reflections: usize) -> LinSrgb {
+    if left_num_reflections == 0 {
       return LinSrgb::new(0.0, 0.0, 0.0);
     }
     if let Some(hit) = self.world.hit(ray, 0.001, f32::MAX) {
@@ -57,7 +57,7 @@ impl Renderer {
       }
       if let Some(scattering) = resp.scattering() {
         color += self
-          .trace_ray(scattering.direction(), left - 1)
+          .trace_ray(scattering.direction(), left_num_reflections - 1)
           .multiply(scattering.attenuation());
       }
       return color;
