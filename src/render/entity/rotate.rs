@@ -46,12 +46,14 @@ impl super::Entity for Rotate {
     let origin = original.min();
     let size = original.max() - original.min();
     let points = vec![
+      self.rotate.rotate(origin),
       self.rotate.rotate(origin + Vec3::new(size.x, 0.0, 0.0)),
       self.rotate.rotate(origin + Vec3::new(0.0, size.y, 0.0)),
       self.rotate.rotate(origin + Vec3::new(0.0, 0.0, size.z)),
       self.rotate.rotate(origin + Vec3::new(0.0, size.y, size.z)),
       self.rotate.rotate(origin + Vec3::new(size.x, 0.0, size.z)),
       self.rotate.rotate(origin + Vec3::new(size.x, size.y, 0.0)),
+      self.rotate.rotate(origin + Vec3::new(size.x, size.y, size.z)),
     ];
     let fold = |init, g: &dyn Fn(f32, f32) -> f32| {
       Vec3::new(
