@@ -20,6 +20,13 @@ fn app() -> clap::App<'static> {
       .action(ArgAction::Count)
       .takes_value(false)
       .required(false))
+    .arg(Arg::new("output")
+      .long("output")
+      .short('o')
+      .value_parser(value_parser!(String))
+      .default_value("output.png")
+      .takes_value(true)
+      .required(false))
     .arg(Arg::new("num-rays")
       .long("num-rays")
       .value_parser(value_parser!(usize))
@@ -84,6 +91,7 @@ fn main() -> anyhow::Result<()> {
   let width = *m.get_one::<usize>("width").expect("[BUG] No width");
   let height = *m.get_one::<usize>("height").expect("[BUG] No height");
   let num_rays = *m.get_one::<usize>("num-rays").expect("[BUG] No num-rays");
+  let output_path = m.get_one::<String>("output").expect("[BUG] No output");
 
   let mut canvas = Image::new(width, height);
 
@@ -102,6 +110,6 @@ fn main() -> anyhow::Result<()> {
   engine.render(&mut canvas, num_rays);
   info!("Done in {:.2} sec.", beg.elapsed().as_secs_f32());
 
-  canvas.save("output.png")?;
+  canvas.save(output_path)?;
   Ok(())
 }
