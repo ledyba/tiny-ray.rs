@@ -5,7 +5,6 @@ use palette::LinSrgb;
 use crate::render::Scene;
 use crate::render::entity;
 use crate::render::material;
-use crate::render::sky_box;
 use crate::util::img::Image;
 use crate::util::math::Vec3;
 
@@ -96,28 +95,33 @@ pub fn cornell(canvas: &Image) -> Scene {
 
   // Items
 
-  scene.push(entity::Cuboid::new(
+  scene.push(entity::Translate::new(
     Vec3::new(
       400.0,
       (400.0 / 2.0),
       (559.2 / 2.0) + 70.0,
     ),
-    180.0,
-    400.0,
-    80.0,
-    Arc::clone(&white_material),
-  ));
+    entity::Cuboid::new(
+      Vec3::zero(),
+      180.0,
+      400.0,
+      80.0,
+      Arc::clone(&white_material),
+    )));
 
-  scene.push(entity::Cuboid::new(
+  scene.push(entity::Translate::new(
     Vec3::new(
       200.0,
       (150.0 / 2.0),
       (559.2 / 2.0) - 100.0,
     ),
-    150.0,
-    150.0,
-    150.0,
-    Arc::clone(&glass_material),
+    entity::Cuboid::new(
+      Vec3::zero(),
+      150.0,
+      150.0,
+      150.0,
+      Arc::clone(&glass_material),
+    ),
   ));
 
   let camera = scene.camera();
