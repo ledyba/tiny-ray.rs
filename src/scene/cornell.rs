@@ -17,7 +17,10 @@ pub fn cornell(canvas: &Image) -> Scene {
   let white_material:Arc<dyn Material> = Arc::new(material::Lambert::new(LinSrgb::new(0.8, 0.8, 0.8)));
   let green_material:Arc<dyn Material> = Arc::new(material::Lambert::new(LinSrgb::new(0.5, 0.8, 0.5)));
   let red_material:Arc<dyn Material> = Arc::new(material::Lambert::new(LinSrgb::new(0.8, 0.5, 0.5)));
+
   let light_material: Arc<dyn Material> = Arc::new(material::DiffuseLight::new(LinSrgb::new(34.0, 19.0, 10.0)));
+
+  let metal_material: Arc<dyn Material> = Arc::new(material::Metal::new(LinSrgb::new(0.5, 0.5, 0.5), 0.1));
   let glass_material: Arc<dyn Material> = Arc::new(material::Dielectric::new(1.5));
 
   // floor
@@ -97,7 +100,7 @@ pub fn cornell(canvas: &Image) -> Scene {
 
   scene.push(entity::Translate::new(
     Vec3::new(
-      400.0,
+      390.0,
       400.0 / 2.0,
       (559.2 / 2.0) + 70.0,
     ),
@@ -105,15 +108,15 @@ pub fn cornell(canvas: &Image) -> Scene {
       Quaternion::from_angle_axis(30.0, Vec3::new(0.0, 1.0, 0.0)),
       entity::Cuboid::new(
         Vec3::zero(),
-        180.0,
+        190.0,
         400.0,
         80.0,
-        Arc::clone(&white_material),
+        Arc::clone(&metal_material),
       ))));
 
   scene.push(entity::Translate::new(
     Vec3::new(
-      200.0,
+      150.0,
       150.0 / 2.0,
       (559.2 / 2.0) - 90.0,
     ),
@@ -124,9 +127,18 @@ pub fn cornell(canvas: &Image) -> Scene {
         150.0,
         150.0,
         150.0,
-        Arc::clone(&white_material),
-        //Arc::clone(&glass_material),
+        Arc::clone(&metal_material),
       ))));
+
+  scene.push(entity::Sphere::new(
+    Vec3::new(
+      375.0,
+      75.0,
+      (559.2 / 2.0) - 90.0,
+    ),
+    75.0,
+    Arc::clone(&glass_material),
+  ));
 
   let camera = scene.camera();
   camera
