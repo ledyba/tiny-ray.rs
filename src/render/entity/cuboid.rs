@@ -30,13 +30,13 @@ impl Cuboid {
     }
   }
   fn hit_x(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
-    let t1 = ((self.center.x + self.half_width) - ray.origin().x) / ray.direction().x;
     let t0 = ((self.center.x - self.half_width) - ray.origin().x) / ray.direction().x;
+    let t1 = ((self.center.x + self.half_width) - ray.origin().x) / ray.direction().x;
     let mut t = f32::NAN;
     if t_min <= t0 && t0 <= t_max {
       t = t0;
     }
-    if t_min <= t1 && t1 < t {
+    if t_min <= t1 && !(t1 >= t) {
       t = t1;
     }
     if t.is_nan() {
@@ -70,7 +70,14 @@ impl Cuboid {
     if t_min <= t0 && t0 <= t_max {
       t = t0;
     }
-    if t_min <= t1 && t1 < t {
+    /*
+    // Here is an original version:
+    if t_min <= t1 && t1 <= t_max {
+      if t.is_nan() || t1 < t {
+        t = t1;
+      }
+    }*/
+    if t_min <= t1 && !(t1 >= t) {
       t = t1;
     }
     if t.is_nan() {
@@ -104,7 +111,7 @@ impl Cuboid {
     if t_min <= t0 && t0 <= t_max {
       t = t0;
     }
-    if t_min <= t1 && t1 < t {
+    if t_min <= t1 && !(t1 >= t) {
       t = t1;
     }
     if t.is_nan() {
