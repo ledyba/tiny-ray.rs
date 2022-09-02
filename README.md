@@ -10,7 +10,15 @@
 cargo run --release -- spheres
 cargo run --release -- many-spheres
 cargo run --release -- lighted-spheres
-cargo run --release -- --width 1600 --height 1600 --num-rays 8192 --output "cornell.png" cornell
+cargo run --release -- cornell
+# with full options
+cargo run --release -- \
+  --width 1600 \
+  --height 1600 \
+  --num-rays 16384 \
+  --num-reflections 256 \
+  --output "cornell.png" \
+  cornell
 ```
 
 # References
