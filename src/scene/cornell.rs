@@ -6,7 +6,7 @@ use crate::render::Scene;
 use crate::render::entity;
 use crate::render::material;
 use crate::util::img::Image;
-use crate::util::math::Vec3;
+use crate::util::math::{Quaternion, Vec3};
 
 pub fn cornell(canvas: &Image) -> Scene {
   use material::Material;
@@ -98,31 +98,35 @@ pub fn cornell(canvas: &Image) -> Scene {
   scene.push(entity::Translate::new(
     Vec3::new(
       400.0,
-      (400.0 / 2.0),
+      400.0 / 2.0,
       (559.2 / 2.0) + 70.0,
     ),
-    entity::Cuboid::new(
-      Vec3::zero(),
-      180.0,
-      400.0,
-      80.0,
-      Arc::clone(&white_material),
-    )));
+    entity::Rotate::new(
+      Quaternion::from_angle_axis(30.0, Vec3::new(0.0, 1.0, 0.0)),
+      entity::Cuboid::new(
+        Vec3::zero(),
+        180.0,
+        400.0,
+        80.0,
+        Arc::clone(&white_material),
+      ))));
 
   scene.push(entity::Translate::new(
     Vec3::new(
       200.0,
-      (150.0 / 2.0),
-      (559.2 / 2.0) - 100.0,
+      150.0 / 2.0,
+      (559.2 / 2.0) - 90.0,
     ),
-    entity::Cuboid::new(
-      Vec3::zero(),
-      150.0,
-      150.0,
-      150.0,
-      Arc::clone(&glass_material),
-    ),
-  ));
+    entity::Rotate::new(
+      Quaternion::from_angle_axis(-30.0, Vec3::new(0.0, 1.0, 0.0)),
+      entity::Cuboid::new(
+        Vec3::zero(),
+        150.0,
+        150.0,
+        150.0,
+        Arc::clone(&white_material),
+        //Arc::clone(&glass_material),
+      ))));
 
   let camera = scene.camera();
   camera

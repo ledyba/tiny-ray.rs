@@ -10,16 +10,16 @@ pub struct Quaternion {
 
 impl Quaternion {
   pub fn from_angle_axis(angle: f32, axis: Vec3) -> Self {
-    let angle = (angle / 2.0).to_radians();
+    let angle = angle.to_radians() / 2.0;
     let cos = angle.cos();
     let sin = angle.sin();
-    let axis = axis.normalized();
-    Self {
+    let r = Self {
       x: axis.x * sin,
       y: axis.y * sin,
       z: axis.z * sin,
       w: cos,
-    }
+    };
+    r.normalized()
   }
   fn from_vec(v: Vec3) -> Self {
     Self {
@@ -46,7 +46,12 @@ impl Quaternion {
     }
   }
   fn normalized(&self) -> Self {
-    let length = (self.x * self.x + self.y * self.y + self.z * self.z * self.w * self.w).sqrt();
+    let length = (
+      self.x * self.x +
+        self.y * self.y +
+        self.z * self.z +
+        self.w * self.w
+    ).sqrt();
     Self {
       x: self.x / length,
       y: self.y / length,
@@ -73,11 +78,59 @@ mod test {
   use super::*;
 
   #[test]
-  fn basic() {
+  fn ident() {
     let v = Vec3::new(1.0, 0.0, 0.0);
-    let q = Quaternion::from_angle_axis(90.0, Vec3::new(0.0, 0.0, 1.0));
-    let r = q.rotate(v).normalized(); // FIXME: Float....
+    let q = Quaternion::from_angle_axis(0.0, Vec3::new(0.0, 0.0, 1.0));
+    let r = q.rotate(v).normalized();
+    assert_eq!(Vec3::new(1.0, 0.0, 0.0), r);
+  }
+
+  #[test]
+  fn basic_x() {
+    let v = Vec3::new(0.0, 0.0, 1.0);
+
+    let q1 = Quaternion::from_angle_axis(90.0, Vec3::new(1.0, 0.0, 0.0));
+    let r = q1.rotate(v).normalized(); // FIXME: Float error
+    assert_eq!(Vec3::new(0.0, -1.0, 0.0), r);
+    let q2 = Quaternion::from_angle_axis(-90.0, Vec3::new(1.0, 0.0, 0.0));
+    let r = q2.rotate(v).normalized(); // FIXME: Float error
     assert_eq!(Vec3::new(0.0, 1.0, 0.0), r);
+  }
+
+  #[test]
+  fn basic_y() {
+    let v = Vec3::new(1.0, 0.0, 0.0);
+
+    let q1 = Quaternion::from_angle_axis(90.0, Vec3::new(0.0, 1.0, 0.0));
+    let r = q1.rotate(v).normalized(); // FIXME: Float error
+    assert_eq!(Vec3::new(0.0, 0.0, -1.0), r);
+    let q2 = Quaternion::from_angle_axis(-90.0, Vec3::new(0.0, 1.0, 0.0));
+    let r = q2.rotate(v).normalized(); // FIXME: Float error
+    assert_eq!(Vec3::new(0.0, 0.0, 1.0), r);
+  }
+
+  #[test]
+  fn basic_z() {
+    let v = Vec3::new(1.0, 0.0, 0.0);
+
+    let q1 = Quaternion::from_angle_axis(90.0, Vec3::new(0.0, 0.0, 1.0));
+    let r = q1.rotate(v).normalized(); // FIXME: Float error
+    assert_eq!(Vec3::new(0.0, 1.0, 0.0), r);
+    let q2 = Quaternion::from_angle_axis(-90.0, Vec3::new(0.0, 0.0, 1.0));
+    let r = q2.rotate(v).normalized(); // FIXME: Float error
+    assert_eq!(Vec3::new(0.0, -1.0, 0.0), r);
+  }
+
+  #[test]
+  fn basic_z45() {
+    let v = Vec3::new(1.0, 0.0, 0.0);
+
+    let q = Quaternion::from_angle_axis(30.0, Vec3::new(0.0, 0.0, 1.0));
+    let r = q.rotate(v).normalized();
+    assert_eq!(Vec3::new(0.86602545_f32, 0.50000006_f32, 0.0), r);
+    let q = Quaternion::from_angle_axis(-30.0, Vec3::new(0.0, 0.0, 1.0));
+    let r = q.rotate(v).normalized();
+    assert_eq!(Vec3::new(0.86602545_f32, -0.50000006_f32, 0.0), r);
   }
 
   #[test]
@@ -85,7 +138,11 @@ mod test {
     let v = Vec3::new(1.0, 0.0, 0.0);
     let q = Quaternion::from_angle_axis(90.0, Vec3::new(0.0, 0.0, 1.0));
     let r = q.rotate(v);
-    let r = q.inverse().rotate(r).normalized(); // FIXME: Float....
+    let r = q.inverse().rotate(r).normalized(); // FIXME: Float error
+    assert_eq!(Vec3::new(1.0, 0.0, 0.0), r);
+    let q = Quaternion::from_angle_axis(-90.0, Vec3::new(0.0, 0.0, 1.0));
+    let r = q.rotate(v);
+    let r = q.inverse().rotate(r).normalized(); // FIXME: Float error
     assert_eq!(Vec3::new(1.0, 0.0, 0.0), r);
   }
 }

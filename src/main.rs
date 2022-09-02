@@ -10,7 +10,7 @@ fn app() -> clap::App<'static> {
     "cornell",
   ];
 
-  use clap::{App, Arg, ArgAction, ArgGroup, value_parser};
+  use clap::{App, Arg, ArgAction, value_parser};
   App::new("tiny-ray")
     .bin_name("tiny-ray")
     .author("Kaede Fujisaki <kaede@hexe.net>")
