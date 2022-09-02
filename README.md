@@ -15,7 +15,7 @@ cargo run --release -- cornell
 cargo run --release -- \
   --width 1600 \
   --height 1600 \
-  --num-rays 16384 \
+  --num-rays 8192 \
   --num-reflections 256 \
   --output "cornell.png" \
   cornell
