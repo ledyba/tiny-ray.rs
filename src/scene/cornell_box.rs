@@ -8,7 +8,7 @@ use crate::render::material;
 use crate::util::img::Image;
 use crate::util::math::{Quaternion, Vec3};
 
-pub fn cornell(canvas: &Image) -> Scene {
+pub fn cornell_box(canvas: &Image) -> Scene {
   use material::Material;
   let mut scene = Scene::new();
 

@@ -107,7 +107,7 @@ fn main() -> anyhow::Result<()> {
       Some("spheres") => scene::spheres(&canvas),
       Some("many-spheres") => scene::many_spheres(&canvas),
       Some("lighted-spheres") => scene::lighted_spheres(&canvas),
-      Some("cornell-box") => scene::cornell(&canvas),
+      Some("cornell-box") => scene::cornell_box(&canvas),
       _ => unreachable!(),
     };
   let engine = Renderer::new(scene);
