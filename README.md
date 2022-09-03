@@ -2,6 +2,8 @@
 
 ![Lighted Spheres](./samples/lighted-spheres.png)
 
+![Cornell Box](./samples/cornell-box.png)
+
 ![Many Spheres](./samples/many-spheres.png)
 
 # How to run
