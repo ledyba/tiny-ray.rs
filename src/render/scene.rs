@@ -1,10 +1,11 @@
-use crate::render::camera::{Camera, CameraBuilder};
+use crate::render::camera;
+use crate::render::camera::Camera;
 use crate::render::entity::Entity;
 use crate::render::entity::VolumeTreeBuilder;
 use crate::render::sky_box::SkyBox;
 
 pub struct Scene {
-  camera: CameraBuilder,
+  camera: camera::Builder,
   collection: VolumeTreeBuilder,
   sky_box: Option<Box<dyn SkyBox>>,
 }
@@ -12,12 +13,12 @@ pub struct Scene {
 impl Scene {
   pub fn new() -> Self {
     Self {
-      camera: CameraBuilder::new(),
+      camera: Camera::builder(),
       collection: VolumeTreeBuilder::new(),
       sky_box: None,
     }
   }
-  pub fn camera(&mut self) -> &mut CameraBuilder {
+  pub fn camera(&mut self) -> &mut camera::Builder {
     &mut self.camera
   }
   pub fn push(&mut self, target: impl Entity + 'static) {
