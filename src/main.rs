@@ -5,6 +5,7 @@ mod scene;
 fn app() -> clap::App<'static> {
   let scenes = [
     "spheres",
+    "many-boxes",
     "many-spheres",
     "lighted-spheres",
     "cornell-box",
@@ -105,6 +106,7 @@ fn main() -> anyhow::Result<()> {
   let scene =
     match m.get_one::<String>("SCENE").map(|it| it.as_str()) {
       Some("spheres") => scene::spheres(&canvas),
+      Some("many-boxes") => scene::many_boxes(&canvas),
       Some("many-spheres") => scene::many_spheres(&canvas),
       Some("lighted-spheres") => scene::lighted_spheres(&canvas),
       Some("cornell-box") => scene::cornell_box(&canvas),
