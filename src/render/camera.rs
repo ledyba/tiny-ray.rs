@@ -12,9 +12,9 @@ pub struct Camera {
   top_left_corner: Vec3,
   screen_vec_horizontal: Vec3,
   screen_vec_vertical: Vec3,
-  x_unit: Vec3,
-  y_unit: Vec3,
-  z_unit: Vec3,
+  unit_x: Vec3,
+  unit_y: Vec3,
+  unit_z: Vec3,
   lens_radius: f32,
 }
 
@@ -52,9 +52,9 @@ impl Camera {
       top_left_corner,
       screen_vec_horizontal,
       screen_vec_vertical,
-      x_unit,
-      y_unit,
-      z_unit,
+      unit_x: x_unit,
+      unit_y: y_unit,
+      unit_z: z_unit,
       lens_radius: aperture / 2.0,
     }
   }
@@ -64,7 +64,7 @@ impl Camera {
       Vec3::zero()
     } else {
       let (rx, ry) = math::random_disc(self.lens_radius);
-      (self.x_unit * rx + self.y_unit * ry) * rand::random::<f32>()
+      (self.unit_x * rx + self.unit_y * ry) * rand::random::<f32>()
     };
 
     let screen_position =
