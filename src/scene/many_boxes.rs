@@ -6,6 +6,7 @@ use crate::render::Scene;
 use crate::render::entity;
 use crate::render::material;
 use crate::render::material::Material;
+use crate::render::sky_box;
 use crate::util::img::Image;
 use crate::util::math;
 use crate::util::math::{Quaternion, Vec3};
@@ -88,6 +89,8 @@ pub fn many_boxes(canvas: &Image) -> Scene {
     1.0,
     80.0,
     Arc::clone(&wall_material)));
+
+  scene.sky_box(sky_box::BlueSky::new());
 
   let camera = scene.camera();
   camera
