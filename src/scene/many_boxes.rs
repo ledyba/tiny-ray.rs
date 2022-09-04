@@ -71,10 +71,9 @@ pub fn many_boxes(canvas: &Image) -> Scene {
   for i in 0..6 {
     scene.push(entity::Rotate::new(
       Quaternion::from_angle_axis((60 * i) as f32, axis),
-      entity::Cuboid::new(
-        Vec3::new(0.0, 12.5, 100.0),
-        120.0,
-        1.0,
+      entity::Plane::new(
+        Vec3::new(0.0, 12.0, 100.0),
+        200.0,
         200.0,
         Arc::clone(&wall_material))));
   }

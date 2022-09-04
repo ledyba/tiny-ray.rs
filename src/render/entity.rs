@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 pub use collection::EntityCollection;
 pub use cuboid::Cuboid;
+pub use plane::Plane;
 pub use rotate::Rotate;
 pub use sphere::Sphere;
 pub use translate::Translate;
@@ -14,6 +15,7 @@ use crate::util::math::Vec3;
 
 mod collection;
 mod cuboid;
+mod plane;
 mod rotate;
 mod sphere;
 mod translate;
