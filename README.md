@@ -11,6 +11,7 @@
 ```shell
 cargo run --release -- spheres
 cargo run --release -- many-spheres
+cargo run --release -- many-boxes
 cargo run --release -- lighted-spheres
 cargo run --release -- cornell-box
 # with full options
