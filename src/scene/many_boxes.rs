@@ -44,10 +44,12 @@ pub fn many_boxes(canvas: &Image) -> Scene {
       }
     };
 
-    let x: f32 = rng.gen_range(-10.0..=10.0);
-    let y: f32 = rng.gen_range(-10.0..=10.0);
+    let r: f32 = rng.gen_range(0.0..=10.0);
+    let angle: f32 = rng.gen_range(0.0f32..=360.0f32).to_radians();
+    let x: f32 = r * angle.sin();
+    let y: f32 = r * angle.cos();
 
-    let z: f32 = rng.gen_range(0.0..20.0);
+    let z: f32 = rng.gen_range(20.0..50.0);
     let size = 1.0;
     let angle = rng.gen_range(0.0..360.0);
     let axis = math::random_direction(1.0);
@@ -65,30 +67,17 @@ pub fn many_boxes(canvas: &Image) -> Scene {
   }
 
   let wall_material: Arc<dyn Material> = Arc::new(material::Metal::new(LinSrgb::new(0.8, 0.8, 0.8), 0.1));
-  scene.push(entity::Cuboid::new(
-    Vec3::new(-11.5, 0.0, 25.0),
-    1.0,
-    40.0,
-    80.0,
-    Arc::clone(&wall_material)));
-  scene.push(entity::Cuboid::new(
-    Vec3::new(11.5, 0.0, 25.0),
-    1.0,
-    40.0,
-    80.0,
-    Arc::clone(&wall_material)));
-  scene.push(entity::Cuboid::new(
-    Vec3::new(0.0, -11.5, 25.0),
-    40.0,
-    1.0,
-    80.0,
-    Arc::clone(&wall_material)));
-  scene.push(entity::Cuboid::new(
-    Vec3::new(0.0, 11.5, 25.0),
-    40.0,
-    1.0,
-    80.0,
-    Arc::clone(&wall_material)));
+  let axis = Vec3::new(0.0, 0.0, 1.0);
+  for i in 0..6 {
+    scene.push(entity::Rotate::new(
+      Quaternion::from_angle_axis((60 * i) as f32, axis),
+      entity::Cuboid::new(
+        Vec3::new(0.0, 12.5, 100.0),
+        120.0,
+        1.0,
+        200.0,
+        Arc::clone(&wall_material))));
+  }
 
   scene.sky_box(sky_box::BlueSky::new());
 
@@ -97,7 +86,7 @@ pub fn many_boxes(canvas: &Image) -> Scene {
     .look_from(Vec3::new(0.0, 0.0, -3.0))
     .look_at(Vec3::new(0.0, 0.0, 0.0))
     .v_up(Vec3::new(0.0, 1.0, 0.0))
-    .v_fov(60.0)
+    .v_fov(30.0)
     .aspect_ratio(canvas.aspect_ratio())
     .aperture(0.0);
 
