@@ -1,10 +1,10 @@
 # Tiny ray-tracing engine
 
-![Lighted Spheres](./samples/lighted-spheres.png)
+![Lighted Spheres](sample-images/lighted-spheres.png)
 
-![Cornell Box](./samples/cornell-box.png)
+![Cornell Box](sample-images/cornell-box.png)
 
-![Many Spheres](./samples/many-spheres.png)
+![Many Spheres](sample-images/many-spheres.png)
 
 # How to run
 
