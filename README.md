@@ -28,5 +28,5 @@ cargo run --release -- \
 
 - [週末レイトレーシング (翻訳)](https://inzkyk.xyz/ray_tracing_in_one_weekend/)
 - [週末レイトレーシング - 達人出版会](https://tatsu-zine.com/books/ray-tracing-part1)
-- [dannyfritz/awesome-ray-tracing: Curated list of ray tracing resources](https://github.com/dannyfritz/awesome-ray-tracing)
+- [awesome-ray-tracing: Curated list of ray tracing resources](https://github.com/dannyfritz/awesome-ray-tracing)
 - [Computer Graphics - memoRANDOM](https://rayspace.xyz/CG/)
