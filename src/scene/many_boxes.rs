@@ -49,7 +49,7 @@ pub fn many_boxes(canvas: &Image) -> Scene {
     let x: f32 = r * angle.sin();
     let y: f32 = r * angle.cos();
 
-    let z: f32 = rng.gen_range(40.0..70.0);
+    let z: f32 = rng.gen_range(70.0..100.0);
     let size = 1.0;
     let angle = rng.gen_range(0.0..360.0);
     let axis = math::random_direction(1.0);
