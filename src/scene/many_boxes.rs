@@ -31,7 +31,11 @@ pub fn many_boxes(canvas: &Image) -> Scene {
         Arc::new(material::Dielectric::new(1.0 + rng.gen::<f32>() * 2.0))
       },
       2 => {
-        let color = LinSrgb::new(1.0 + rng.gen::<f32>() * 8.0, 1.0 + rng.gen::<f32>() * 8.0, 1.0 + rng.gen::<f32>() * 8.0);
+        let color = LinSrgb::new(
+          1.0 + rng.gen::<f32>() * 10.0,
+          1.0 + rng.gen::<f32>() * 10.0,
+          1.0 + rng.gen::<f32>() * 10.0
+        );
         Arc::new(material::DiffuseLight::new(color))
       },
       _ => {
@@ -66,15 +70,15 @@ pub fn many_boxes(canvas: &Image) -> Scene {
           ))));
   }
 
-  let wall_material: Arc<dyn Material> = Arc::new(material::Metal::new(LinSrgb::new(0.8, 0.8, 0.8), 0.1));
+  let wall_material: Arc<dyn Material> = Arc::new(material::Metal::new(LinSrgb::new(0.8, 0.8, 0.8), 0.0));
   let axis = Vec3::new(0.0, 0.0, 1.0);
   for i in 0..6 {
     scene.push(entity::Rotate::new(
       Quaternion::from_angle_axis((60 * i) as f32, axis),
       entity::Plane::new(
-        Vec3::new(0.0, 12.0, 100.0),
+        Vec3::new(0.0, 12.0, 400.0),
         200.0,
-        200.0,
+        800.0,
         Arc::clone(&wall_material))));
   }
 
