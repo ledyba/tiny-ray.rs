@@ -5,7 +5,6 @@ use palette::LinSrgb;
 use crate::render::Scene;
 use crate::render::entity;
 use crate::render::material;
-use crate::render::material::Material;
 use crate::render::sky_box;
 use crate::util::img::Image;
 use crate::util::math;
@@ -32,9 +31,9 @@ pub fn many_boxes(canvas: &Image) -> Scene {
       },
       2 => {
         let color = LinSrgb::new(
-          1.0 + rng.gen::<f32>() * 10.0,
-          1.0 + rng.gen::<f32>() * 10.0,
-          1.0 + rng.gen::<f32>() * 10.0
+          1.0 + rng.gen::<f32>() * 20.0,
+          1.0 + rng.gen::<f32>() * 20.0,
+          1.0 + rng.gen::<f32>() * 20.0
         );
         Arc::new(material::DiffuseLight::new(color))
       },
@@ -48,7 +47,7 @@ pub fn many_boxes(canvas: &Image) -> Scene {
       }
     };
 
-    let r: f32 = rng.gen_range(0.0..=10.0);
+    let r: f32 = rng.gen_range(3.0..=10.0);
     let angle: f32 = rng.gen_range(0.0f32..=360.0f32).to_radians();
     let x: f32 = r * angle.sin();
     let y: f32 = r * angle.cos();
@@ -70,7 +69,7 @@ pub fn many_boxes(canvas: &Image) -> Scene {
           ))));
   }
 
-  let wall_material: Arc<dyn Material> = Arc::new(material::Metal::new(LinSrgb::new(0.8, 0.8, 0.8), 0.0));
+  let wall_material: Arc<dyn material::Material> = Arc::new(material::Metal::new(LinSrgb::new(0.8, 0.8, 0.8), 0.0));
   let axis = Vec3::new(0.0, 0.0, 1.0);
   for i in 0..6 {
     scene.push(entity::Rotate::new(
