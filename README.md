@@ -6,6 +6,8 @@
 
 ![Many Spheres](sample-images/many-spheres.png)
 
+![Kaleidoscope](sample-images/kaleidoscope.png)
+
 # How to run
 
 ```shell
@@ -19,7 +21,7 @@ cargo run --release -- \
   --width 1600 \
   --height 1600 \
   --num-rays 8192 \
-  --num-reflections 256 \
+  --num-reflections 1024 \
   --output "cornell.png" \
   cornell-box
 ```
