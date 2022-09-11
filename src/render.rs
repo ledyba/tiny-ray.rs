@@ -45,7 +45,7 @@ impl Renderer {
       sum / (num_rays as f32)
     })
   }
-  pub fn render_one(
+  pub fn throw_ray(
     &self,
     x: usize,
     width: usize,
