@@ -34,7 +34,7 @@ impl Renderer {
   pub fn render(&self, canvas: &mut Image, num_rays: usize, num_reflections: usize) {
     let width = canvas.width() as f32;
     let height = canvas.height() as f32;
-    canvas.fill_from(|x, y| {
+    canvas.fill_by(|x, y| {
       let mut sum = LinSrgb::new(0.0, 0.0, 0.0);
       for _ in 0..num_rays {
         let x = (x as f32 + rand::random::<f32>()) / width;

@@ -48,12 +48,12 @@ impl Image {
       self.colors
         .par_chunks_exact(self.width)
         .zip(data.par_chunks_exact_mut(3 * self.width))
-        .for_each(|(color, dat)| {
+        .for_each(|(color, line)| {
           for x in 0..self.width {
             let c = Srgb::from_linear(color[x]).into_format::<u8>();
-            dat[x * 3 + 0] = c.red;
-            dat[x * 3 + 1] = c.green;
-            dat[x * 3 + 2] = c.blue;
+            line[x * 3 + 0] = c.red;
+            line[x * 3 + 1] = c.green;
+            line[x * 3 + 2] = c.blue;
           }
         });
     }
@@ -61,10 +61,10 @@ impl Image {
     Ok(())
   }
 
-  pub fn fill_from<F>(&mut self, f: F)
-  where
-    F: Fn(usize, usize) -> LinSrgb,
-    F: Sync + Send,
+  pub fn fill_by<F>(&mut self, f: F)
+    where
+      F: Fn(usize, usize) -> LinSrgb,
+      F: Sync + Send,
   {
     use rayon::prelude::*;
     self.colors
@@ -73,6 +73,22 @@ impl Image {
       .for_each(|(y, pixels)| {
         for x in 0..self.width {
           pixels[x] = f(x, y);
+        }
+      });
+  }
+
+  pub fn update_by<F>(&mut self, f: F)
+    where
+      F: Fn(usize, usize, &mut LinSrgb) -> (),
+      F: Sync + Send,
+  {
+    use rayon::prelude::*;
+    self.colors
+      .par_chunks_exact_mut(self.width)
+      .enumerate()
+      .for_each(|(y, pixels)| {
+        for x in 0..self.width {
+          f(x, y, &mut pixels[x]);
         }
       });
   }
