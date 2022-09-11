@@ -24,6 +24,15 @@ cargo run --release -- \
   --num-reflections 256 \
   --output "cornell-box.png" \
   cornell-box
+# Make an animation (anim/1.png, anim/2.png, ...)
+cargo run --release -- \
+  --animation \
+  --width 1024 \
+  --height 1024 \
+  --num-rays 8192 \
+  --num-reflections 256 \
+  --output "anim" \
+  cornell-box
 ```
 
 # References

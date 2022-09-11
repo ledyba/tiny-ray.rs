@@ -28,9 +28,8 @@ fn app() -> clap::App<'static> {
       .default_value("output.png")
       .takes_value(true)
       .required(false))
-    .arg(Arg::new("progressive")
-      .long("progressive")
-      .short('p')
+    .arg(Arg::new("animation")
+      .long("animation")
       .action(ArgAction::SetTrue)
       .takes_value(false)
       .required(false))
@@ -102,7 +101,7 @@ fn main() -> anyhow::Result<()> {
 
   setup_logger(log_level)?;
   debug!("Initialized.");
-  let progressive = *m.get_one::<bool>("progressive").expect("[BUG] No progressive");
+  let animation = *m.get_one::<bool>("animation").expect("[BUG] No animation");
   let width = *m.get_one::<usize>("width").expect("[BUG] No width");
   let height = *m.get_one::<usize>("height").expect("[BUG] No height");
   let num_rays = *m.get_one::<usize>("num-rays").expect("[BUG] No num-rays");
@@ -124,7 +123,7 @@ fn main() -> anyhow::Result<()> {
 
   info!("Rendering...");
   let beg = std::time::Instant::now();
-  if progressive {
+  if animation {
     std::fs::create_dir_all(output_path)?;
     let width = canvas.width();
     let width = canvas.height();
