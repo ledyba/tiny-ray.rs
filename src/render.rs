@@ -45,7 +45,20 @@ impl Renderer {
       sum / (num_rays as f32)
     })
   }
-  pub fn trace_ray(&self, ray: &Ray, left_num_reflections: usize) -> LinSrgb {
+  pub fn render_one(
+    &self,
+    x: usize,
+    width: usize,
+    y: usize,
+    height: usize,
+    num_reflections: usize,
+  ) -> LinSrgb {
+    let x = (x as f32 + rand::random::<f32>()) / width as f32;
+    let y = (y as f32 + rand::random::<f32>()) / height as f32;
+    let ray = self.camera.ray_at(x, y);
+    self.trace_ray(&ray, num_reflections)
+  }
+  fn trace_ray(&self, ray: &Ray, left_num_reflections: usize) -> LinSrgb {
     if left_num_reflections == 0 {
       return LinSrgb::new(0.0, 0.0, 0.0);
     }

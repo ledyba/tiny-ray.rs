@@ -77,6 +77,10 @@ impl Image {
       });
   }
 
+  pub fn pixel(&self, x: usize, y: usize) -> LinSrgb {
+    self.colors[y * self.width + x]
+  }
+
   pub fn update_by<F>(&mut self, f: F)
     where
       F: Fn(usize, usize, &mut LinSrgb) -> (),

@@ -28,6 +28,12 @@ fn app() -> clap::App<'static> {
       .default_value("output.png")
       .takes_value(true)
       .required(false))
+    .arg(Arg::new("progressive")
+      .long("progressive")
+      .short('p')
+      .action(ArgAction::SetTrue)
+      .takes_value(false)
+      .required(false))
     .arg(Arg::new("num-rays")
       .long("num-rays")
       .value_parser(value_parser!(usize))
@@ -82,6 +88,7 @@ fn setup_logger(level: log::LevelFilter) -> Result<(), fern::InitError> {
 }
 
 fn main() -> anyhow::Result<()> {
+  use std::fmt::format;
   use log::{info, debug};
   use util::img::Image;
   use render::Renderer;
@@ -95,6 +102,7 @@ fn main() -> anyhow::Result<()> {
 
   setup_logger(log_level)?;
   debug!("Initialized.");
+  let progressive = *m.get_one::<bool>("progressive").expect("[BUG] No progressive");
   let width = *m.get_one::<usize>("width").expect("[BUG] No width");
   let height = *m.get_one::<usize>("height").expect("[BUG] No height");
   let num_rays = *m.get_one::<usize>("num-rays").expect("[BUG] No num-rays");
@@ -116,7 +124,25 @@ fn main() -> anyhow::Result<()> {
 
   info!("Rendering...");
   let beg = std::time::Instant::now();
-  engine.render(&mut canvas, num_rays, num_reflections);
+  if progressive {
+    std::fs::create_dir_all(output_path)?;
+    let width = canvas.width();
+    let width = canvas.height();
+    let mut output = Image::new(width, height);
+    for frame in 1..=num_rays {
+      canvas.update_by(|x, y, pix| {
+        *pix += engine.render_one(x, width, y, height, num_reflections);
+      });
+      output.fill_by(|x, y| {
+        canvas.pixel(x,y) / frame as f32
+      });
+      let path = std::path::Path::new(output_path).join(format!("{}.png", frame));
+      output.save(path)?;
+      info!("Ray {}/{} done.", frame, num_rays);
+    }
+  } else {
+    engine.render(&mut canvas, num_rays, num_reflections);
+  }
   info!("Done in {:.2} sec.", beg.elapsed().as_secs_f32());
 
   canvas.save(output_path)?;
