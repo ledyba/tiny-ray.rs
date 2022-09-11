@@ -133,7 +133,7 @@ fn main() -> anyhow::Result<()> {
         *pix += engine.cast_ray(x, width, y, height, num_reflections);
       });
       output.fill_by(|x, y| {
-        canvas.pixel(x,y) / frame as f32
+        canvas.pixel_at(x, y) / frame as f32
       });
       let path = std::path::Path::new(output_path).join(format!("{}.png", frame));
       output.save(path)?;

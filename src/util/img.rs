@@ -77,7 +77,7 @@ impl Image {
       });
   }
 
-  pub fn pixel(&self, x: usize, y: usize) -> LinSrgb {
+  pub fn pixel_at(&self, x: usize, y: usize) -> LinSrgb {
     self.colors[y * self.width + x]
   }
 
