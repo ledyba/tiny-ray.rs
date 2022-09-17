@@ -8,6 +8,8 @@
 
 ![Kaleidoscope](sample-images/kaleidoscope.png)
 
+https://user-images.githubusercontent.com/391964/190846991-65c0c02d-c9e6-4e89-9a56-c2b8384f4808.mp4
+
 # How to run
 
 ```shell
