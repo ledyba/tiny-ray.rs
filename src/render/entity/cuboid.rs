@@ -29,6 +29,14 @@ impl Cuboid {
       material,
     }
   }
+
+  fn in_cuboid(&self, ray: &Ray) -> bool {
+    let delta = ray.origin() - self.center;
+    -self.half_width < delta.x && delta.x < self.half_width &&
+      -self.half_height < delta.y && delta.y < self.half_height &&
+      -self.half_depth < delta.z && delta.z < self.half_depth
+  }
+
   fn hit_x(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
     let t0 = ((self.center.x - self.half_width) - ray.origin().x) / ray.direction().x;
     let t1 = ((self.center.x + self.half_width) - ray.origin().x) / ray.direction().x;
@@ -153,6 +161,13 @@ impl super::Entity for Cuboid {
     }
     if let Some(hit) = self.hit_z(ray, t_min, far) {
       result = Some(hit)
+    }
+    if let Some(mut hit) = result {
+      if self.in_cuboid(ray) {
+        hit.at_front_face = false;
+        hit.normal = -hit.normal;
+      }
+      result = Some(hit);
     }
     result
   }
