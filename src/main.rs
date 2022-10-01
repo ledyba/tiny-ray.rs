@@ -130,7 +130,7 @@ fn main() -> anyhow::Result<()> {
     let mut output = Image::new(width, height);
     for frame in 1..=num_rays {
       canvas.update_by(|x, y, pix| {
-        *pix += engine.cast_ray(x, width, y, height, num_reflections);
+        *pix += engine.throw_ray_to(x, width, y, height, num_reflections);
       });
       output.fill_by(|x, y| {
         canvas.pixel_at(x, y) / frame as f32
