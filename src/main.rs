@@ -138,9 +138,8 @@ fn main() -> anyhow::Result<()> {
     }
   } else {
     engine.render(&mut canvas, num_rays, num_reflections);
+    canvas.save(output_path)?;
   }
   info!("Done in {:.2} sec.", beg.elapsed().as_secs_f32());
-
-  canvas.save(output_path)?;
   Ok(())
 }
