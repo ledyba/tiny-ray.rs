@@ -124,8 +124,6 @@ fn main() -> anyhow::Result<()> {
   let beg = std::time::Instant::now();
   if animation {
     std::fs::create_dir_all(output_path)?;
-    let width = canvas.width();
-    let height = canvas.height();
     let mut output = Image::new(width, height);
     for frame in 1..=num_rays {
       canvas.update_by(|x, y, pix| {
