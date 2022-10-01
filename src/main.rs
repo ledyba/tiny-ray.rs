@@ -87,7 +87,6 @@ fn setup_logger(level: log::LevelFilter) -> Result<(), fern::InitError> {
 }
 
 fn main() -> anyhow::Result<()> {
-  use std::fmt::format;
   use log::{info, debug};
   use util::img::Image;
   use render::Renderer;
@@ -126,7 +125,7 @@ fn main() -> anyhow::Result<()> {
   if animation {
     std::fs::create_dir_all(output_path)?;
     let width = canvas.width();
-    let width = canvas.height();
+    let height = canvas.height();
     let mut output = Image::new(width, height);
     for frame in 1..=num_rays {
       canvas.update_by(|x, y, pix| {

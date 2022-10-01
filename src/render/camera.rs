@@ -10,7 +10,7 @@ pub struct Camera {
   screen_vec_vertical: Vec3,
   unit_x: Vec3,
   unit_y: Vec3,
-  unit_z: Vec3,
+  _unit_z: Vec3,
   lens_radius: f32,
 }
 
@@ -50,7 +50,7 @@ impl Camera {
       screen_vec_vertical,
       unit_x: x_unit,
       unit_y: y_unit,
-      unit_z: z_unit,
+      _unit_z: z_unit,
       lens_radius: aperture / 2.0,
     }
   }

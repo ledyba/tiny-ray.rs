@@ -13,6 +13,7 @@ impl EntityCollection {
       entities: Vec::new(),
     }
   }
+
   pub fn push(&mut self, target: impl Entity + 'static) {
     self.entities.push(Box::new(target));
   }
