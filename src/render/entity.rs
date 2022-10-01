@@ -6,6 +6,7 @@ pub use plane::Plane;
 pub use rotate::Rotate;
 pub use sphere::Sphere;
 pub use translate::Translate;
+pub use volume::Volume;
 pub use volume_tree::VolumeTreeBuilder;
 
 use crate::render::entity::volume_tree::BoundingBox;
@@ -19,6 +20,7 @@ mod plane;
 mod rotate;
 mod sphere;
 mod translate;
+mod volume;
 mod volume_tree;
 
 pub struct HitRecord {
