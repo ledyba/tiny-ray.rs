@@ -125,6 +125,7 @@ fn main() -> anyhow::Result<()> {
   if animation {
     std::fs::create_dir_all(output_path)?;
     let mut output = Image::new(width, height);
+    output.save(std::path::Path::new(output_path).join("0.png"))?;
     for frame in 1..=num_rays {
       canvas.update_by(|x, y, pix| {
         *pix += engine.throw_ray_to(x, width, y, height, num_reflections);
