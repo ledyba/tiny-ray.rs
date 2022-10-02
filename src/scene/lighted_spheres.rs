@@ -43,8 +43,7 @@ pub fn lighted_spheres(canvas: &Image) -> Scene {
     Arc::new(material::DiffuseLight::new(LinSrgb::new(8.0, 8.0, 8.0))),
   ));
 
-  let camera = scene.camera();
-  camera
+  scene.camera()
     .look_from(Vec3::new(3.0, 2.0, 1.0))
     .look_at(Vec3::new(0.0, 0.0, 0.0))
     .v_up(Vec3::new(0.0, 1.0, 0.0))

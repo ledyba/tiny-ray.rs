@@ -140,8 +140,7 @@ pub fn cornell_box(canvas: &Image) -> Scene {
     Arc::clone(&glass_material),
   ));
 
-  let camera = scene.camera();
-  camera
+  scene.camera()
     .look_from(Vec3::new(278.0,273.0, -760.0))
     .look_at(Vec3::new(278.0, 273.0, 0.0))
     .v_up(Vec3::new(0.0, 1.0, 0.0))

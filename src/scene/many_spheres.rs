@@ -55,8 +55,7 @@ pub fn many_spheres(canvas: &Image) -> Scene {
     ));
   }
 
-  let camera = scene.camera();
-  camera
+  scene.camera()
     .look_from(Vec3::new(0.1, 0.5, -3.0))
     .look_at(Vec3::new(0.0, 0.75, -2.0))
     .v_up(Vec3::new(0.0, 1.0, 0.0))

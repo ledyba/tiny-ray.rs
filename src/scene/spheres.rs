@@ -37,8 +37,7 @@ pub fn spheres(canvas: &Image) -> Scene {
       Arc::new(material::Dielectric::new(1.5)))
   );
 
-  let camera = scene.camera();
-  camera
+  scene.camera()
     .look_from(Vec3::new(3.0, 2.0, 1.0))
     .look_at(Vec3::new(0.0, 0.0, 0.0))
     .v_up(Vec3::new(0.0, 1.0, 0.0))

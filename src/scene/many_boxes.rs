@@ -83,8 +83,7 @@ pub fn many_boxes(canvas: &Image) -> Scene {
 
   scene.sky_box(sky_box::BlueSky::new());
 
-  let camera = scene.camera();
-  camera
+  scene.camera()
     .look_from(Vec3::new(0.0, 0.0, -3.0))
     .look_at(Vec3::new(0.0, 0.0, 0.0))
     .v_up(Vec3::new(0.0, 1.0, 0.0))
