@@ -9,6 +9,7 @@ fn app() -> clap::App<'static> {
     "many-spheres",
     "lighted-spheres",
     "cornell-box",
+    "fog",
   ];
 
   use clap::{App, Arg, ArgAction, value_parser};
@@ -116,6 +117,7 @@ fn main() -> anyhow::Result<()> {
       Some("many-spheres") => scene::many_spheres(&canvas),
       Some("lighted-spheres") => scene::lighted_spheres(&canvas),
       Some("cornell-box") => scene::cornell_box(&canvas),
+      Some("fog") => scene::fog(&canvas),
       _ => unreachable!(),
     };
   let engine = Renderer::new(scene);
