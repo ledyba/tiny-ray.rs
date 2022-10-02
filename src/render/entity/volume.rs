@@ -26,17 +26,17 @@ impl Volume {
 }
 
 impl Entity for Volume {
-  fn hit(&self, ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
-    let hit = if let Some(hit) = self.shape.hit(ray, t_min, t_max) {
+  fn hit(&self, shape_ray: &Ray, t_min: f32, t_max: f32) -> Option<HitRecord> {
+    let shape_hit = if let Some(hit) = self.shape.hit(shape_ray, t_min, t_max) {
       hit
     } else {
       return None;
     };
     let material = Arc::clone(&self.material);
     let density = material.density;
-    if hit.at_front_face {
-      let ray_internal = Ray::new(hit.point, ray.direction());
-      let mut hit_internal = if let Some(hit) = self.shape.hit(&ray_internal, 0.001, f32::INFINITY) {
+    if shape_hit.at_front_face {
+      let ray = Ray::new(shape_hit.point, shape_ray.direction());
+      let mut hit = if let Some(hit) = self.shape.hit(&ray, 0.001, f32::INFINITY) {
         if hit.at_front_face {
           return None;
         } else {
@@ -46,24 +46,24 @@ impl Entity for Volume {
         return None;
       };
       let distance = -rand::random::<f32>().log(std::f32::consts::E) / density;
-      if hit_internal.t < distance {
-        return None;
-      }
-      hit_internal.t = distance;
-      hit_internal.normal = util::math::random_direction(1.0);
-      hit_internal.point = ray_internal.at(distance);
-      hit_internal.at_front_face = true;
-      hit_internal.material = material;
-      Some(hit_internal)
-    } else {
-      let mut hit = hit;
-      let distance = -rand::random::<f32>().log(std::f32::consts::E) / density;
       if hit.t < distance {
         return None;
       }
       hit.t = distance;
       hit.normal = util::math::random_direction(1.0);
       hit.point = ray.at(distance);
+      hit.at_front_face = true;
+      hit.material = material;
+      Some(hit)
+    } else {
+      let mut hit = shape_hit;
+      let distance = -rand::random::<f32>().log(std::f32::consts::E) / density;
+      if hit.t < distance {
+        return None;
+      }
+      hit.t = distance;
+      hit.normal = util::math::random_direction(1.0);
+      hit.point = shape_ray.at(distance);
       hit.at_front_face = true;
       hit.material = material;
       Some(hit)
