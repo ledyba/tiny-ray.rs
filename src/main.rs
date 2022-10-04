@@ -2,7 +2,7 @@ mod render;
 mod util;
 mod scene;
 
-fn app() -> clap::App<'static> {
+fn app() -> clap::Command {
   let scenes = [
     "spheres",
     "many-boxes",
@@ -12,46 +12,44 @@ fn app() -> clap::App<'static> {
     "fog",
   ];
 
-  use clap::{App, Arg, ArgAction, value_parser};
-  App::new("tiny-ray")
+  use clap::{Command, Arg, ArgAction, value_parser};
+  Command::new("tiny-ray")
     .bin_name("tiny-ray")
     .author("Kaede Fujisaki <kaede@hexe.net>")
     .arg(Arg::new("verbose")
       .long("verbose")
       .short('v')
       .action(ArgAction::Count)
-      .takes_value(false)
       .required(false))
     .arg(Arg::new("output")
       .long("output")
       .short('o')
       .value_parser(value_parser!(String))
       .default_value("output.png")
-      .takes_value(true)
+      .action(ArgAction::Set)
       .required(false))
     .arg(Arg::new("animation")
       .long("animation")
       .action(ArgAction::SetTrue)
-      .takes_value(false)
       .required(false))
     .arg(Arg::new("num-rays")
       .long("num-rays")
       .value_parser(value_parser!(usize))
       .default_value("64")
-      .takes_value(true)
+      .action(ArgAction::Set)
       .required(false))
     .arg(Arg::new("num-reflections")
       .long("num-reflections")
       .value_parser(value_parser!(usize))
       .default_value("64")
-      .takes_value(true)
+      .action(ArgAction::Set)
       .required(false))
     .arg(Arg::new("width")
       .long("width")
       .short('w')
       .value_parser(value_parser!(usize))
       .default_value("1600")
-      .takes_value(true)
+      .action(ArgAction::Set)
       .required(false)
       .requires("height"))
     .arg(Arg::new("height")
@@ -59,13 +57,13 @@ fn app() -> clap::App<'static> {
       .short('h')
       .value_parser(value_parser!(usize))
       .default_value("900")
-      .takes_value(true)
+      .action(ArgAction::Set)
       .required(false)
       .requires("width"))
     .arg(Arg::new("SCENE")
-      .possible_values(scenes)
       .required(true)
-      .multiple_values(false)
+      .action(ArgAction::Set)
+      .value_parser(scenes)
       .index(1))
 }
 
