@@ -7,12 +7,12 @@ license = " AGPL-3.0-or-later"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-anyhow = "1.0.62"
+anyhow = "1.0.65"
 log = "0.4.17"
 fern = "0.6.1"
 chrono = "0.4.22"
-clap = "3.2.17"
-png = "0.17.5"
+clap = "3.2.22"
+png = "0.17.6"
 palette = "0.6.1"
 rayon = "1.5.3"
 rand = "0.8.5"
