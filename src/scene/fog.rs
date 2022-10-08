@@ -1,6 +1,6 @@
 use std::sync::Arc;
 use palette::LinSrgb;
-use crate::render::{entity, Scene};
+use crate::render::Scene;
 use crate::util::img::Image;
 use crate::util::math::Vec3;
 
