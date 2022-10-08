@@ -15,6 +15,12 @@ pub fn fog(canvas: &Image) -> Scene {
 
   //scene.sky_box(sky_box::BlueSky::new());
   scene.push(entity::Plane::new(Vec3::zero(), 1000.0, 1000.0, Arc::clone(&white_material)));
+  scene.push(
+    entity::Sphere::new(
+      Vec3::new(-3.0, 1.0, -2.0),
+      1.0,
+      Arc::clone(&white_material),
+    ));
   scene.push(entity::Cuboid::new(Vec3::new(0.0, 0.5, 0.0), 1.0, 1.0, 1.0, Arc::clone(&white_material)));
   scene.push(
     entity::Volume::new(
