@@ -22,9 +22,9 @@ impl IsotropicVolume {
 }
 
 impl super::Material for IsotropicVolume {
-  fn hit(&self, ray: &Ray, hit: &HitRecord) -> Response {
+  fn hit(&self, _ray: &Ray, hit: &HitRecord) -> Response {
     Response::builder()
-      .scatter(Ray::new(ray.origin(), math::random_direction(1.0)), self.color)
+      .scatter(Ray::new(hit.point, math::random_direction(1.0)), self.color)
       .build()
   }
 }
