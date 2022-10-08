@@ -5,16 +5,14 @@ use crate::util::img::Image;
 use crate::util::math::Vec3;
 
 pub fn fog(canvas: &Image) -> Scene {
-  use crate::render::sky_box;
   use crate::render::entity;
   use crate::render::material;
-  use material::Material;;
+  use material::Material;
   let mut scene = Scene::new();
   let white_material: Arc<dyn Material> = Arc::new(material::Lambert::new(LinSrgb::new(0.8, 0.8, 0.8)));
   let metal_material: Arc<dyn Material> = Arc::new(material::Metal::new(LinSrgb::new(1.0, 0.3, 0.3), 0.0));
   let emission_material: Arc<dyn Material> = Arc::new(material::DiffuseLight::new(LinSrgb::new(0.99 * 30.0, 0.84 * 30.0, 0.0 * 30.0)));
 
-  //scene.sky_box(sky_box::BlueSky::new());
   scene.push(entity::Plane::new(Vec3::zero(), 1000.0, 1000.0, Arc::clone(&white_material)));
   scene.push(
     entity::Sphere::new(
