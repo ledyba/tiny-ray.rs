@@ -16,11 +16,15 @@ pub fn fog(canvas: &Image) -> Scene {
   scene.push(entity::Plane::new(Vec3::zero(), 1000.0, 1000.0, Arc::clone(&white_material)));
   scene.push(
     entity::Sphere::new(
-      Vec3::new(-3.0, 1.0, -3.0),
+      Vec3::new(-5.0, 1.0, -5.0),
       1.0,
       Arc::clone(&metal_material),
     ));
-  scene.push(entity::Cuboid::new(Vec3::new(0.0, 0.5, 0.0), 1.0, 1.0, 1.0, Arc::clone(&white_material)));
+  scene.push(entity::Cuboid::new(
+    Vec3::new(0.8, 0.5, 0.4),
+    1.0, 1.0, 1.0,
+    Arc::clone(&white_material),
+  ));
   scene.push(
     entity::Volume::new(
       entity::Cuboid::new(
@@ -37,7 +41,7 @@ pub fn fog(canvas: &Image) -> Scene {
       Arc::clone(&emission_material),
     ));
   scene.camera()
-    .look_from(Vec3::new(3.0, 2.0, 4.0))
+    .look_from(Vec3::new(3.0, 1.1, 4.0))
     .look_at(Vec3::new(0.0, 1.0, 0.0))
     .v_up(Vec3::new(0.0, 1.0, 0.0))
     .v_fov(45.0)
