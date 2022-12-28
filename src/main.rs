@@ -97,6 +97,7 @@ fn main() -> anyhow::Result<()> {
 
   setup_logger(log_level)?;
   debug!("Initialized.");
+  info!("Available cores: {} (Physical core: {})", num_cpus::get(), num_cpus::get_physical());
   let animation = *m.get_one::<bool>("animation").expect("[BUG] No animation");
   let width = *m.get_one::<usize>("width").expect("[BUG] No width");
   let height = *m.get_one::<usize>("height").expect("[BUG] No height");
