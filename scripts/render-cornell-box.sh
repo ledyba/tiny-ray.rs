@@ -1,7 +1,14 @@
 #! /bin/bash
-cd "$(cd "$(dirname "$(readlink -f "$0")")" && cd .. && pwd)"
+#PJM -L "node=1"
+#PJM -L "rscgrp=small"
+#PJM -L "elapse=48:00:00"
+#PJM -g hp220271
+#PJM -s
+#PJM -x PJM_LLIO_GFSCACHE=/vol0004
 
-source /vol0004/apps/oss/llvm-v14.0.1/init.sh
+# cd "$(cd "$(dirname "$(readlink -f "$0")")" && cd .. && pwd)"
+
+source '/vol0004/apps/oss/llvm-v14.0.1/init.sh'
 
 set -eux
 
