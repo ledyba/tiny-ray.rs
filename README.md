@@ -48,6 +48,10 @@ cargo run --release -- \
 - [Computer Graphics - memoRANDOM](https://rayspace.xyz/CG/)
 - [Courses - p-ray](https://p-ray.oskt.us/courses/)
 
+### Volume
+
+- [一様媒質のモンテカルロレイトレーシング - teastat](https://blog.teastat.uk/post/2021/12/montecarlo-raytracing-of-homogeneous-medium/)
+
 ### Cornel Box
 
 - [The Cornell Box](http://www.graphics.cornell.edu/online/box/)
