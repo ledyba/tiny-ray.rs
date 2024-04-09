@@ -63,3 +63,5 @@ cargo run --release -- \
 - [Quaternionによる3次元の回転変換 - Qiita](https://qiita.com/kenjihiranabe/items/945232fbde58fab45681)
 - [【Unity道場 大阪スペシャル in モリサワ 2017】クォータニオン完全マスター - YouTube](https://www.youtube.com/watch?v=g7vsR0l7eBM)
 - [納涼クォータニオン夏祭り - Unityステーション - YouTube](https://www.youtube.com/watch?v=HCTQNJu8OhE)
+- [4次元の数 ｢四元数｣の見た目 - YouTube](https://www.youtube.com/watch?v=94NmanMgR9k)
+- [回転と四元数（体験型Webサイト） - YouTube](https://www.youtube.com/watch?v=eWdawLuckus)
