@@ -1,4 +1,5 @@
-use palette::{Blend, LinSrgb};
+use std::ops::{Mul, MulAssign};
+use palette::LinSrgb;
 use crate::util::img::Image;
 
 pub use camera::Camera;
@@ -71,7 +72,7 @@ impl Renderer {
       if let Some(scattering) = resp.scattering() {
         color += self
           .throw_ray(scattering.direction(), left_num_reflections - 1)
-          .multiply(scattering.attenuation());
+          .mul(scattering.attenuation())
       }
       return color;
     }
