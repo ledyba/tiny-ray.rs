@@ -65,3 +65,4 @@ cargo run --release -- \
 - [納涼クォータニオン夏祭り - Unityステーション - YouTube](https://www.youtube.com/watch?v=HCTQNJu8OhE)
 - [4次元の数 ｢四元数｣の見た目 - YouTube](https://www.youtube.com/watch?v=94NmanMgR9k)
 - [回転と四元数（体験型Webサイト） - YouTube](https://www.youtube.com/watch?v=eWdawLuckus)
+  - [Visualizing quaternions, an explorable video series](https://eater.net/quaternions)
