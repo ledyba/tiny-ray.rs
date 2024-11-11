@@ -65,37 +65,27 @@ fn app() -> clap::Command {
       .index(1))
 }
 
-fn setup_logger(level: log::LevelFilter) -> Result<(), fern::InitError> {
-  fern::Dispatch::new()
-    .format(|out, message, record| {
-      out.finish(format_args!(
-        "{}[{}][{}] {}",
-        chrono::Local::now().format("[%Y-%m-%d %H:%M:%S]"),
-        record.target(),
-        record.level(),
-        message
-      ))
-    })
-    .level(level)
-    .chain(std::io::stdout())
-    //.chain(fern::log_file("output.log")?)
-    .apply()?;
-  Ok(())
-}
-
 fn main() -> anyhow::Result<()> {
-  use log::{info, debug};
+  use tracing_subscriber::util::SubscriberInitExt;
+  use tracing::{info, debug};
   use util::img::Image;
   use render::Renderer;
 
   let m = app().get_matches();
   let log_level = match m.get_one::<u8>("verbose") {
-    None | Some(0) => log::LevelFilter::Info,
-    Some(1) => log::LevelFilter::Debug,
-    _ => log::LevelFilter::Trace,
+    None | Some(0) => tracing::Level::INFO,
+    Some(1) => tracing::Level::DEBUG,
+    _ => tracing::Level::TRACE,
   };
+  tracing_subscriber::fmt()
+    .with_timer(tracing_subscriber::fmt::time::ChronoLocal::new("%Y/%m/%d %H:%M:%S%.3f".to_string()))
+    .with_max_level(log_level)
+    .with_line_number(true)
+    .with_file(true)
+    .with_writer(std::io::stderr)
+    .finish()
+    .init();
 
-  setup_logger(log_level)?;
   debug!("Initialized.");
   info!("Available cores: {} (Physical core: {})", num_cpus::get(), num_cpus::get_physical());
   let animation = *m.get_one::<bool>("animation").expect("[BUG] No animation");

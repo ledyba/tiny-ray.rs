@@ -8,8 +8,8 @@ license = " AGPL-3.0-or-later"
 
 [dependencies]
 anyhow = "1.0.89"
-log = "0.4.22"
-fern = "0.6.1"
+tracing = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = [ "std", "env-filter", "chrono" ] }
 chrono = "0.4.38"
 clap = "4.5.18"
 png = "0.17.13"
