@@ -33,7 +33,12 @@ impl Renderer {
     }
   }
 
-  pub fn render(&self, canvas: &mut Image, num_rays: usize, num_reflections: usize) {
+  pub fn render(
+    &self,
+    canvas: &mut Image,
+    num_rays: usize,
+    num_reflections: usize,
+  ) {
     let width = canvas.width() as f32;
     let height = canvas.height() as f32;
     canvas.fill_by(|x, y| {
