@@ -50,14 +50,15 @@ impl Image {
         .zip(data.par_chunks_exact_mut(3 * self.width))
         .for_each(|(color, line)| {
           for x in 0..self.width {
-            let c = Srgb::<u8>::from_linear(color[0]);
+            let c = Srgb::<u8>::from_linear(color[x]);
             line[x * 3 + 0] = c.red;
             line[x * 3 + 1] = c.green;
             line[x * 3 + 2] = c.blue;
           }
         });
     }
-    writer.write_image_data(&data).unwrap();
+
+    writer.write_image_data(&data)?;
     Ok(())
   }
 

@@ -1,5 +1,6 @@
 use std::ops::{Mul, MulAssign};
 use palette::LinSrgb;
+use tracing_subscriber::fmt::format;
 use crate::util::img::Image;
 
 pub use camera::Camera;
@@ -32,6 +33,7 @@ impl Renderer {
       sky_box,
     }
   }
+
   pub fn render(&self, canvas: &mut Image, num_rays: usize, num_reflections: usize) {
     let width = canvas.width() as f32;
     let height = canvas.height() as f32;
@@ -44,8 +46,9 @@ impl Renderer {
         sum += self.throw_ray(&ray, num_reflections)
       }
       sum / (num_rays as f32)
-    })
+    });
   }
+
   pub fn throw_ray_to(
     &self,
     x: usize,
@@ -59,6 +62,7 @@ impl Renderer {
     let ray = self.camera.ray_at(x, y);
     self.throw_ray(&ray, num_reflections)
   }
+
   fn throw_ray(&self, ray: &Ray, left_num_reflections: usize) -> LinSrgb {
     if left_num_reflections == 0 {
       return LinSrgb::new(0.0, 0.0, 0.0);
