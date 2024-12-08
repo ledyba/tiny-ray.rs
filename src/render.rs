@@ -1,6 +1,5 @@
 use std::ops::{Mul, MulAssign};
 use palette::LinSrgb;
-use tracing_subscriber::fmt::format;
 use crate::util::img::Image;
 
 pub use camera::Camera;
