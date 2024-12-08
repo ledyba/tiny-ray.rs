@@ -28,11 +28,11 @@ cargo run --release -- \
   cornell-box
 # Make an animation (anim/1.png, anim/2.png, ...)
 cargo run --release -- \
-  --animation \
   --width 1024 \
   --height 1024 \
   --num-rays 8192 \
   --num-reflections 256 \
+  --animation \
   --output "anim" \
   cornell-box
 ```
